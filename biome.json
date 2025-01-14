@@ -5,7 +5,8 @@
 			"quoteStyle": "single",
 			"quoteProperties": "asNeeded",
 			"trailingCommas": "es5",
-			"semicolons": "asNeeded"
+			"semicolons": "asNeeded",
+      "jsxQuoteStyle": "single"
 		}
 	},
 	"organizeImports": {
@@ -90,7 +91,8 @@
 				"useGenericFontNames": "error",
 				"noLabelWithoutControl": "error",
 				"useFocusableInteractive": "error",
-				"useSemanticElements": "error"
+				"useSemanticElements": "error",
+        "useButtonType": "warn"
 			},
 			"nursery": {
 				"noProcessEnv": "error",
