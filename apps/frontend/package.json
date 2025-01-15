@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bulbsum/search-bar": "^0.0.5",
     "axios": "^1.7.9",
     "lucide-react": "^0.471.0",
     "react": "^18.3.1",
