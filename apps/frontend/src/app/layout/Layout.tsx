@@ -2,15 +2,17 @@ import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 
 interface LayoutProps {
-  children: React.ReactNode
+	children: React.ReactNode
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }): React.ReactNode => {
-  return (
-    <>
-      <Navbar />
-      {children}
-      <Footer />
-    </>
-  )
+	return (
+		<div className='bg-white shadow-sm py-5'>
+			<div className='mx-auto px-4 sm:px-6 lg:px-8'>
+				<Navbar />
+				<main>{children}</main>
+				<Footer />
+			</div>
+		</div>
+	)
 }
