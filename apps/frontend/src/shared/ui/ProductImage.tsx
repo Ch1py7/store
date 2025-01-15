@@ -13,7 +13,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
 		<img
 			src={source}
 			alt={name}
-			className={`h-[${height}] w-full rounded-lg object-cover object-center hover:opacity-75 aspect-w-4 aspect-h-4`}
+			className={`${height} w-full rounded-lg object-cover object-center hover:opacity-75 aspect-w-4 aspect-h-4`}
 		/>
 	)
 }
