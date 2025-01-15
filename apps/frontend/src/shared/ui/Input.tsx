@@ -1,10 +1,25 @@
 import { Search } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
-export const Input: React.FC = (): React.ReactNode => {
-	const inputRef = useRef<HTMLInputElement>(null)
+interface InputProps {
+	inputRef?: React.RefObject<HTMLInputElement>
+	onInput?: React.ChangeEventHandler<HTMLInputElement>
+	onChange?: React.ChangeEventHandler<HTMLInputElement>
+	name?: string
+	value?: string
+	placeholder?: string
+}
 
+export const Input: React.FC<InputProps> = ({
+	inputRef,
+	name = 'search',
+	onChange,
+	onInput,
+	placeholder,
+	value,
+}): React.ReactElement => {
 	useEffect(() => {
+		if (!inputRef) return
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === '/') {
 				event.preventDefault()
@@ -17,20 +32,27 @@ export const Input: React.FC = (): React.ReactNode => {
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown)
 		}
-	}, [])
+	}, [inputRef])
 	return (
-		<div className='w-full flex justify-center relative max-w-7xl mx-4 sm:mx-10'>
-			<Search className='h-5 w-5 absolute left-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400' />
+		<div className='w-full flex justify-center relative'>
+			{name === 'search' && (
+				<Search className='h-5 w-5 absolute left-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400' />
+			)}
 			<input
 				ref={inputRef}
-				placeholder='Search product'
+				placeholder={placeholder}
+				onChange={onChange}
+				onInput={onInput}
+				value={value}
 				type='text'
-				name='search'
-				className='w-full py-1 border border-solid border-gray-400 rounded-lg px-10 text-ellipsis text-wrap'
+				name={name}
+				className={`w-full py-1 border-2 rounded-lg text-ellipsis text-wrap focus:border-blue-400 focus:border-2 ${name === 'search' ? 'px-10' : 'px-3'}`}
 			/>
-			<span className='hidden sm:block absolute -right-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400'>
-				CTRL + K
-			</span>
+			{name === 'search' && (
+				<span className='hidden xxs:block absolute -right-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400'>
+					CTRL + K
+				</span>
+			)}
 		</div>
 	)
 }
