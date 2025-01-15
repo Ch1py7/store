@@ -1,18 +1,11 @@
-import { addProduct, getFavorite, handleFavorite } from '@/shared/service/localStorage'
+import { addProduct, getFavorites, handleFavorite } from '@/shared/service/localStorage'
 import { Heart } from '@/shared/ui/Heart'
 import { ProductImage } from '@/shared/ui/ProductImage'
 import { useCallback, useState } from 'react'
 
-interface Product {
-	id: string
-	name: string
-	image: string
-	price: number
-}
-
 export const Product = (product: Product) => {
 	const [isHovered, setIsHovered] = useState<boolean>(false)
-	const favs = getFavorite()
+	const favs = getFavorites()
 	const isFav = useCallback(
 		(id: string) => {
 			return favs.findIndex((fav) => fav === id) !== -1
@@ -23,7 +16,7 @@ export const Product = (product: Product) => {
 	return (
 		<div className='relative flex flex-col items-center'>
 			<button type='button' className='flex justify-center overflow-hidden shadow-md'>
-				<ProductImage height='400px' name={product.name} source={product.image} />
+				<ProductImage height='h-[400px]' name={product.name} source={product.image} />
 			</button>
 			<button
 				type='button'

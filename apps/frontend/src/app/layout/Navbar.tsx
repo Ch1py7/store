@@ -1,11 +1,13 @@
 import { Input } from '@/shared/ui/Input'
 import { LogIn, LogOut, ShoppingBag } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
+	const inputRef = useRef<HTMLInputElement>(null)
 	const [isLogin, setIsLogin] = useState<boolean>(false)
+
 	return (
 		<nav>
 			<div className='flex justify-between items-center'>
@@ -13,12 +15,14 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					<ShoppingBag className='h-6 w-6' />
 					<span className='hidden sm:block font-semibold text-xl'>MINIMALIST</span>
 				</Link>
-				<Input />
+				<div className='w-full max-w-7xl mx-4 sm:mx-10'>
+					<Input placeholder='Search product' inputRef={inputRef} />
+				</div>
 				<div className='hidden sm:flex space-x-8'>
 					<Link to='/' className='text-gray-700 hover:text-black flex items-center'>
 						Shop
 					</Link>
-					<Link to='/client' className='text-gray-700 hover:text-black flex items-center'>
+					<Link to='/account' className='text-gray-700 hover:text-black flex items-center'>
 						Account
 					</Link>
 					<Link to='/purchase' className='text-gray-700 hover:text-black flex items-center'>

@@ -1,16 +1,11 @@
 const cartName = 'cart'
 const favoriteName = 'favorites'
 
-interface Product {
-	id: string
-	quantity: number
-}
-
-const saveCart = (cart: Product[]) => {
+const saveCart = (cart: ProductCart[]) => {
 	localStorage.setItem(cartName, JSON.stringify(cart))
 }
 
-const getCart = (): Product[] => {
+export const getCart = (): ProductCart[] => {
 	const cart = localStorage.getItem(cartName)
 	return cart ? JSON.parse(cart) : []
 }
@@ -28,24 +23,24 @@ export const addProduct = (id: string) => {
 	saveCart(cart)
 }
 
-const saveFavorite = (favorite: string[]) => {
+const saveFavorites = (favorite: string[]) => {
 	localStorage.setItem(favoriteName, JSON.stringify(favorite))
 }
 
-export const getFavorite = (): string[] => {
+export const getFavorites = (): string[] => {
 	const favorite = localStorage.getItem(favoriteName)
 	return favorite ? JSON.parse(favorite) : []
 }
 
 export const handleFavorite = (id: string) => {
-	const favorite = getFavorite()
-	const productIndex = favorite.findIndex((fav) => fav === id)
+	const favorites = getFavorites()
+	const productIndex = favorites.findIndex((fav) => fav === id)
 
 	if (productIndex === -1) {
-		favorite.push(id)
+		favorites.push(id)
 	} else {
-		delete favorite[productIndex]
+		delete favorites[productIndex]
 	}
-	const favsNoNull = favorite.filter((_, index) => index !== productIndex)
-	saveFavorite(favsNoNull)
+	const favsNoNull = favorites.filter((_, index) => index !== productIndex)
+	saveFavorites(favsNoNull)
 }
