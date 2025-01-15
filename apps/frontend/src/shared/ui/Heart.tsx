@@ -12,9 +12,9 @@ export const Heart: React.FC<HeartProps> = ({ like }): React.ReactNode => {
 				viewBox='0 0 24 24'
 				fill={`${like ? '#f00' : 'none'}`}
 				stroke={`${like ? '#f00' : 'currentColor'}`}
-				stroke-width='2'
-				stroke-linecap='round'
-				stroke-linejoin='round'
+				strokeWidth='2'
+				strokeLinecap='round'
+				strokeLinejoin='round'
 				className='lucide lucide-heart'
 			>
 				<title>Fav</title>
