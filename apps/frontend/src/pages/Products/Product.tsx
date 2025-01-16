@@ -31,12 +31,14 @@ export const Product = (product: Product) => {
 				<Heart like={isHovered || isFav(product.id)} />
 			</button>
 			<div className='mt-4 w-full'>
-				<h3 className='text-lg font-medium'>{product.name}</h3>
+				<h3 className='text-lg font-medium'>
+					{product.name} <button type='button' className='text-gray-500' title='click to see more sizes'>({product.size})</button>
+				</h3>
 				<p className='text-gray-600'>${product.price}</p>
 				<button
 					type='button'
 					className='mt-2 w-full bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 relative'
-					onClick={() => addToCart(product.id)}
+					onClick={() => addToCart(product)}
 				>
 					Add to Cart
 					{Boolean(getProductQuantity(product.id)) && (
