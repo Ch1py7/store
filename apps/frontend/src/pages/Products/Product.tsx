@@ -1,4 +1,4 @@
-import { LocalStorage } from '@/shared/context/localstorage'
+import { LocalStorage } from '@/shared/context/localStorage'
 import { Heart } from '@/shared/ui/Heart'
 import { ProductImage } from '@/shared/ui/ProductImage'
 import { useCallback, useContext, useState } from 'react'

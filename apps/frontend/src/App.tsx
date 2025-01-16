@@ -4,7 +4,7 @@ import { Layout } from './app/layout/Layout'
 import { Account } from './pages/Account/Account'
 import { Cart } from './pages/Cart/Cart'
 import { ProductsCatalog as Products } from './pages/Products/ProductsCatalog'
-import { LocalStorage } from './shared/context/localstorage'
+import { LocalStorage } from './shared/context/localStorage'
 
 export const App = () => {
 	return (

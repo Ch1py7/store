@@ -1,4 +1,4 @@
-import { LocalStorage } from '@/shared/context/localstorage'
+import { LocalStorage } from '@/shared/context/localStorage'
 import { Input } from '@/shared/ui/Input'
 import { LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useContext, useRef, useState } from 'react'
@@ -11,7 +11,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	const { getProductsQuantity } = useContext(LocalStorage.Context)
 
 	return (
-		<nav>
+		<nav className='pb-12'>
 			<div className='flex justify-between items-center'>
 				<Link to='/' className='flex items-center space-x-2'>
 					<ShoppingBag className='h-6 w-6' />

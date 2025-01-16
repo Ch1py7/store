@@ -47,7 +47,7 @@ const products = [
 
 export const ProductsCatalog: React.FC = (): React.ReactNode => {
 	return (
-		<div className='py-12'>
+		<div>
 			<div className='text-center mb-12'>
 				<h1 className='text-3xl font-bold mb-4'>Our Collection</h1>
 				<p className='text-gray-600'>Timeless pieces for your wardrobe</p>
