@@ -10,17 +10,35 @@ export const getCart = (): ProductCart[] => {
 	return cart ? JSON.parse(cart) : []
 }
 
-export const addProduct = (id: string) => {
+export const addProduct = (product: Product) => {
 	const cart = getCart()
-	const productIndex = cart.findIndex((item) => item.id === id)
+	const productIndex = cart.findIndex((item) => item.id === product.id)
 
 	if (productIndex === -1) {
-		cart.push({ id, quantity: 1 })
+		cart.push({ ...product, quantity: 1 })
 	} else {
 		cart[productIndex].quantity += 1
 	}
 
 	saveCart(cart)
+}
+
+export const restProduct = (product: Product) => {
+	const cart = getCart()
+	const productIndex = cart.findIndex((item) => item.id === product.id)
+
+  cart[productIndex].quantity --
+
+	saveCart(cart)
+}
+
+export const removeProduct = (id: ProductCart['id']) => {
+  const cart = getCart()
+  const productIndex = cart.findIndex((item) => item.id === id)
+
+  delete cart[productIndex]
+  const newCart = cart.filter((_, index) => index !== productIndex)
+  saveCart(newCart)
 }
 
 const saveFavorites = (favorite: string[]) => {
