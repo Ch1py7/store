@@ -30,8 +30,8 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					<Link to='/cart' className='text-gray-700 hover:text-black flex items-center relative'>
 						<ShoppingCart />
 						{Boolean(getProductsQuantity()) && (
-							<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-2 rounded-full text-center w-5 h-5 text-white text-sm'>
-								{getProductsQuantity()}
+							<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
+								{getProductsQuantity() > 9 ? '9+' : getProductsQuantity()}
 							</span>
 						)}
 					</Link>
