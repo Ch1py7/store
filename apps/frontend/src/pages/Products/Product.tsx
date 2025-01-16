@@ -32,7 +32,10 @@ export const Product = (product: Product) => {
 			</button>
 			<div className='mt-4 w-full'>
 				<h3 className='text-lg font-medium'>
-					{product.name} <button type='button' className='text-gray-500' title='click to see more sizes'>({product.size})</button>
+					{product.name}{' '}
+					<button type='button' className='text-disabled' title='click to see more sizes'>
+						({product.size})
+					</button>
 				</h3>
 				<p className='text-gray-600'>${product.price}</p>
 				<button

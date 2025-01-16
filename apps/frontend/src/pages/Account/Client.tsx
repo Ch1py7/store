@@ -33,7 +33,7 @@ export const Client: React.FC = (): React.ReactNode => {
 					<div className='bg-white shadow rounded-lg p-8'>
 						<div className='flex items-center justify-center mb-8'>
 							<div className='h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center'>
-								{isLogin ? <></> : <User className='h-12 w-12 text-gray-500' />}
+								{isLogin ? <></> : <User className='h-12 w-12 text-disabled' />}
 							</div>
 						</div>
 						<div className='space-y-6'>

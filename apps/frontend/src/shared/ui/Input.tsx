@@ -36,7 +36,7 @@ export const Input: React.FC<InputProps> = ({
 	return (
 		<div className='w-full flex justify-center relative'>
 			{name === 'search' && (
-				<Search className='h-5 w-5 absolute left-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400' />
+				<Search className='h-5 w-5 absolute left-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-disabled' />
 			)}
 			<input
 				ref={inputRef}
@@ -49,7 +49,7 @@ export const Input: React.FC<InputProps> = ({
 				className={`w-full py-1 border-2 rounded-lg text-ellipsis text-wrap focus:border-blue-400 focus:border-2 ${name === 'search' ? 'px-10' : 'px-3'}`}
 			/>
 			{name === 'search' && (
-				<span className='hidden xxs:block absolute -right-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-gray-400'>
+				<span className='hidden xxs:block absolute -right-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-disabled'>
 					CTRL + K
 				</span>
 			)}

@@ -21,7 +21,7 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 						<MenuIcon />
 					</button>
 				) : (
-					<div className='block sm:hidden absolute border -top-2 -right-2 border-solid border-gray-400 rounded-lg min-w-36 p-2 bg-white'>
+					<div className='block sm:hidden absolute border -top-2 -right-2 border-solid border-disabled rounded-lg min-w-36 p-2 bg-white'>
 						<button
 							onClick={() => setIsOpen((prev) => !prev)}
 							title='menu'
