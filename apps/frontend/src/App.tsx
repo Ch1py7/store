@@ -5,6 +5,7 @@ import { Account } from './pages/Account/Account'
 import { Cart } from './pages/Cart/Cart'
 import { ProductsCatalog as Products } from './pages/Products/ProductsCatalog'
 import { LocalStorage } from './shared/context/localStorage'
+import { Toast } from './shared/ui/Toast'
 
 export const App = () => {
 	return (
@@ -19,6 +20,7 @@ export const App = () => {
 					</Routes>
 				</Layout>
 			</LocalStorage.Provider>
+			<Toast />
 		</Router>
 	)
 }
