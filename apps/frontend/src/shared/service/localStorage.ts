@@ -15,7 +15,7 @@ export const addProduct = (product: Product) => {
 	const productIndex = cart.findIndex((item) => item.id === product.id)
 
 	if (productIndex === -1) {
-		cart.push({ ...product, quantity: 1 })
+		cart.push({ ...product, quantity: 1, toCheckout: true })
 	} else {
 		cart[productIndex].quantity += 1
 	}
@@ -27,18 +27,26 @@ export const restProduct = (product: Product) => {
 	const cart = getCart()
 	const productIndex = cart.findIndex((item) => item.id === product.id)
 
-  cart[productIndex].quantity --
+	cart[productIndex].quantity--
 
 	saveCart(cart)
 }
 
 export const removeProduct = (id: ProductCart['id']) => {
-  const cart = getCart()
-  const productIndex = cart.findIndex((item) => item.id === id)
+	const cart = getCart()
+	const productIndex = cart.findIndex((item) => item.id === id)
 
-  delete cart[productIndex]
-  const newCart = cart.filter((_, index) => index !== productIndex)
-  saveCart(newCart)
+	delete cart[productIndex]
+	const newCart = cart.filter((_, index) => index !== productIndex)
+	saveCart(newCart)
+}
+
+export const handleCheckout = (id: ProductCart['id']) => {
+	const cart = getCart()
+	const productIndex = cart.findIndex((p) => p.id === id)
+
+	cart[productIndex].toCheckout = !cart[productIndex].toCheckout
+	saveCart(cart)
 }
 
 const saveFavorites = (favorite: string[]) => {

@@ -1,5 +1,13 @@
-import { addProduct, getCart, getFavorites, handleFavorite, removeProduct, restProduct } from '@/shared/service/localStorage'
-import { createContext, useState } from 'react'
+import {
+	addProduct,
+	getCart,
+	getFavorites,
+	handleCheckout,
+	handleFavorite,
+	removeProduct,
+	restProduct,
+} from '@/shared/service/localStorage'
+import { createContext, useEffect, useState } from 'react'
 
 interface CartContextState {
 	cart: ProductCart[]
@@ -9,7 +17,9 @@ interface CartContextState {
 	getProductQuantity: (id: string) => number
 	getProductsQuantity: () => number
 	handleFavorites: (id: string) => void
+	handleCheckouts: (id: string) => void
 	favorites: string[]
+	total: number
 }
 
 interface CartProviderProps {
@@ -24,12 +34,15 @@ const Context = createContext<CartContextState>({
 	getProductQuantity: () => 0,
 	getProductsQuantity: () => 0,
 	handleFavorites: () => {},
+	handleCheckouts: () => {},
 	favorites: [],
+	total: 0,
 })
 
 const Provider: React.FC<CartProviderProps> = ({ children }) => {
 	const [cart, setCart] = useState<ProductCart[]>(getCart())
 	const [favorites, setFavorites] = useState<string[]>(getFavorites())
+	const [total, setTotal] = useState<number>(0)
 
 	const addToCart = (product: Product) => {
 		addProduct(product)
@@ -61,17 +74,31 @@ const Provider: React.FC<CartProviderProps> = ({ children }) => {
 		setFavorites(getFavorites())
 	}
 
+	const handleCheckouts = (id: string) => {
+		handleCheckout(id)
+    setCart(getCart())
+	}
+
+	useEffect(() => {
+		const total = cart
+			.filter((p) => p.toCheckout)
+			.reduce((prev, cur) => prev + cur.quantity * cur.price, 0)
+		setTotal(total)
+	}, [cart])
+
 	return (
 		<Context.Provider
 			value={{
 				getProductQuantity,
 				addToCart,
-        restToCart,
-        removeToCart,
+				restToCart,
+				removeToCart,
 				cart,
 				handleFavorites,
+        handleCheckouts,
 				favorites,
 				getProductsQuantity,
+				total,
 			}}
 		>
 			{children}
