@@ -1,6 +1,7 @@
-import { LogIn, LogOut, MenuIcon, ShoppingBag, ShoppingCart, User, X } from 'lucide-react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { LocalStorage } from '@/shared/context/localStorage'
+import { LogIn, LogOut, MenuIcon, ShoppingCart, X } from 'lucide-react'
+import { useContext, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 interface MenuProps {
 	isLogin: boolean
@@ -8,6 +9,8 @@ interface MenuProps {
 
 export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const { pathname } = useLocation()
+	const { getProductsQuantity } = useContext(LocalStorage.Context)
 	return (
 		<>
 			<div className='relative z-50'>
@@ -31,20 +34,26 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 							<X />
 						</button>
 						<div className='flex flex-col gap-1'>
-							<Link to='/' className='text-gray-700 hover:text-black flex items-center gap-2'>
-								<ShoppingBag className='w-4 h-4' />
-								Shop
-							</Link>
-							<Link to='/client' className='text-gray-700 hover:text-black flex items-center gap-2'>
-								<User className='w-4 h-4' />
-								Account
-							</Link>
-							<Link
-								to='/purchase'
-								className='text-gray-700 hover:text-black flex items-center gap-2'
-							>
-								<ShoppingCart className='w-4 h-4' />
-								Cart
+							{pathname !== '/' && (
+								<Link to='/' className='text-gray-700 hover:text-black flex items-center'>
+									Shop
+								</Link>
+							)}
+							{pathname !== '/account' && (
+								<Link to='/account' className='text-gray-700 hover:text-black flex items-center'>
+									Account
+								</Link>
+							)}
+							<Link to='/cart' className='text-gray-700 hover:text-black flex justify-between'>
+								<div className='flex items-center gap-2'>
+									<ShoppingCart className='w-4 h-4' />
+									Cart
+								</div>
+								{Boolean(getProductsQuantity()) && (
+									<span className='font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
+										{getProductsQuantity() > 9 ? '9+' : getProductsQuantity()}
+									</span>
+								)}
 							</Link>
 							{!isLogin ? (
 								<Link

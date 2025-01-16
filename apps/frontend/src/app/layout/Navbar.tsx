@@ -2,13 +2,14 @@ import { LocalStorage } from '@/shared/context/localStorage'
 import { Input } from '@/shared/ui/Input'
 import { LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useContext, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [isLogin, setIsLogin] = useState<boolean>(false)
 	const { getProductsQuantity } = useContext(LocalStorage.Context)
+	const { pathname } = useLocation()
 
 	return (
 		<nav className='pb-12'>
@@ -21,12 +22,16 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					<Input placeholder='Search product' inputRef={inputRef} />
 				</div>
 				<div className='hidden sm:flex space-x-8'>
-					<Link to='/' className='text-gray-700 hover:text-black flex items-center'>
-						Shop
-					</Link>
-					<Link to='/account' className='text-gray-700 hover:text-black flex items-center'>
-						Account
-					</Link>
+					{pathname !== '/' && (
+						<Link to='/' className='text-gray-700 hover:text-black flex items-center'>
+							Shop
+						</Link>
+					)}
+					{pathname !== '/account' && (
+						<Link to='/account' className='text-gray-700 hover:text-black flex items-center'>
+							Account
+						</Link>
+					)}
 					<Link to='/cart' className='text-gray-700 hover:text-black flex items-center relative'>
 						<ShoppingCart />
 						{Boolean(getProductsQuantity()) && (

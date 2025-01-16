@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 
 export const Cart: React.FC = (): React.ReactNode => {
 	const { cart, total } = useContext(LocalStorage.Context)
-  console.log(total)
 	return (
 		<div className='bg-white shadow rounded-lg p-6 mb-6'>
 			{cart.length > 0 ? (
@@ -21,7 +20,7 @@ export const Cart: React.FC = (): React.ReactNode => {
 						</div>
 						<Link
 							to='/checkout'
-							className={`mt-4 bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 self-end ${total === 0 && 'pointer-events-none bg-disabled'}`}
+							className={`mt-4 bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 self-end ${total === 0 && 'pointer-events-none bg-disabled'} shadow-md`}
 						>
 							Proceed to checkout
 						</Link>
