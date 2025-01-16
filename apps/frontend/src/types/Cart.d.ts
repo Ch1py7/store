@@ -1,4 +1,3 @@
-interface ProductCart {
-	id: string
+interface ProductCart extends Product {
 	quantity: number
 }
