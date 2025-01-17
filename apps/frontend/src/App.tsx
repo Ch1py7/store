@@ -6,6 +6,7 @@ import { Cart } from './pages/Cart/Cart'
 import { ProductsCatalog as Products } from './pages/Products/ProductsCatalog'
 import { LocalStorage } from './shared/context/localStorage'
 import { Toast } from './shared/ui/Toast'
+import { Wishlist } from './pages/Wishlist/Wishlist'
 
 export const App = () => {
 	return (
@@ -17,6 +18,7 @@ export const App = () => {
 						<Route path='/' element={<Products />} />
 						<Route path='/account' element={<Account />} />
 						<Route path='/cart' element={<Cart />} />
+						<Route path='/wishlist' element={<Wishlist />} />
 					</Routes>
 				</Layout>
 			</LocalStorage.Provider>
