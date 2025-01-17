@@ -52,7 +52,7 @@ export const ProductsCatalog: React.FC = (): React.ReactNode => {
 				<h1 className='text-3xl font-bold mb-4'>Our Collection</h1>
 				<p className='text-gray-600'>Timeless pieces for your wardrobe</p>
 			</div>
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
+			<div className='grid grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 				{products.map((product) => (
 					<Product key={product.id} {...product} />
 				))}

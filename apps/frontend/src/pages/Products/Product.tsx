@@ -18,8 +18,12 @@ export const Product = (product: Product) => {
 
 	return (
 		<div className='relative flex flex-col items-center'>
-			<button type='button' className='flex justify-center overflow-hidden shadow-md'>
-				<ProductImage height='h-[400px]' name={product.name} source={product.image} />
+			<button
+				type='button'
+				className='flex justify-center overflow-hidden shadow-md'
+				onDoubleClick={() => handleFavorites(product)}
+			>
+				<ProductImage name={product.name} source={product.image} />
 			</button>
 			<button
 				type='button'
