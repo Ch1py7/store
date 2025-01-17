@@ -19,14 +19,14 @@ export const Order: React.FC<ProductCart | Product> = (product): React.ReactNode
 	return (
 		<div className='flex flex-col xs:flex-row xs:items-center justify-between border-b pb-4'>
 			<div className='flex flex-col xxs:flex-row items-start space-x-4 my-4 xs:my-0'>
-				<div className='flex gap-2'>
+				<div className='flex gap-2 justify-between xxs:justify-normal w-full xxs:w-auto'>
 					{isCart && (
 						<input
 							type='checkbox'
 							title='checkbox'
 							checked={product.toCheckout}
 							onChange={() => handleCheckouts(product.id)}
-							className='self-center'
+							className='self-center hidden xxs:block'
 						/>
 					)}
 					<img
@@ -34,6 +34,15 @@ export const Order: React.FC<ProductCart | Product> = (product): React.ReactNode
 						alt={product.name}
 						className='w-16 h-16 xs:w-20 xs:h-20 object-cover rounded flex-shrink-0'
 					/>
+					{isCart && (
+						<input
+							type='checkbox'
+							title='checkbox'
+							checked={product.toCheckout}
+							onChange={() => handleCheckouts(product.id)}
+							className='self-center block xxs:hidden'
+						/>
+					)}
 				</div>
 				<div className='flex-grow'>
 					<p className='font-medium'>{product.name}</p>
