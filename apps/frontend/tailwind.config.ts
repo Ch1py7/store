@@ -6,7 +6,7 @@ export const theme = {
 			xs: '512px',
 			xxs: '384px',
 			xxxs: '256px',
-      toast: '480px'
+			toast: '480px',
 		},
 		colors: {
 			disabled: '#9ca3af',

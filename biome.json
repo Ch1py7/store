@@ -6,7 +6,7 @@
 			"quoteProperties": "asNeeded",
 			"trailingCommas": "es5",
 			"semicolons": "asNeeded",
-      "jsxQuoteStyle": "single"
+			"jsxQuoteStyle": "single"
 		}
 	},
 	"organizeImports": {
@@ -16,7 +16,7 @@
 		"enabled": true,
 		"formatWithErrors": false,
 		"indentStyle": "tab",
-    "lineEnding": "crlf",
+		"lineEnding": "crlf",
 		"indentWidth": 2,
 		"lineWidth": 100,
 		"ignore": ["node_modules/**", "dist/**", "tsconfig.json", "jsconfig.json"]
@@ -93,7 +93,7 @@
 				"noLabelWithoutControl": "error",
 				"useFocusableInteractive": "error",
 				"useSemanticElements": "error",
-        "useButtonType": "warn"
+				"useButtonType": "warn"
 			},
 			"nursery": {
 				"noProcessEnv": "error",

@@ -7,7 +7,7 @@ export default defineConfig({
 	publicDir: './public',
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, './src/'),
+			'@': path.resolve(__dirname, './src/'),
 		},
 	},
 	plugins: [react()],

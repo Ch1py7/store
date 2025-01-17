@@ -1,6 +1,6 @@
 interface ProductCart extends Product {
 	quantity: number
-  toCheckout: boolean
+	toCheckout: boolean
 }
 
 type Storages = 'cart' | 'favorites'
