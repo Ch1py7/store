@@ -35,16 +35,28 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 						</button>
 						<div className='flex flex-col gap-1'>
 							{pathname !== '/' && (
-								<Link to='/' className='text-gray-700 hover:text-black flex items-center'>
+								<Link
+									onClick={() => setIsOpen((prev) => !prev)}
+									to='/'
+									className='text-gray-700 hover:text-black flex items-center'
+								>
 									Shop
 								</Link>
 							)}
 							{pathname !== '/account' && (
-								<Link to='/account' className='text-gray-700 hover:text-black flex items-center'>
+								<Link
+									onClick={() => setIsOpen((prev) => !prev)}
+									to='/account'
+									className='text-gray-700 hover:text-black flex items-center'
+								>
 									Account
 								</Link>
 							)}
-							<Link to='/cart' className='text-gray-700 hover:text-black flex justify-between'>
+							<Link
+								onClick={() => setIsOpen((prev) => !prev)}
+								to='/cart'
+								className='text-gray-700 hover:text-black flex justify-between'
+							>
 								<div className='flex items-center gap-2'>
 									<ShoppingCart className='w-4 h-4' />
 									Cart
@@ -57,6 +69,7 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 							</Link>
 							{!isLogin ? (
 								<Link
+									onClick={() => setIsOpen((prev) => !prev)}
 									to='/auth/login'
 									className='text-gray-700 hover:text-black flex items-center gap-2'
 								>
@@ -65,6 +78,7 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 								</Link>
 							) : (
 								<button
+									onClick={() => setIsOpen((prev) => !prev)}
 									type='button'
 									className='text-gray-700 hover:text-black flex items-center gap-2'
 								>

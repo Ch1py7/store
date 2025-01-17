@@ -5,6 +5,7 @@ export const theme = {
 		screens: {
 			xs: '512px',
 			xxs: '384px',
+			xxxs: '256px',
 		},
 		colors: {
 			disabled: '#9ca3af',

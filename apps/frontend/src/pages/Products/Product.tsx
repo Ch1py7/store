@@ -11,7 +11,7 @@ export const Product = (product: Product) => {
 
 	const isFav = useCallback(
 		(id: string) => {
-			return favorites.findIndex((fav) => fav === id) !== -1
+			return favorites.findIndex((fav) => fav.id === id) !== -1
 		},
 		[favorites]
 	)
@@ -26,7 +26,7 @@ export const Product = (product: Product) => {
 				className='absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-100'
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
-				onClick={() => handleFavorites(product.id)}
+				onClick={() => handleFavorites(product)}
 			>
 				<Heart like={isHovered || isFav(product.id)} />
 			</button>

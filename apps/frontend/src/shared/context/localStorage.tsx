@@ -16,9 +16,9 @@ interface CartContextState {
 	removeToCart: (id: Product['id']) => void
 	getProductQuantity: (id: string) => number
 	getProductsQuantity: () => number
-	handleFavorites: (id: string) => void
+	handleFavorites: (product: Product) => void
 	handleCheckouts: (id: string) => void
-	favorites: string[]
+	favorites: Product[]
 	total: number
 }
 
@@ -41,7 +41,7 @@ const Context = createContext<CartContextState>({
 
 const Provider: React.FC<CartProviderProps> = ({ children }) => {
 	const [cart, setCart] = useState<ProductCart[]>(getCart())
-	const [favorites, setFavorites] = useState<string[]>(getFavorites())
+	const [favorites, setFavorites] = useState<Product[]>(getFavorites())
 	const [total, setTotal] = useState<number>(0)
 
 	const addToCart = (product: Product) => {
@@ -69,14 +69,14 @@ const Provider: React.FC<CartProviderProps> = ({ children }) => {
 		return q
 	}
 
-	const handleFavorites = (id: string) => {
-		handleFavorite(id)
+	const handleFavorites = (product: Product) => {
+		handleFavorite(product)
 		setFavorites(getFavorites())
 	}
 
 	const handleCheckouts = (id: string) => {
 		handleCheckout(id)
-    setCart(getCart())
+		setCart(getCart())
 	}
 
 	useEffect(() => {
@@ -95,7 +95,7 @@ const Provider: React.FC<CartProviderProps> = ({ children }) => {
 				removeToCart,
 				cart,
 				handleFavorites,
-        handleCheckouts,
+				handleCheckouts,
 				favorites,
 				getProductsQuantity,
 				total,

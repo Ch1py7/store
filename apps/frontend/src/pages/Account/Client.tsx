@@ -11,7 +11,6 @@ export const Client: React.FC = (): React.ReactNode => {
 	const [isLogin, setIsLogin] = useState<boolean>(false)
 	const [isFavHovered, setFavIsHovered] = useState<boolean>(false)
 	const [cart, setCart] = useState<number>(0)
-	const [favs, setFavs] = useState<string[]>([])
 
 	const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target
@@ -20,10 +19,8 @@ export const Client: React.FC = (): React.ReactNode => {
 
 	useEffect(() => {
 		const cart = getCart()
-		const favs = getFavorites()
 		const total = getTotalCart(cart)
 		setCart(total)
-		setFavs(favs)
 	}, [])
 
 	return (
@@ -39,7 +36,7 @@ export const Client: React.FC = (): React.ReactNode => {
 						<div className='space-y-6'>
 							<div>
 								<h2 className='text-2xl font-semibold text-center mb-8'>Client Dashboard</h2>
-								<div className='grid grid-cols-2 gap-4 mb-8'>
+								<div className='grid grid-cols-1 xxs:grid-cols-2 gap-4 mb-8'>
 									<Link to='/cart' className='border rounded-lg p-4 text-center'>
 										<ShoppingBag className='h-8 w-8 mx-auto mb-2' />
 										<p className='font-semibold'>Products in Cart</p>
@@ -53,13 +50,13 @@ export const Client: React.FC = (): React.ReactNode => {
 									>
 										<Heart classNames='h-8 w-8 mx-auto mb-2' like={isFavHovered} />
 										<p className='font-semibold'>Wishlist</p>
-										<p className='text-2xl font-bold'>{favs.length}</p>
+										<p className='text-2xl font-bold'>{getFavorites().length}</p>
 									</Link>
 								</div>
 							</div>
 							<div className='space-y-4'>
 								<h3 className='text-lg font-semibold'>Personal Information</h3>
-								<div className='grid grid-cols-2 gap-4'>
+								<div className='grid grid-cols-1 xxs:grid-cols-2 gap-4'>
 									<div>
 										<p className='block text-sm font-medium text-gray-700'>First Name</p>
 										<Input
