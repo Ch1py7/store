@@ -16,6 +16,7 @@
 		"enabled": true,
 		"formatWithErrors": false,
 		"indentStyle": "tab",
+    "lineEnding": "crlf",
 		"indentWidth": 2,
 		"lineWidth": 100,
 		"ignore": ["node_modules/**", "dist/**", "tsconfig.json", "jsconfig.json"]

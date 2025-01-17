@@ -127,14 +127,13 @@ export const Register: React.FC = (): React.ReactNode => {
 				>
 					Create Account
 				</button>
-
 			</form>
-				<div className='text-center'>
-					<span className='text-sm text-gray-600'>Already have an account? </span>
-					<Link to='/auth/login' className='text-sm font-medium text-black hover:text-gray-800'>
-						Sign in
-					</Link>
-				</div>
+			<div className='text-center'>
+				<span className='text-sm text-gray-600'>Already have an account? </span>
+				<Link to='/auth/login' className='text-sm font-medium text-black hover:text-gray-800'>
+					Sign in
+				</Link>
+			</div>
 		</div>
 	)
 }

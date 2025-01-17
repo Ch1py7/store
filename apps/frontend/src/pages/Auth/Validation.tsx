@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export const Validation: React.FC = (): React.ReactNode => {
 	const [code, setCode] = useState<string>('')
-  const [isCodeRecovery, setIsCodeRecovery] = useState(false)
+	const [isCodeRecovery, setIsCodeRecovery] = useState(false)
 
 	return (
 		<div className='max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg mx-auto'>
