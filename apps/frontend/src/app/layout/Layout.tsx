@@ -10,7 +10,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }): React.ReactNode => 
 		<div className='bg-white shadow-sm py-5'>
 			<div className='mx-auto px-4 sm:px-6 lg:px-8'>
 				<Navbar />
-				<main>{children}</main>
+				<main className='min-h-[67vh]'>{children}</main>
 				<Footer />
 			</div>
 		</div>
