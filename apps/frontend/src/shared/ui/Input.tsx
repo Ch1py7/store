@@ -46,7 +46,7 @@ export const Input: React.FC<InputProps> = ({
 				value={value}
 				type='text'
 				name={name}
-				className={`w-full py-1 border-2 rounded-lg text-ellipsis text-wrap focus:border-blue-400 focus:border-2 ${name === 'search' ? 'px-10' : 'px-3'}`}
+				className={`w-full py-1 border-2 rounded-lg text-ellipsis text-wrap focus:border-blue-400 focus:border-2 ${name === 'search' ? 'ps-10 pe-5 xxs:pe-20' : 'px-3'}`}
 			/>
 			{name === 'search' && (
 				<span className='hidden xxs:block absolute -right-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-disabled'>
