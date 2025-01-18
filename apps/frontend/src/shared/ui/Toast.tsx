@@ -5,7 +5,7 @@ export const Toast: React.FC = (): React.ReactNode => {
 	return (
 		<ToastContainer
 			position='bottom-right'
-			autoClose={3000}
+			autoClose={5000}
 			closeOnClick
 			transition={Slide}
 			icon={({ type }) => {
