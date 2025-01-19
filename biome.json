@@ -96,7 +96,7 @@
 				"useButtonType": "warn"
 			},
 			"nursery": {
-				"noProcessEnv": "error",
+				"noProcessEnv": "off",
 				"noUnknownPseudoElement": "error",
 				"useComponentExportOnlyModules": "error"
 			}
