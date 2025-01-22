@@ -70,7 +70,7 @@ export class User extends BaseEntity {
 		return this._temporaryPassword
 	}
 
-	verifyAccount(code: string) {
+	public verifyAccount(code: string) {
 		if (!this._verificationCode) {
 			throw new InvalidUserError('Verification code has not been generated.')
 		}
@@ -81,35 +81,35 @@ export class User extends BaseEntity {
 		}
 	}
 
-	changePassword(newPassword: string) {
+	public changePassword(newPassword: string) {
 		this.setPassword(newPassword)
 	}
 
-	setPassword(newPassword: string) {
+	public setPassword(newPassword: string) {
 		this._password = new Password(newPassword, this.cipher)
 		this._temporaryPassword = undefined
 	}
 
-	generateTemporaryPassword() {
+	public generateTemporaryPassword() {
 		const tempPassword = Math.random().toString(36).slice(-8)
 		this._temporaryPassword = new TemporaryPassword(tempPassword)
 	}
 
-	validateTemporaryPassword(password: string) {
+	public validateTemporaryPassword(password: string) {
 		return this._temporaryPassword?.value === password && !this._temporaryPassword?.isExpired()
 	}
 
-	hasValidTemporaryPassword(currentTimestamp: number = Date.now()) {
+	public hasValidTemporaryPassword(currentTimestamp: number = Date.now()) {
 		return (
 			this._temporaryPassword !== undefined && !this._temporaryPassword.isExpired(currentTimestamp)
 		)
 	}
 
-	validateVerificationCode(code: string) {
+	public validateVerificationCode(code: string) {
 		return this._verificationCode?.isValid(code) ?? false
 	}
 
-	generateVerificationCode() {
+	public generateVerificationCode() {
 		const code = Math.floor(100000 + Math.random() * 900000).toString()
 		this._verificationCode = new VerificationCode(code)
 	}

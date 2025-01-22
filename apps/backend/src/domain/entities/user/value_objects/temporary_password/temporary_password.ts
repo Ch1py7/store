@@ -20,11 +20,11 @@ export class TemporaryPassword {
 		return this._expirationTimestamp
 	}
 
-	isExpired(currentTimestamp: number = Date.now()): boolean {
+	public isExpired(currentTimestamp: number = Date.now()): boolean {
 		return currentTimestamp > this._expirationTimestamp
 	}
 
-	renew(newValue: string): TemporaryPassword {
+	public renew(newValue: string): TemporaryPassword {
 		return new TemporaryPassword(newValue)
 	}
 }
