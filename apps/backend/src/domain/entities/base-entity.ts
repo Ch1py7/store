@@ -28,7 +28,7 @@ export class BaseEntity {
 	}
 }
 
-interface Base {
+export interface Base {
 	id: string
 	createdAt: number
 	updatedAt: number
