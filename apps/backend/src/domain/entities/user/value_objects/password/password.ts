@@ -8,7 +8,7 @@ export class Password {
 
 	constructor(value: string, cipher: Cipher) {
 		this._cipher = cipher
-		this._assertIsValidPassword(value)
+		this._assertPassword(value)
 
 		const { content, iv } = this._cipher.encrypt(value)
 
@@ -16,7 +16,7 @@ export class Password {
 		this._iv = iv
 	}
 
-	private _assertIsValidPassword(value: string) {
+	private _assertPassword(value: string) {
 		if (!value || value.length < 8 || value.length > 25) {
 			throw new InvalidPasswordError(
 				'The password is required and must be between 8 and 25 characters.'

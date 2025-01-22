@@ -4,11 +4,11 @@ export class Role {
 	public readonly value: string
 
 	constructor(value: string) {
-		this._assertIsValidRole(value)
+		this._assertRole(value)
 		this.value = value
 	}
 
-	private _assertIsValidRole(value: string) {
+	private _assertRole(value: string) {
 		if (value !== 'admin' && value !== 'client') {
 			throw new InvalidRoleError('The role must be admin or client.')
 		}

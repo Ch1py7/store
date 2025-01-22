@@ -8,11 +8,11 @@ export class Email {
 	public readonly value: string
 
 	constructor(value: string) {
-		this._assertIsValidEmail(value)
+		this._assertEmail(value)
 		this.value = value
 	}
 
-	private _assertIsValidEmail(value: string) {
+	private _assertEmail(value: string) {
 		if (!emailRegex.test(value)) {
 			throw new InvalidEmailError(
 				'Invalid email format. Please enter a valid email address (e.g., user@example.com).'
