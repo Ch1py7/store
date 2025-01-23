@@ -1,5 +1,7 @@
-import { InjectionMode, asValue, createContainer, asClass } from 'awilix'
+import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
+import { Cipher } from './domain/services/cipher'
+import { UserDomainService } from './domain/services/user/user-domain-service'
 import { config } from './infrastructure/config'
 
 export const container = createContainer<Dependencies>({
@@ -9,8 +11,11 @@ export const container = createContainer<Dependencies>({
 container.register({
 	// Use cases
 	// Persistance
-	// Libraries
 	// Services
+	cipher: asClass(Cipher),
+	userService: asClass(UserDomainService),
+
+	// Libraries
 	crypto: asValue(crypto),
 
 	// Config
