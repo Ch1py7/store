@@ -65,7 +65,7 @@ export class Product extends BaseEntity {
 	}
 }
 
-interface ProductEntity extends Base {
+export interface ProductEntity extends Base {
 	name: string
 	price: number
 	description: string
