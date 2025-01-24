@@ -6,8 +6,8 @@ export class Response {
 	public createdAt: number
 
 	constructor(user: User) {
-		this.id = user.id.value
-		this.email = user.email.value
+		this.id = user.id
+		this.email = user.email
 		this.createdAt = user.createdAt
 	}
 }

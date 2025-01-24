@@ -10,7 +10,7 @@ export class ID {
 	}
 
 	private _assertID(value: string) {
-		if (validate(value)) {
+		if (!validate(value)) {
 			throw new InvalidIDError('Invalid UUID')
 		}
 	}

@@ -12,7 +12,7 @@ export class BaseEntity {
 	}
 
 	public get id() {
-		return this._id
+		return this._id.value
 	}
 
 	public get createdAt() {

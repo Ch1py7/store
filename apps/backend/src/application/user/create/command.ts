@@ -3,12 +3,14 @@ export class Command {
 	lastName: string
 	email: string
 	password: string
+	role: 'admin' | 'client'
 
-	constructor({ firstName, lastName, email, password }: CommandConstructor) {
+	constructor({ firstName, lastName, email, password, role }: CommandConstructor) {
 		this.firstName = firstName
 		this.lastName = lastName
 		this.email = email
 		this.password = password
+		this.role = role
 	}
 }
 
@@ -17,4 +19,5 @@ interface CommandConstructor {
 	lastName: string
 	email: string
 	password: string
+	role: 'admin' | 'client'
 }

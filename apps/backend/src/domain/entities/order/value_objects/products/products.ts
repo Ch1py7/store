@@ -38,7 +38,7 @@ export class Products {
 	}
 
 	removeProduct(productId: string): Products {
-		const updatedProducts = this._products.filter((p) => p.product.id.value !== productId)
+		const updatedProducts = this._products.filter((p) => p.product.id !== productId)
 		return new Products(updatedProducts)
 	}
 

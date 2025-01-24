@@ -3,7 +3,6 @@ import { InvalidUserError } from './errors'
 import { Email } from './value_objects/email/email'
 import { FirstName } from './value_objects/firstname/firstname'
 import { LastName } from './value_objects/lastname/lastname'
-import { Password } from './value_objects/password/password'
 import { Role } from './value_objects/role/role'
 import { TemporaryPassword } from './value_objects/temporary_password/temporary_password'
 import { VerificationCode } from './value_objects/verification_code/verification_code'
@@ -14,7 +13,7 @@ export class User extends BaseEntity {
 	private _role: Role
 	private _email: Email
 	private _isVerified: boolean
-	private _password?: Password
+	private _hashedPassword?: string
 	private _temporaryPassword?: TemporaryPassword
 	private _verificationCode?: VerificationCode
 
@@ -26,8 +25,8 @@ export class User extends BaseEntity {
 		this._email = new Email(user.email)
 		this._isVerified = false
 
-		if (user.password) {
-			this._password = new Password(user.password)
+		if (user.hashedPassword) {
+			this._hashedPassword = user.hashedPassword
 		}
 
 		if (user.tempPassword) {
@@ -35,27 +34,27 @@ export class User extends BaseEntity {
 		}
 	}
 
-	get firstName(): FirstName {
-		return this._firstName
+	get firstName() {
+		return this._firstName.value
 	}
 
-	get lastName(): LastName {
-		return this._lastName
+	get lastName() {
+		return this._lastName.value
 	}
 
-	get password(): Password | undefined {
-		return this._password
+	get password() {
+		return this._hashedPassword
 	}
 
-	get role(): Role {
-		return this._role
+	get role() {
+		return this._role.value
 	}
 
-	get email(): Email {
-		return this._email
+	get email() {
+		return this._email.value
 	}
 
-	get isVerified(): boolean {
+	get isVerified() {
 		return this._isVerified
 	}
 
@@ -83,7 +82,7 @@ export class User extends BaseEntity {
 	}
 
 	public setPassword(newPassword: string) {
-		this._password = new Password(newPassword)
+		this._hashedPassword = newPassword
 		this._temporaryPassword = undefined
 	}
 
@@ -118,6 +117,6 @@ interface UserEntity extends Base {
 	role: 'admin' | 'client'
 	email: string
 	codeVerification?: string
-	password?: string
+	hashedPassword?: string
 	tempPassword?: string
 }

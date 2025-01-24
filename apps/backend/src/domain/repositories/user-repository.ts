@@ -1,6 +1,12 @@
-import type { User } from '../entities/user/user'
+import type { User } from '@prisma/client'
 
 export interface UserRepository {
 	findByEmail(email: string): Promise<User | null>
-	save(user: User): Promise<void>
+	findAll(): Promise<User[] | null>
+	save(save: Save): Promise<void>
+}
+
+interface Save {
+	user: User
+	salt: string
 }

@@ -21,15 +21,32 @@ export class CreateUser {
 	public async execute(dto: Command) {
 		await this._userService.ensureEmailIsAvailable(dto.email)
 
+		const { value: password } = new Password(dto.password)
+
+		const { hashedPassword, salt } = this._cipher.hashPassword(password)
+
 		const user = new User({
 			...dto,
+			hashedPassword: hashedPassword,
 			id: this._cipher.randomUUID(),
 			createdAt: Date.now(),
 			updatedAt: Date.now(),
-			role: 'client',
 		})
 
-		await this._userRepository.save(user)
+		await this._userRepository.save({
+			id: user.id,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			email: user.email,
+			password: user.password!,
+			salt,
+			isVerified: user.isVerified,
+			updatedAt: BigInt(user.updatedAt),
+			createdAt: BigInt(user.createdAt),
+			role: user.role,
+			verificationCode: this._cipher.randomString(8),
+			tempPassword: '',
+		})
 
 		return new Response(user)
 	}
