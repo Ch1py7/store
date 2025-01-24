@@ -18,6 +18,7 @@
 		"infrastructure": "dist/infrastructure"
 	},
 	"dependencies": {
+		"@prisma/client": "^6.2.1",
 		"awilix": "^12.0.4",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
@@ -26,7 +27,6 @@
 		"express-validator": "^7.2.1",
 		"jsonwebtoken": "^9.0.2",
 		"module-alias": "^2.2.3",
-		"pg": "^8.13.1",
 		"uuid": "^11.0.5"
 	},
 	"devDependencies": {
@@ -36,9 +36,12 @@
 		"@types/module-alias": "^2.0.4",
 		"@types/node": "^22.10.7",
 		"@types/uuid": "^10.0.0",
-		"pg-hstore": "^2.3.4",
+		"prisma": "^6.2.1",
 		"sequelize": "^6.37.5",
 		"tsx": "^4.19.2",
 		"typescript": "5.6.3"
+	},
+	"prisma": {
+		"schema": "src/infrastructure/prisma/schema.prisma"
 	}
 }
