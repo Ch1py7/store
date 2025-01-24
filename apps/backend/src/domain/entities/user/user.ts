@@ -1,5 +1,4 @@
 import { type Base, BaseEntity } from '@/domain/entities/base-entity'
-import type { Cipher } from '@/domain/services/cipher'
 import { InvalidUserError } from './errors'
 import { Email } from './value_objects/email/email'
 import { FirstName } from './value_objects/firstname/firstname'
@@ -18,19 +17,17 @@ export class User extends BaseEntity {
 	private _password?: Password
 	private _temporaryPassword?: TemporaryPassword
 	private _verificationCode?: VerificationCode
-	private cipher: Cipher
 
-	constructor(user: UserEntity, cipher: Cipher) {
+	constructor(user: UserEntity) {
 		super({ createdAt: user.createdAt, updatedAt: user.updatedAt, id: user.id })
 		this._firstName = new FirstName(user.firstName)
 		this._lastName = new LastName(user.lastName)
 		this._role = new Role(user.role)
 		this._email = new Email(user.email)
 		this._isVerified = false
-		this.cipher = cipher
 
 		if (user.password) {
-			this._password = new Password(user.password, cipher)
+			this._password = new Password(user.password)
 		}
 
 		if (user.tempPassword) {
@@ -86,7 +83,7 @@ export class User extends BaseEntity {
 	}
 
 	public setPassword(newPassword: string) {
-		this._password = new Password(newPassword, this.cipher)
+		this._password = new Password(newPassword)
 		this._temporaryPassword = undefined
 	}
 

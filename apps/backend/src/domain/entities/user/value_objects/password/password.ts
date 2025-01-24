@@ -1,19 +1,11 @@
-import type { Cipher } from '@/domain/services/cipher'
 import { InvalidPasswordError } from './errors'
 
 export class Password {
 	public readonly value: string
-	private readonly _cipher: Cipher
-	private readonly _iv: string
 
-	constructor(value: string, cipher: Cipher) {
-		this._cipher = cipher
+	constructor(value: string) {
 		this._assertPassword(value)
-
-		const { content, iv } = this._cipher.encrypt(value)
-
-		this.value = content
-		this._iv = iv
+		this.value = value
 	}
 
 	private _assertPassword(value: string) {
@@ -22,9 +14,5 @@ export class Password {
 				'The password is required and must be between 8 and 25 characters.'
 			)
 		}
-	}
-
-	public decrypt() {
-		return this._cipher.decrypt({ content: this.value, iv: this._iv })
 	}
 }

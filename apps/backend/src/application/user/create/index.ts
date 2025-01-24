@@ -1,4 +1,5 @@
 import { User } from '@/domain/entities/user/user'
+import { Password } from '@/domain/entities/user/value_objects/password/password'
 import type { Command } from './command'
 import { Response } from './response'
 
@@ -20,16 +21,13 @@ export class CreateUser {
 	public async execute(dto: Command) {
 		await this._userService.ensureEmailIsAvailable(dto.email)
 
-		const user = new User(
-			{
-				...dto,
-				id: this._cipher.randomUUID(),
-				createdAt: Date.now(),
-				updatedAt: Date.now(),
-				role: 'client',
-			},
-			this._cipher
-		)
+		const user = new User({
+			...dto,
+			id: this._cipher.randomUUID(),
+			createdAt: Date.now(),
+			updatedAt: Date.now(),
+			role: 'client',
+		})
 
 		await this._userRepository.save(user)
 
