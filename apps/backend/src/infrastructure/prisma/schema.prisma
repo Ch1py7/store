@@ -1,0 +1,31 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+model User {
+  id               String  @id
+  createdAt        BigInt
+  updatedAt        BigInt
+  firstName        String
+  lastName         String
+  email            String  @unique
+  password         String
+  salt             String
+  verificationCode String
+  tempPassword     String  @default("")
+  isVerified       Boolean @default(false)
+  role             Int
+}
+
+model Roles {
+  id        Int     @id @default(autoincrement())
+  role      String
+  isDelted  Boolean @default(false)
+  deletedAt BigInt?
+}
