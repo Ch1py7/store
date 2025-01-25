@@ -4,6 +4,10 @@ import { UserDomainService } from './domain/services/user/user-domain-service'
 import { config } from './infrastructure/config'
 import { CryptoCipher } from './infrastructure/security/crypto-cypher'
 import { CreateUser } from './application/user/create'
+import { prismaClient } from './infrastructure/prisma/prisma'
+import { UserRepository } from './infrastructure/repositories/userRepository'
+import { UserParser } from './infrastructure/parsers/UserParser'
+import { UpdateUser } from './application/user/update'
 
 export const container = createContainer<Dependencies>({
 	injectionMode: InjectionMode.PROXY,
@@ -12,9 +16,13 @@ export const container = createContainer<Dependencies>({
 container.register({
 	// Use cases
 	createUser: asClass(CreateUser),
-	// Persistance
+	updateUser: asClass(UpdateUser),
+
 	// Services
 	userService: asClass(UserDomainService),
+
+	// DB
+	prismaClient: asValue(prismaClient),
 
 	// Libraries
 	crypto: asValue(crypto),
@@ -22,8 +30,14 @@ container.register({
 	// Config
 	config: asValue(config),
 
+	// Repositories
+	userRepository: asClass(UserRepository),
+
 	// Security
 	cipher: asClass(CryptoCipher).inject(() => ({
 		privateKey: config.privateKey,
 	})),
+
+	// Parser
+	userParser: asClass(UserParser)
 })
