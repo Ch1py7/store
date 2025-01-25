@@ -1,6 +1,6 @@
 import type { User } from '@/domain/entities/user/user'
 
-export class Response {
+export class CreateResponse {
 	public id: string
 	public email: string
 	public createdAt: number

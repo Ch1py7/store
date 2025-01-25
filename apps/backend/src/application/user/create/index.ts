@@ -1,7 +1,7 @@
 import { User } from '@/domain/entities/user/user'
 import { Password } from '@/domain/entities/user/value_objects/password/password'
-import type { Command } from './command'
-import { Response } from './response'
+import type { CreateCommand } from './command'
+import { CreateResponse } from './response'
 
 export class CreateUser {
 	private _userRepository: Dependencies['userRepository']
@@ -18,7 +18,7 @@ export class CreateUser {
 		this._cipher = cipher
 	}
 
-	public async execute(dto: Command) {
+	public async execute(dto: CreateCommand) {
 		await this._userService.ensureEmailIsAvailable(dto.email)
 
 		const { value: password } = new Password(dto.password)
@@ -33,21 +33,8 @@ export class CreateUser {
 			updatedAt: Date.now(),
 		})
 
-		await this._userRepository.save({
-			id: user.id,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			email: user.email,
-			password: user.password!,
-			salt,
-			isVerified: user.isVerified,
-			updatedAt: BigInt(user.updatedAt),
-			createdAt: BigInt(user.createdAt),
-			role: user.role,
-			verificationCode: this._cipher.randomString(8),
-			tempPassword: '',
-		})
+		await this._userRepository.createUser(user, salt)
 
-		return new Response(user)
+		return new CreateResponse(user)
 	}
 }
