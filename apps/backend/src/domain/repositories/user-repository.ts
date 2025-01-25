@@ -1,12 +1,10 @@
-import type { User } from '@prisma/client'
+import type { User as UserDomain } from '@/domain/entities/user/user'
+import type { User as UserDb } from '@prisma/client'
 
-export interface UserRepository {
-	findByEmail(email: string): Promise<User | null>
-	findAll(): Promise<User[] | null>
-	save(save: Save): Promise<void>
-}
-
-interface Save {
-	user: User
-	salt: string
+export interface IUserRepository {
+	findByEmail(email: string): Promise<UserDomain | null>
+	findAll(): Promise<UserDomain[] | null>
+	findById(id: string): Promise<UserDomain>
+	createUser(user: UserDomain, salt: string): Promise<UserDb>
+	updateUser(user: UserDomain): Promise<UserDb>
 }

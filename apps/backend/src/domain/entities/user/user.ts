@@ -17,7 +17,7 @@ export class User extends BaseEntity {
 	private _temporaryPassword?: TemporaryPassword
 	private _verificationCode?: VerificationCode
 
-	constructor(user: UserEntity) {
+	constructor(user: IUserConstructor) {
 		super({ createdAt: user.createdAt, updatedAt: user.updatedAt, id: user.id })
 		this._firstName = new FirstName(user.firstName)
 		this._lastName = new LastName(user.lastName)
@@ -58,12 +58,12 @@ export class User extends BaseEntity {
 		return this._isVerified
 	}
 
-	get verificationCode(): VerificationCode | undefined {
-		return this._verificationCode
+	get verificationCode() {
+		return this._verificationCode?.value
 	}
 
-	get temporaryPassword(): TemporaryPassword | undefined {
-		return this._temporaryPassword
+	get temporaryPassword() {
+		return this._temporaryPassword?.value
 	}
 
 	public verifyAccount(code: string) {
@@ -101,6 +101,14 @@ export class User extends BaseEntity {
 		)
 	}
 
+	public updateFirstName(newFirstName: string) {
+    this._firstName = new FirstName(newFirstName);
+  }
+
+  public updateLastName(newLastName: string) {
+    this._lastName = new LastName(newLastName);
+  }
+
 	public validateVerificationCode(code: string) {
 		return this._verificationCode?.isValid(code) ?? false
 	}
@@ -111,10 +119,10 @@ export class User extends BaseEntity {
 	}
 }
 
-interface UserEntity extends Base {
+interface IUserConstructor extends Base {
 	firstName: string
 	lastName: string
-	role: 'admin' | 'client'
+	role: number
 	email: string
 	codeVerification?: string
 	hashedPassword?: string
