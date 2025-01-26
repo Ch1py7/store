@@ -17,7 +17,7 @@ export class UserParser {
 		})
 	}
 
-	toDbModel(domainModel: UserDomain, salt: string): UserDb {
+	toDbModel(domainModel: UserDomain, salt = ''): UserDb {
 		return {
 			id: domainModel.id,
 			firstName: domainModel.firstName,
@@ -26,11 +26,12 @@ export class UserParser {
 			password: domainModel.password!,
 			salt,
 			isVerified: domainModel.isVerified,
-			createdAt: BigInt(domainModel.createdAt),
-			updatedAt: BigInt(domainModel.updatedAt),
+			createdAt: domainModel.createdAt.toString(),
+			updatedAt: domainModel.updatedAt.toString(),
 			role: domainModel.role,
 			verificationCode: domainModel.verificationCode ?? '',
 			tempPassword: domainModel.temporaryPassword ?? '',
+			isDeleted: domainModel.isDeleted,
 		}
 	}
 }
