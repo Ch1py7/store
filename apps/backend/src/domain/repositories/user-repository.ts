@@ -7,4 +7,5 @@ export interface IUserRepository {
 	findById(id: string): Promise<UserDomain>
 	createUser(user: UserDomain, salt: string): Promise<UserDb>
 	updateUser(user: UserDomain): Promise<UserDb>
+	deleteUser(user: UserDomain): Promise<UserDb>
 }

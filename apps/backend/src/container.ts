@@ -8,6 +8,7 @@ import { prismaClient } from './infrastructure/prisma/prisma'
 import { UserRepository } from './infrastructure/repositories/userRepository'
 import { UserParser } from './infrastructure/parsers/UserParser'
 import { UpdateUser } from './application/user/update'
+import { DeleteUser } from './application/user/delete'
 
 export const container = createContainer<Dependencies>({
 	injectionMode: InjectionMode.PROXY,
@@ -17,6 +18,7 @@ container.register({
 	// Use cases
 	createUser: asClass(CreateUser),
 	updateUser: asClass(UpdateUser),
+	deleteUser: asClass(DeleteUser),
 
 	// Services
 	userService: asClass(UserDomainService),

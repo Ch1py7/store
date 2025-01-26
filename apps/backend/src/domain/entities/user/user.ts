@@ -13,6 +13,7 @@ export class User extends BaseEntity {
 	private _role: Role
 	private _email: Email
 	private _isVerified: boolean
+	private _isDeleted: boolean
 	private _hashedPassword?: string
 	private _temporaryPassword?: TemporaryPassword
 	private _verificationCode?: VerificationCode
@@ -24,6 +25,7 @@ export class User extends BaseEntity {
 		this._role = new Role(user.role)
 		this._email = new Email(user.email)
 		this._isVerified = false
+		this._isDeleted = false
 
 		if (user.hashedPassword) {
 			this._hashedPassword = user.hashedPassword
@@ -66,6 +68,10 @@ export class User extends BaseEntity {
 		return this._temporaryPassword?.value
 	}
 
+	get isDeleted() {
+		return this._isDeleted
+	}
+
 	public verifyAccount(code: string) {
 		if (!this._verificationCode) {
 			throw new InvalidUserError('Verification code has not been generated.')
@@ -102,12 +108,14 @@ export class User extends BaseEntity {
 	}
 
 	public updateFirstName(newFirstName: string) {
-    this._firstName = new FirstName(newFirstName);
-  }
+		this._firstName = new FirstName(newFirstName)
+		this.setUpdatedAt()
+	}
 
-  public updateLastName(newLastName: string) {
-    this._lastName = new LastName(newLastName);
-  }
+	public updateLastName(newLastName: string) {
+		this._lastName = new LastName(newLastName)
+		this.setUpdatedAt()
+	}
 
 	public validateVerificationCode(code: string) {
 		return this._verificationCode?.isValid(code) ?? false
@@ -116,6 +124,15 @@ export class User extends BaseEntity {
 	public generateVerificationCode() {
 		const code = Math.floor(100000 + Math.random() * 900000).toString()
 		this._verificationCode = new VerificationCode(code)
+	}
+
+	public setDeleted() {
+		this._isDeleted = true
+		this.setUpdatedAt()
+	}
+
+	private setUpdatedAt() {
+		this.updatedAt = Date.now()
 	}
 }
 

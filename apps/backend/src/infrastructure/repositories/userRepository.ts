@@ -19,14 +19,26 @@ export class UserRepository implements IUserRepository {
 		})
 	}
 
-	public async updateUser({ id, firstName, lastName }: UserDomain) {
+	public async updateUser(user: UserDomain) {
 		return await this._prismaClient.user.update({
 			data: {
-				firstName,
-				lastName,
+				...user,
 			},
 			where: {
-				id,
+				id: user.id,
+			},
+		})
+	}
+
+	public async deleteUser(user: UserDomain) {
+		const dbModel = this._userParser.toDbModel(user)
+
+		return await this._prismaClient.user.update({
+			data: {
+				...dbModel,
+			},
+			where: {
+				id: dbModel.id,
 			},
 		})
 	}
@@ -36,8 +48,7 @@ export class UserRepository implements IUserRepository {
 			where: { email },
 		})
 
-			return dbModel ? this._userParser.toDomain(dbModel) : null
-
+		return dbModel ? this._userParser.toDomain(dbModel) : null
 	}
 
 	public async findById(id: string) {

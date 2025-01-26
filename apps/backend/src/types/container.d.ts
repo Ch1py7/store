@@ -1,4 +1,5 @@
 import type { CreateUser } from '@/application/user/create'
+import type { DeleteUser } from '@/application/user/delete'
 import type { UpdateUser } from '@/application/user/update'
 import type { UserDomainService } from '@/domain/services/user/user-domain-service'
 import type { UserParser } from '@/infrastructure/parsers/UserParser'
@@ -13,6 +14,7 @@ declare global {
 		// Use cases
 		createUser: CreateUser
 		updateUser: UpdateUser
+		deleteUser: DeleteUser
 
 		// DB
 		prismaClient: typeof prismaClient

@@ -6,8 +6,7 @@ export class BaseEntity {
 	protected _timestamps: Timestamps
 
 	constructor(base: Base) {
-		const currentTimestamp = Date.now()
-		this._timestamps = new Timestamps(currentTimestamp, currentTimestamp)
+		this._timestamps = new Timestamps(base.createdAt, base.updatedAt)
 		this._id = new ID(base.id)
 	}
 

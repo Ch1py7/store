@@ -1,18 +1,11 @@
 import type { UpdateCommand } from './command'
+import { UpdateResponse } from './response'
 
 export class UpdateUser {
 	private _userRepository: Dependencies['userRepository']
-	private _userService: Dependencies['userService']
-	private _cipher: Dependencies['cipher']
 
-	constructor({
-		userRepository,
-		cipher,
-		userService,
-	}: Pick<Dependencies, 'userRepository' | 'cipher' | 'userService'>) {
+	constructor({ userRepository }: Pick<Dependencies, 'userRepository'>) {
 		this._userRepository = userRepository
-		this._userService = userService
-		this._cipher = cipher
 	}
 
 	public async execute({ id, firstName, lastName }: UpdateCommand) {
@@ -23,21 +16,6 @@ export class UpdateUser {
 
 		await this._userRepository.updateUser(user)
 
-		// await this._userRepository.save({
-		//   id: user.id,
-		//   firstName: user.firstName,
-		//   lastName: user.lastName,
-		//   email: user.email,
-		//   password: user.password!,
-		//   salt,
-		//   isVerified: user.isVerified,
-		//   updatedAt: BigInt(user.updatedAt),
-		//   createdAt: BigInt(user.createdAt),
-		//   role: user.role,
-		//   verificationCode: this._cipher.randomString(8),
-		//   tempPassword: '',
-		// })
-
-		// return new Response(user)
+		return new UpdateResponse(user)
 	}
 }
