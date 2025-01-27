@@ -24,7 +24,7 @@ export class UserAuthRepository implements IUserAuthRepository {
 
 		const { error } = await this._supabaseClient.rpc('insert_user_auth', {
 			user_table_data: userData,
-			auth_table_data: authData
+			auth_table_data: authData,
 		})
 
 		if (error) {
@@ -32,11 +32,11 @@ export class UserAuthRepository implements IUserAuthRepository {
 		}
 	}
 
-	public async findByEmail(email: string) {
+	async getSession(userId: string) {
 		const { data, error } = await this._supabaseClient
 			.from('User')
 			.select('*')
-			.eq('email', email)
+			.eq('userId', userId)
 			.single()
 
 		if (error) throw error
@@ -44,17 +44,15 @@ export class UserAuthRepository implements IUserAuthRepository {
 		return this._userParser.toDomain(data)
 	}
 
-	public async emailExists(email: string) {
+	public async findByEmail(email: string) {
 		const { data, error } = await this._supabaseClient
-			.from('User')
-			.select('id')
+			.from('Auth')
+			.select('*')
 			.eq('email', email)
 			.single()
 
-		if (error && error.code !== 'PGRST116') {
-			throw error
-		}
+		if (error) throw error
 
-		return !!data
+		return this._authParser.toDomain(data)
 	}
 }
