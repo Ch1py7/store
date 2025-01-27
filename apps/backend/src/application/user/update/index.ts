@@ -10,8 +10,7 @@ export class UpdateUser {
 	public async execute({ id, firstName, lastName }: UpdateCommand) {
 		const user = await this._userRepository.findById(id)
 
-		user.updateFirstName(firstName)
-		user.updateLastName(lastName)
+		user.updateFirstName(firstName).updateLastName(lastName)
 
 		await this._userRepository.updateUser(user)
 

@@ -67,11 +67,13 @@ export class User extends BaseEntity {
 	public updateFirstName(newFirstName: string) {
 		this._firstName = new FirstName(newFirstName)
 		this.setUpdatedAt()
+		return this
 	}
 
 	public updateLastName(newLastName: string) {
 		this._lastName = new LastName(newLastName)
 		this.setUpdatedAt()
+		return this
 	}
 
 	public validateVerificationCode(code: string) {

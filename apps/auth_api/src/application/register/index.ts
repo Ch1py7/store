@@ -1,7 +1,7 @@
 import { Auth } from '@/domain/auth/auth'
 import { EmailAlreadyExistsError } from '@/domain/auth/value_objects/email/errors'
 import { Password } from '@/domain/auth/value_objects/password/password'
-import { UserAuth } from '@/domain/user_auth/auth'
+import { UserAuth } from '@/domain/user_auth/user-auth'
 import { User } from '@store/core'
 import type { CreateCommand } from './command'
 import { CreateResponse } from './response'
@@ -33,7 +33,11 @@ export class RegisterUser {
 		const userId = this._crypto.randomUUID()
 
 		const user = new User({
-			...dto,
+			email: dto.email,
+			firstName: dto.firstName,
+			lastName: dto.lastName,
+			role: dto.role,
+			verificationCode: '',
 			id: userId,
 			createdAt: Date.now(),
 			updatedAt: Date.now(),
