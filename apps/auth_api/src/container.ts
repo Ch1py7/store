@@ -1,7 +1,7 @@
 import { UserParser } from '@store/core'
 import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
-import { AuthParser } from './infrastructure/parsers/AuthParser'
+import { AuthParser } from './infrastructure/repository/auth-parser'
 import { UserAuthRepository } from './infrastructure/repository/user-auth-repository'
 import { CryptoCipher } from './infrastructure/security/crypto-cypher'
 import { supabaseClient } from './infrastructure/supabase/client'
