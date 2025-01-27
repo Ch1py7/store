@@ -1,5 +1,4 @@
 import type { UpdateCommand } from './command'
-import { UpdateResponse } from './response'
 
 export class UpdateUser {
 	private _userRepository: Dependencies['userRepository']
@@ -16,6 +15,6 @@ export class UpdateUser {
 
 		await this._userRepository.updateUser(user)
 
-		return new UpdateResponse(user)
+		// TODO: configure to return updated jwt
 	}
 }

@@ -1,40 +1,19 @@
-import type { CreateUser } from '@/application/user/create'
 import type { DeleteUser } from '@/application/user/delete'
 import type { UpdateUser } from '@/application/user/update'
-import type { UserDomainService } from '@/domain/services/user/user-domain-service'
-import type { UserParser } from '@/infrastructure/parsers/UserParser'
-import type { UserRepository } from '@/infrastructure/repositories/userRepository'
-import type { CryptoCipher } from '@/infrastructure/security/crypto-cypher'
+import type { UserRepository } from '@/infrastructure/repositories/user/userRepository'
+import type { supabaseClient } from '@/infrastructure/supabase/client'
+import type { UserParser } from '@store/core'
 import type crypto from 'node:crypto'
 import type { config } from '../infrastructure/config/index'
-import type { prismaClient } from '../infrastructure/prisma/prisma'
 
 declare global {
 	interface Dependencies {
-		// Use cases
-		createUser: CreateUser
 		updateUser: UpdateUser
 		deleteUser: DeleteUser
-
-		// DB
-		prismaClient: typeof prismaClient
-
-		// Services
-		userService: UserDomainService
-
-		// Repositories
+		supabaseClient: typeof supabaseClient
 		userRepository: UserRepository
-
-		// Libraries
 		crypto: typeof crypto
-
-		// Config
 		config: typeof config
-
-		// Security
-		cipher: CryptoCipher
-
-		// Parser
 		userParser: UserParser
 	}
 }

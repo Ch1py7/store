@@ -1,4 +1,5 @@
 import type { DeleteCommand } from './command'
+import { DeleteResponse } from './response'
 
 export class DeleteUser {
 	private _userRepository: Dependencies['userRepository']
@@ -12,6 +13,8 @@ export class DeleteUser {
 
 		user.setDeleted()
 
-		await this._userRepository.deleteUser(user)
+		// await this._userRepository.deleteUser(user)
+
+		return new DeleteResponse(user)
 	}
 }

@@ -2,10 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
     },
-    "target": "ESNext",
     "moduleResolution": "node",
+    "outDir": "./dist",
+    "target": "ESNext",
     "module": "commonjs",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -18,10 +19,12 @@
     "sourceMap": true,
     "skipLibCheck": false,
     "isolatedModules": true,
-    "outDir": "./dist"
   },
+  "include": [
+    "./src"
+  ],
   "exclude": [
     "./node_modules/**/*",
-    "./dist/**/*"
+    "./dist/**/*",
   ]
 }

@@ -1,12 +1,10 @@
-import cors from 'cors'
-import dotenv from 'dotenv'
-import express from 'express'
 import 'module-alias/register'
+import cors from 'cors'
+import express from 'express'
 import { router as userRoutes } from './infrastructure/http/user_controller'
-dotenv.config()
 
 const app = express()
-const port = process.env.PORT || 8000
+const port = 7777
 
 app.use(express.json())
 app.use(cors({ origin: '*' }))
