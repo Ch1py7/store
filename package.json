@@ -1,8 +1,6 @@
 {
-	"name": "store",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"author": "bulbsum",
+	"license": "ISC",
 	"scripts": {
 		"lint": "biome check . --write",
 		"format": "biome format --write .",
@@ -10,12 +8,19 @@
 		"format:check": "biome format ."
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"esbuild"
+		]
 	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
+	"dependencies": {
+		"@supabase/supabase-js": "^2.48.1",
+		"awilix": "^12.0.4"
+	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4"
+		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^22.10.7",
+		"tsup": "8.3.6",
+		"typescript": "5.6.3"
 	}
 }
