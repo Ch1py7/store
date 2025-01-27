@@ -1,5 +1,5 @@
 import type { IUserAuthRepository } from '@/domain/repositories/user-auth-repository'
-import type { UserAuth } from '@/domain/user_auth/auth'
+import type { UserAuth } from '@/domain/user_auth/user-auth'
 
 export class UserAuthRepository implements IUserAuthRepository {
 	private _userParser: Dependencies['userParser']
