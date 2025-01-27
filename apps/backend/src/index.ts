@@ -1,7 +1,7 @@
 import 'module-alias/register'
 import cors from 'cors'
 import express from 'express'
-import { router as userRoutes } from './infrastructure/http/user_controller'
+import { router as userRoutes } from './infrastructure/http/user-controller'
 
 const app = express()
 const port = 7777

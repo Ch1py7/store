@@ -4,7 +4,7 @@ import crypto from 'node:crypto'
 import { DeleteUser } from './application/user/delete'
 import { UpdateUser } from './application/user/update'
 import { config } from './infrastructure/config'
-import { UserRepository } from './infrastructure/repositories/user/userRepository'
+import { UserRepository } from './infrastructure/repositories/user/user-repository'
 import { supabaseClient } from './infrastructure/supabase/client'
 
 export const container = createContainer<Dependencies>({
