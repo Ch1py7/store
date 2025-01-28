@@ -1,10 +1,13 @@
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 
 export class CryptoCipher {
 	private readonly _BASE36_ENCODING = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+	private readonly _SECRET: Dependencies['config']['jwtSecret']
 	private readonly _crypto: Dependencies['crypto']
 
-	constructor({ crypto }: Pick<Dependencies, 'crypto'>) {
+	constructor({ crypto, config }: Pick<Dependencies, 'crypto' | 'config'>) {
 		this._crypto = crypto
+		this._SECRET = config.jwtSecret
 	}
 
 	public randomUUID(): string {
@@ -33,4 +36,26 @@ export class CryptoCipher {
 			.map((byte) => this._BASE36_ENCODING[byte % this._BASE36_ENCODING.length])
 			.join('')
 	}
+
+	public verifyJwt = <T extends object>(token: string) => {
+		return jwt.verify(token, this._SECRET) as T & JwtPayload
+	}
+
+	public signJwt = (payload: JwtContent) => {
+		return jwt.sign(
+			{
+				...payload,
+			},
+			this._SECRET
+		)
+	}
+}
+
+interface JwtContent {
+	sub: string
+	firstName: string
+	lastName: string
+	role: number
+	iat: number
+	exp: number
 }
