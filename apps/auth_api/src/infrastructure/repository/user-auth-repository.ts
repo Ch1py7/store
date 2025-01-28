@@ -36,7 +36,7 @@ export class UserAuthRepository implements IUserAuthRepository {
 		const { data, error } = await this._supabaseClient
 			.from('User')
 			.select('*')
-			.eq('userId', userId)
+			.eq('id', userId)
 			.single()
 
 		if (error) throw error
@@ -45,14 +45,12 @@ export class UserAuthRepository implements IUserAuthRepository {
 	}
 
 	public async findByEmail(email: string) {
-		const { data, error } = await this._supabaseClient
+		const { data } = await this._supabaseClient
 			.from('Auth')
 			.select('*')
 			.eq('email', email)
 			.single()
 
-		if (error) throw error
-
-		return this._authParser.toDomain(data)
+		return data && this._authParser.toDomain(data)
 	}
 }
