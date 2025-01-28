@@ -1,46 +1,44 @@
+import type { Auth } from '@/domain/auth/auth'
 import { EmailNotFoundError } from '@/domain/auth/value_objects/email/errors'
-import { Password } from '@/domain/auth/value_objects/password/password'
-import type { LoginCommand } from './command'
 import { InvalidPasswordError } from '@/domain/auth/value_objects/password/errors'
+import type { LoginCommand } from './command'
+import { LoginResponse } from './response'
 
-export class RegisterUser {
+export class LoginUser {
 	private _userAuthRepository: Dependencies['userAuthRepository']
-	private _crypto: Dependencies['crypto']
 	private _cipher: Dependencies['cipher']
 
 	constructor({
 		userAuthRepository,
-		crypto,
 		cipher,
 	}: Pick<Dependencies, 'userAuthRepository' | 'crypto' | 'cipher'>) {
 		this._userAuthRepository = userAuthRepository
-		this._crypto = crypto
 		this._cipher = cipher
 	}
 
 	public async execute(dto: LoginCommand) {
-		const { email, password, salt, userId } = await this._userAuthRepository.findByEmail(dto.email)
+		const user = await this._userAuthRepository.findByEmail(dto.email)
 
-		this.assertUserExists(email)
-    
-    const validPassword = this._cipher.verifyPassword(password, salt, dto.password)
+		this.assertUserExists(user)
 
-    this.assertPasswordValid(validPassword)
+		const validPassword = this._cipher.verifyPassword(user.password, user.salt, dto.password)
 
-    this._userAuthRepository.getSession(userId)
+		this.assertPasswordValid(validPassword)
 
-		// TODO: configure to return updated jwt
+		const session = await this._userAuthRepository.getSession(user.userId)
+
+		return new LoginResponse(session)
 	}
 
-  private assertUserExists(email: string) {
-    if (!email) {
+	private assertUserExists(user: Auth | null): asserts user is Auth {
+		if (!user) {
 			throw new EmailNotFoundError('Email not found.')
 		}
-  }
+	}
 
-  private assertPasswordValid(valid: boolean) {
-    if (!valid) {
+	private assertPasswordValid(valid: boolean) {
+		if (!valid) {
 			throw new InvalidPasswordError('Incorrect password.')
 		}
-  }
+	}
 }

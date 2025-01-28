@@ -1,6 +1,6 @@
 import type { User } from '@store/core'
 
-export class CreateResponse {
+export class LoginResponse {
 	public id: string
 	public firstName: string
 	public lastName: string

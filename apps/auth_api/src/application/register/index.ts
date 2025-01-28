@@ -22,9 +22,9 @@ export class RegisterUser {
 	}
 
 	public async execute(dto: CreateCommand) {
-		const { email } = await this._userAuthRepository.findByEmail(dto.email)
+		const exists = await this._userAuthRepository.findByEmail(dto.email)
 
-		this.assertEmailNotExists(email)
+		this.assertEmailNotExists(exists)
 
 		const { value: password } = new Password(dto.password)
 
@@ -59,13 +59,12 @@ export class RegisterUser {
 
 		await this._userAuthRepository.save(userAuth)
 
-		// TODO: configure to return updated jwt
 		return new CreateResponse(user)
 	}
 
-	private assertEmailNotExists(email: string) {
-		if (!email) {
-			throw new EmailAlreadyExistsError('Email not found.')
+	private assertEmailNotExists(user: Auth | null) {
+		if (user) {
+			throw new EmailAlreadyExistsError('Email is already registered.')
 		}
 	}
 }
