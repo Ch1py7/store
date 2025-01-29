@@ -22,7 +22,7 @@ export type Database = {
         Insert: {
           created_at: string
           email: string
-          id?: string
+          id: string
           password: string
           salt: string
           updated_at: string
@@ -51,33 +51,33 @@ export type Database = {
         Row: {
           created_at: string
           description: string
-          id: number
+          id: string
           name: string
           percentageDiscount: number
           price: number
-          size: Json
+          size: string
           stock: number
           updated_at: string
         }
         Insert: {
           created_at: string
           description: string
-          id?: number
+          id: string
           name: string
           percentageDiscount: number
           price: number
-          size: Json
+          size: string
           stock: number
           updated_at: string
         }
         Update: {
           created_at?: string
           description?: string
-          id?: number
+          id?: string
           name?: string
           percentageDiscount?: number
           price?: number
-          size?: Json
+          size?: string
           stock?: number
           updated_at?: string
         }
@@ -118,7 +118,7 @@ export type Database = {
           created_at: string
           email: string
           first_name: string
-          id?: string
+          id: string
           is_deleted: boolean
           is_verified: boolean
           last_name: string
