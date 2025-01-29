@@ -1,5 +1,5 @@
 import { Auth } from '@/domain/auth/auth'
-import { EmailAlreadyExistsError } from '@/domain/auth/value_objects/email/errors'
+import { EmailAlreadyExistsError } from '@store/core'
 import { Password } from '@/domain/auth/value_objects/password/password'
 import { UserAuth } from '@/domain/user_auth/user-auth'
 import { User } from '@store/core'

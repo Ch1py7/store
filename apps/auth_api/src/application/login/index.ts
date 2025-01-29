@@ -1,5 +1,5 @@
 import type { Auth } from '@/domain/auth/auth'
-import { EmailNotFoundError } from '@/domain/auth/value_objects/email/errors'
+import { EmailNotFoundError } from '@store/core'
 import { InvalidPasswordError } from '@/domain/auth/value_objects/password/errors'
 import type { LoginCommand } from './command'
 import { LoginResponse } from './response'

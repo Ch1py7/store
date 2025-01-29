@@ -1,4 +1,4 @@
-import { InvalidEmailError } from './errors'
+import { InvalidEmailError } from '@store/core'
 
 const emailRegex =
 	// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
