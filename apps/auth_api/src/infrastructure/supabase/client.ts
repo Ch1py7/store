@@ -1,4 +1,4 @@
-import type { Database } from './supabase.types'
+import type { Database } from '@store/core'
 import { createClient } from '@supabase/supabase-js'
 import { config } from '../config'
 

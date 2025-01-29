@@ -6,3 +6,5 @@ export * from '@/entities/user'
 export * from '@/infrastructure/parsers/user-parser'
 
 export * from '@/entities/user/value_objects/email/errors'
+
+export * from '@/infrastructure/supabase/supabase.types'

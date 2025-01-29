@@ -47,6 +47,42 @@ export type Database = {
           },
         ]
       }
+      Product: {
+        Row: {
+          created_at: string
+          description: string
+          id: number
+          name: string
+          percentageDiscount: number
+          price: number
+          size: Json
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          created_at: string
+          description: string
+          id?: number
+          name: string
+          percentageDiscount: number
+          price: number
+          size: Json
+          stock: number
+          updated_at: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: number
+          name?: string
+          percentageDiscount?: number
+          price?: number
+          size?: Json
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       Roles: {
         Row: {
           id: number
