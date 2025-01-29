@@ -2,6 +2,8 @@ import { UserParser } from '@store/core'
 import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
 import { CreateProduct } from './application/product/create'
+import { GetProduct } from './application/product/get_product'
+import { GetProducts } from './application/product/get_products'
 import { DeleteUser } from './application/user/delete'
 import { GetUser } from './application/user/get_user'
 import { GetUsers } from './application/user/get_users'
@@ -25,6 +27,8 @@ container.register({
 
 	// product use cases
 	createProduct: asClass(CreateProduct),
+	getProduct: asClass(GetProduct),
+	getProducts: asClass(GetProducts),
 
 	// repositories
 	userRepository: asClass(UserRepository),

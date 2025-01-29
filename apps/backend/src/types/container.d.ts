@@ -1,4 +1,6 @@
 import type { CreateProduct } from '@/application/product/create'
+import type { GetProduct } from '@/application/product/get_product'
+import type { GetProducts } from '@/application/product/get_products'
 import type { DeleteUser } from '@/application/user/delete'
 import type { GetUser } from '@/application/user/get_user'
 import type { GetUsers } from '@/application/user/get_users'
@@ -21,7 +23,9 @@ declare global {
 
 		// product use cases
 		createProduct: CreateProduct
-		
+		getProduct: GetProduct
+		getProducts: GetProducts
+
 		// repositories
 		userRepository: UserRepository
 		productRepository: ProductRepository

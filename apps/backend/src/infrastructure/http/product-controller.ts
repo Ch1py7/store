@@ -32,3 +32,34 @@ router.post('/products/', async (req: express.Request, res: express.Response) =>
 		})
 	}
 })
+
+router.get('/products/:id?', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
+
+	try {
+		if (id) {
+			const getProduct = container.resolve('getProduct')
+			const product = await getProduct.execute({ id })
+
+			res.status(200).json({
+				message: 'Product fetched successfully',
+				data: { product },
+			})
+		} else {
+			const getProducts = container.resolve('getProducts')
+			const { products } = await getProducts.execute()
+
+			res.status(200).json({
+				message: 'Products fetched successfully',
+				data: { products },
+			})
+		}
+	} catch (error) {
+		console.error('Error fetching products or product:', error)
+
+		res.status(500).json({
+			message: 'An error occurred while fetching the products',
+			error: (error as Error).message || 'Unknown error',
+		})
+	}
+})
