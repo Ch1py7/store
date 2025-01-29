@@ -27,27 +27,27 @@ export class Product extends BaseEntity {
 	}
 
 	get name() {
-		return this._name
+		return this._name.value
 	}
 
 	get price() {
-		return this._price
+		return this._price.value
 	}
 
 	get description() {
-		return this._description
+		return this._description.value
 	}
 
 	get size() {
-		return this._size
+		return this._size.value
 	}
 
 	get stock() {
-		return this._stock
+		return this._stock.value
 	}
 
 	get percentageDiscount() {
-		return this._percentageDiscount
+		return this._percentageDiscount.value
 	}
 
 	get DiscountedPrice(): Price {

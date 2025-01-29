@@ -41,7 +41,7 @@ export class Order extends BaseEntity {
 	addProduct(product: ProductWithQuantity) {
 		this._products = this._products.addProduct(product.product, product.quantity)
 		this._total = new Total(
-			this._total.value + product.product.price.value * product.quantity,
+			this._total.value + product.product.price * product.quantity,
 			this._products
 		)
 	}

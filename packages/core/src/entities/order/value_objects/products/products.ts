@@ -18,7 +18,7 @@ export class Products {
 
 	get totalPrice(): number {
 		return this._products.reduce((prev, { product, quantity }) => {
-			const discountedPrice = product.price.value * (1 - product.percentageDiscount.value / 100)
+			const discountedPrice = product.price * (1 - product.percentageDiscount / 100)
 			return prev + discountedPrice * quantity
 		}, 0)
 	}
