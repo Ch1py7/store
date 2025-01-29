@@ -96,22 +96,3 @@ router.get('/users/:id?', async (req: express.Request, res: express.Response) =>
 		})
 	}
 })
-
-// router.get('/users', async (_, res: express.Response) => {
-// 	try {
-// 		const getUsers = container.resolve('getUsers')
-// 		const { users } = await getUsers.execute()
-
-// 		res.status(200).json({
-// 			message: 'Users fetched successfully',
-// 			data: { users },
-// 		})
-// 	} catch (error) {
-// 		console.error('Error fetching users:', error)
-
-// 		res.status(500).json({
-// 			message: 'An error occurred while fetching the users',
-// 			error: (error as Error).message || 'Unknown error',
-// 		})
-// 	}
-// })
