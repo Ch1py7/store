@@ -4,9 +4,11 @@ import { CreateResponse } from './response'
 
 export class CreateProduct {
 	private _crypto: Dependencies['crypto']
+	private _productRepository: Dependencies['productRepository']
 
-	constructor({ crypto }: Pick<Dependencies, 'crypto'>) {
+	constructor({ crypto, productRepository }: Pick<Dependencies, 'crypto' | 'productRepository'>) {
 		this._crypto = crypto
+		this._productRepository = productRepository
 	}
 
 	public async execute(dto: CreateCommand) {
@@ -21,6 +23,8 @@ export class CreateProduct {
 			size: dto.size,
 			stock: dto.stock,
 		})
+
+		await this._productRepository.save(product)
 
 		return new CreateResponse(product)
 	}
