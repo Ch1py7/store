@@ -3,7 +3,7 @@ import { Description } from './value_objects/description/description'
 import { Name } from './value_objects/name/name'
 import { PercentageDiscount } from './value_objects/percentageDiscount/percentage-discount'
 import { Price } from './value_objects/price/price'
-import { Size, type SizeConstructor } from './value_objects/size/size'
+import { Size } from './value_objects/size/size'
 import { Stock } from './value_objects/stock/stock'
 
 export class Product extends BaseEntity {
@@ -69,7 +69,7 @@ export interface ProductEntity extends Base {
 	name: string
 	price: number
 	description: string
-	size: SizeConstructor[]
+	size: number[]
 	stock: number
 	percentageDiscount: number
 }

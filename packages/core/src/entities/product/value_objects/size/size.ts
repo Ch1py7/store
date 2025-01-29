@@ -1,14 +1,14 @@
 import { InvalidSizeError } from './errors'
 
 export class Size {
-	public readonly value: SizeConstructor[]
+	public readonly value: number[]
 
-	constructor(value: SizeConstructor[]) {
+	constructor(value: number[]) {
 		this._assertSize(value)
 		this.value = value
 	}
 
-	private _assertSize(value: SizeConstructor[]) {
+	private _assertSize(value: number[]) {
 		if (!value) {
 			throw new InvalidSizeError('Size is required.')
 		}
@@ -29,4 +29,3 @@ export class Size {
 	}
 }
 
-export type SizeConstructor = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
