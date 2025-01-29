@@ -11,10 +11,6 @@ export class GetUser {
 	public async execute({ id }: GetUserCommand) {
 		const user = await this._userRepository.findById(id)
 
-		user.setDeleted()
-
-		// await this._userRepository.deleteUser(user)
-
 		return new GetUserResponse(user)
 	}
 }

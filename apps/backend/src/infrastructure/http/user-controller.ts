@@ -5,12 +5,13 @@ import express, { type Router } from 'express'
 
 export const router: Router = express.Router()
 
-router.put('/user/update', async (req: express.Request, res: express.Response) => {
-	const { id, firstName, lastName } = req.body
+router.patch('/users/:id', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
+	const { firstName, lastName } = req.body
 
 	if (!id || !firstName || !lastName) {
 		res.status(400).json({
-			message: 'Missing required fields: id, firstname, lastName role',
+			message: 'Missing required fields: id, firstname, lastName',
 		})
 		return
 	}
@@ -28,18 +29,18 @@ router.put('/user/update', async (req: express.Request, res: express.Response) =
 		console.error('Error updating user:', error)
 
 		res.status(500).json({
-			message: 'An error occurred while update the user',
+			message: 'An error occurred while updating user data',
 			error: (error as Error).message || 'Unknown error',
 		})
 	}
 })
 
-router.put('/user/delete', async (req: express.Request, res: express.Response) => {
-	const { id } = req.body
+router.patch('/users/:id/delete', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
 
 	if (!id) {
 		res.status(400).json({
-			message: 'Missing required fields: id',
+			message: 'Missing required field: id',
 		})
 		return
 	}
@@ -47,18 +48,70 @@ router.put('/user/delete', async (req: express.Request, res: express.Response) =
 	try {
 		const command = new DeleteCommand({ id })
 		const deleteUser = container.resolve('deleteUser')
-		await deleteUser.execute(command)
+		const user = await deleteUser.execute(command)
 
 		res.status(200).json({
 			message: 'User deleted successfully',
-			data: {},
+			data: {
+				user,
+			},
 		})
 	} catch (error) {
 		console.error('Error deleting user:', error)
 
 		res.status(500).json({
-			message: 'An error occurred while delete the user',
+			message: 'An error occurred while deleting the user',
 			error: (error as Error).message || 'Unknown error',
 		})
 	}
 })
+
+router.get('/users/:id?', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
+
+	try {
+		if (id) {
+			const getUser = container.resolve('getUser')
+			const user = await getUser.execute({ id })
+
+			res.status(200).json({
+				message: 'User fetched successfully',
+				data: { user },
+			})
+		} else {
+			const getUsers = container.resolve('getUsers')
+			const {users} = await getUsers.execute()
+
+			res.status(200).json({
+				message: 'Users fetched successfully',
+				data: { users },
+			})
+		}
+	} catch (error) {
+		console.error('Error fetching users or user:', error)
+
+		res.status(500).json({
+			message: 'An error occurred while fetching the users',
+			error: (error as Error).message || 'Unknown error',
+		})
+	}
+})
+
+// router.get('/users', async (_, res: express.Response) => {
+// 	try {
+// 		const getUsers = container.resolve('getUsers')
+// 		const { users } = await getUsers.execute()
+
+// 		res.status(200).json({
+// 			message: 'Users fetched successfully',
+// 			data: { users },
+// 		})
+// 	} catch (error) {
+// 		console.error('Error fetching users:', error)
+
+// 		res.status(500).json({
+// 			message: 'An error occurred while fetching the users',
+// 			error: (error as Error).message || 'Unknown error',
+// 		})
+// 	}
+// })

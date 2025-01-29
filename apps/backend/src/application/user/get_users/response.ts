@@ -1,11 +1,19 @@
 import type { User } from '@store/core'
 
-export class DeleteResponse {
-	public id: string
-	public createdAt: number
+export class GetUsersResponse {
+	public users: {
+		firstName: string
+		lastName: string
+		createdAt: number
+		role: number
+	}[]
 
-	constructor(user: User) {
-		this.id = user.id
-		this.createdAt = user.createdAt
+	constructor(users: User[]) {
+		this.users = users.map((user) => ({
+			firstName: user.firstName,
+			lastName: user.lastName,
+			createdAt: user.createdAt,
+			role: user.role,
+		}))
 	}
 }
