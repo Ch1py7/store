@@ -5,6 +5,7 @@ import type { DeleteUser } from '@/application/user/delete'
 import type { GetUser } from '@/application/user/get_user'
 import type { GetUsers } from '@/application/user/get_users'
 import type { UpdateUser } from '@/application/user/update'
+import type { OrderParser } from '@/infrastructure/repositories/order/order-parser'
 import type { ProductParser } from '@/infrastructure/repositories/product/parser/product-parser'
 import type { ProductRepository } from '@/infrastructure/repositories/product/product-repository'
 import type { UserRepository } from '@/infrastructure/repositories/user/user-repository'
@@ -36,6 +37,7 @@ declare global {
 		// parsers
 		userParser: UserParser
 		productParser: ProductParser
+		orderParser: OrderParser
 
 		// common
 		crypto: typeof crypto
