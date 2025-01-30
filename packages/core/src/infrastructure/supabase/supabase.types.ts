@@ -47,6 +47,51 @@ export type Database = {
           },
         ]
       }
+      Order: {
+        Row: {
+          created_at: string
+          id: string
+          products: string
+          status: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at: string
+          id: string
+          products: string
+          status: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          products?: string
+          status?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Order_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "Statuses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Order_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Product: {
         Row: {
           created_at: string
@@ -98,6 +143,24 @@ export type Database = {
           id?: number
           is_deleted?: boolean
           role?: string
+        }
+        Relationships: []
+      }
+      Statuses: {
+        Row: {
+          id: number
+          is_deleted: boolean
+          status: string
+        }
+        Insert: {
+          id?: number
+          is_deleted?: boolean
+          status: string
+        }
+        Update: {
+          id?: number
+          is_deleted?: boolean
+          status?: string
         }
         Relationships: []
       }
