@@ -10,6 +10,7 @@ import { GetUsers } from './application/user/get_users'
 import { UpdateUser } from './application/user/update'
 import { config } from './infrastructure/config'
 import { OrderParser } from './infrastructure/repositories/order/order-parser'
+import { OrderRepository } from './infrastructure/repositories/order/order-repository'
 import { ProductParser } from './infrastructure/repositories/product/parser/product-parser'
 import { ProductRepository } from './infrastructure/repositories/product/product-repository'
 import { UserRepository } from './infrastructure/repositories/user/user-repository'
@@ -34,6 +35,7 @@ container.register({
 	// repositories
 	userRepository: asClass(UserRepository),
 	productRepository: asClass(ProductRepository),
+	orderRepository: asClass(OrderRepository),
 
 	// supabase client
 	supabaseClient: asValue(supabaseClient),
