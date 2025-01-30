@@ -1,7 +1,7 @@
 import { type Base, BaseEntity } from '@/entities/base-entity'
 import { ID } from '../value_objects/id/id'
 import { Products, type ProductWithQuantity } from './value_objects/products/products'
-import { Status, type StatusConstructor } from './value_objects/status/status'
+import { Status } from './value_objects/status/status'
 import { Total } from './value_objects/total/total'
 
 export class Order extends BaseEntity {
@@ -38,7 +38,7 @@ export class Order extends BaseEntity {
 		return this._status.value
 	}
 
-	updateStatus(newStatus: StatusConstructor) {
+	updateStatus(newStatus: number) {
 		this._status = new Status(newStatus)
 	}
 }
@@ -47,5 +47,5 @@ interface OrderEntity extends Base {
 	userId: string
 	products: ProductWithQuantity[]
 	total: number
-	status: StatusConstructor
+	status: number
 }

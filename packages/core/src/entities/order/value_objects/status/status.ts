@@ -1,14 +1,14 @@
 import { InvalidStatusError } from './errors'
 
 export class Status {
-	public readonly value: StatusConstructor
+	public readonly value: number
 
-	constructor(status: StatusConstructor) {
+	constructor(status: number) {
 		this._assertValidStatus(status)
 		this.value = status
 	}
 
-	private _assertValidStatus(status: StatusConstructor) {
+	private _assertValidStatus(status: number) {
 		if (!status) {
 			throw new InvalidStatusError('Status is required.')
 		}
@@ -19,5 +19,3 @@ export class Status {
 		}
 	}
 }
-
-export type StatusConstructor = 1 | 2 | 3
