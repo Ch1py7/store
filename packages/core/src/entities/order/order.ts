@@ -18,37 +18,28 @@ export class Order extends BaseEntity {
 		this._status = new Status(order.status)
 	}
 
-	get userId(): ID {
-		return this._userId
+	get userId() {
+		return this._userId.value
 	}
 
-	get products(): Products {
-		return this._products
+	get products() {
+		return this._products.products
 	}
 
-	get total(): Total {
-		return this._total
+	get totalPrice() {
+		return this._products.totalPrice
 	}
 
-	get status(): Status {
-		return this._status
+	get total() {
+		return this._total.value
+	}
+
+	get status() {
+		return this._status.value
 	}
 
 	updateStatus(newStatus: StatusConstructor) {
 		this._status = new Status(newStatus)
-	}
-
-	addProduct(product: ProductWithQuantity) {
-		this._products = this._products.addProduct(product.product, product.quantity)
-		this._total = new Total(
-			this._total.value + product.product.price * product.quantity,
-			this._products
-		)
-	}
-
-	removeProduct(productId: string) {
-		this._products = this._products.removeProduct(productId)
-		this._total = new Total(this._products.totalPrice, this._products)
 	}
 }
 

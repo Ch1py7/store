@@ -12,7 +12,7 @@ export class Products {
 		}))
 	}
 
-	get Products(): ProductWithQuantity[] {
+	get products(): ProductWithQuantity[] {
 		return this._products
 	}
 
