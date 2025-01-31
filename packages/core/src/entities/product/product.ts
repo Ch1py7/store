@@ -63,6 +63,10 @@ export class Product extends BaseEntity {
 	decreaseStock(quantity: number) {
 		this._stock = this._stock.decrease(quantity)
 	}
+
+	changeSize(sizes: number) {
+		this._size = new Size([sizes])
+	}
 }
 
 export interface ProductEntity extends Base {
