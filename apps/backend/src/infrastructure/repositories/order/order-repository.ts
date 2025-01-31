@@ -1,5 +1,5 @@
 import type { IOrderRepository } from '@/domain/repositories/order-repository'
-import type { Order } from '@store/core'
+import type { Database, Order } from '@store/core'
 
 export class OrderRepository implements IOrderRepository {
 	private _supabaseClient: Dependencies['supabaseClient']
@@ -8,14 +8,19 @@ export class OrderRepository implements IOrderRepository {
 	constructor({
 		supabaseClient,
 		orderParser,
-	}: Pick<Dependencies, 'supabaseClient' | 'orderParser'>) {
+	}: Pick<Dependencies, 'supabaseClient' | 'orderParser' | 'productParser'>) {
 		this._supabaseClient = supabaseClient
 		this._orderParser = orderParser
 	}
-	async save(order: Order) {
-		const dbModel = this._orderParser.toDbModel(order)
-
-		const { error } = await this._supabaseClient.from('Order').insert(dbModel)
+	async saveOrderUpdateProduct(
+		order: Order,
+		products: Pick<Database['public']['Tables']['Product']['Row'], 'id' | 'updated_at'>[]
+	) {
+		console.log('products', products)
+		const { error } = await this._supabaseClient.rpc('update_product_from_order', {
+			order_table_data: this._orderParser.toDbModel(order),
+			product_table_data: products,
+		})
 
 		if (error) throw error
 	}
