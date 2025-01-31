@@ -42,3 +42,55 @@ router.post('/orders/', async (req: express.Request, res: express.Response) => {
 		})
 	}
 })
+
+router.get('/orders/:id?', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
+
+	try {
+		if (id) {
+			const getOrder = container.resolve('getOrder')
+			const order = await getOrder.execute({ id })
+
+			res.status(200).json({
+				message: 'Order fetched successfully',
+				data: { order },
+			})
+		} else {
+			const getOrders = container.resolve('getOrders')
+			const { orders } = await getOrders.execute()
+
+			res.status(200).json({
+				message: 'Orders fetched successfully',
+				data: { orders },
+			})
+		}
+	} catch (error) {
+		console.error('Error fetching orders or order:', error)
+
+		res.status(500).json({
+			message: 'An error occurred while fetching the orders',
+			error: (error as Error).message || 'Unknown error',
+		})
+	}
+})
+
+router.get('/orders/user/:id?', async (req: express.Request, res: express.Response) => {
+	const { id } = req.params
+
+	try {
+		const getOrdersByUserId = container.resolve('getOrdersByUserId')
+		const orders = await getOrdersByUserId.execute({ id })
+
+		res.status(200).json({
+			message: 'Orders fetched successfully',
+			data: { orders },
+		})
+	} catch (error) {
+		console.error('Error fetching orders:', error)
+
+		res.status(500).json({
+			message: 'An error occurred while fetching the orders',
+			error: (error as Error).message || 'Unknown error',
+		})
+	}
+})
