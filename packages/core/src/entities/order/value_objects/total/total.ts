@@ -1,19 +1,20 @@
-import type { Products } from '../products/products'
 import { InvalidTotalError } from './errors'
 
 export class Total {
 	public readonly value: number
 
-	constructor(total: number, products: Products) {
-		this._assertTotal(total, products.totalPrice)
-		this.value = total
+	constructor(value: number) {
+		this._assertTotal(value)
+		this.value = value
 	}
 
-	private _assertTotal(total: number, products: number) {
-		if (total !== products) {
-			throw new InvalidTotalError(
-				'The total is invalid. This might indicate tampered or incorrect data.'
-			)
+	get total() {
+		return this.value
+	}
+
+	private _assertTotal(value: number) {
+		if (!Number.isInteger(value) || value < 0) {
+			throw new InvalidTotalError('The total must be a non-negative integer.');
 		}
 	}
 }
