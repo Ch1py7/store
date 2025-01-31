@@ -1,4 +1,7 @@
 import type { CreateOrder } from '@/application/order/create'
+import type { GetOrder } from '@/application/order/get_order'
+import type { GetOrders } from '@/application/order/get_orders'
+import type { GetOrdersByUserId } from '@/application/order/get_orders_by_userid'
 import type { CreateProduct } from '@/application/product/create'
 import type { GetProduct } from '@/application/product/get_product'
 import type { GetProducts } from '@/application/product/get_products'
@@ -31,6 +34,9 @@ declare global {
 
 		// order use cases
 		createOrder: CreateOrder
+		getOrder: GetOrder
+		getOrders: GetOrders
+		getOrdersByUserId: GetOrdersByUserId
 
 		// repositories
 		userRepository: UserRepository

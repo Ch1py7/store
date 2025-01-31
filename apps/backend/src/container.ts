@@ -2,6 +2,9 @@ import { UserParser } from '@store/core'
 import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
 import { CreateOrder } from './application/order/create'
+import { GetOrder } from './application/order/get_order'
+import { GetOrders } from './application/order/get_orders'
+import { GetOrdersByUserId } from './application/order/get_orders_by_userid'
 import { CreateProduct } from './application/product/create'
 import { GetProduct } from './application/product/get_product'
 import { GetProducts } from './application/product/get_products'
@@ -35,6 +38,9 @@ container.register({
 
 	// order use cases
 	createOrder: asClass(CreateOrder),
+	getOrder: asClass(GetOrder),
+	getOrders: asClass(GetOrders),
+	getOrdersByUserId: asClass(GetOrdersByUserId),
 
 	// repositories
 	userRepository: asClass(UserRepository),
