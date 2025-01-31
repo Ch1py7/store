@@ -1,7 +1,6 @@
 import { type Base, BaseEntity } from '@/entities/base-entity'
-import { Product } from '../product'
 import { ID } from '../value_objects/id/id'
-import { Products } from './value_objects/products/products'
+import { type ProductOrder, Products } from './value_objects/products/products'
 import { Status } from './value_objects/status/status'
 import { Total } from './value_objects/total/total'
 
@@ -14,7 +13,7 @@ export class Order extends BaseEntity {
 	constructor(order: OrderEntity) {
 		super({ createdAt: order.createdAt, updatedAt: order.updatedAt, id: order.id })
 		this._userId = new ID(order.userId)
-		this._products = new Products(order.products.map(({ product }) => new Product(product)))
+		this._products = new Products(order.products)
 		this._status = new Status(order.status)
 		this._total = this.setTotal(order.products)
 	}
@@ -39,14 +38,9 @@ export class Order extends BaseEntity {
 		this._status = new Status(newStatus)
 	}
 
-	private setTotal(
-		products: {
-			product: Product
-			quantity: number
-		}[]
-	) {
-		const total = products.reduce((prev, { product, quantity }) => {
-			const discountedPrice = product.price * (1 - product.percentageDiscount / 100)
+	private setTotal(products: ProductOrder[]) {
+		const total = products.reduce((prev, { price, percentageDiscount, quantity }) => {
+			const discountedPrice = price * (1 - percentageDiscount / 100)
 			return prev + discountedPrice * quantity
 		}, 0)
 
@@ -57,8 +51,5 @@ export class Order extends BaseEntity {
 interface OrderEntity extends Base {
 	userId: string
 	status: number
-	products: {
-		product: Product
-		quantity: number
-	}[]
+	products: ProductOrder[]
 }

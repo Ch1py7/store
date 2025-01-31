@@ -1,17 +1,29 @@
-import type { Product } from '@/entities/product'
 import { InvalidProductsError } from './errors'
 
 export class Products {
-	private readonly _products: Product[]
+	private readonly _products: ProductOrder[]
 
-	constructor(products: Product[]) {
-		if (!products.length) {
-			throw new InvalidProductsError('The order must contain at least one product.')
-		}
+	constructor(products: ProductOrder[]) {
+		this._assertProducts(products)
 		this._products = products
 	}
 
-	get products(): Product[] {
+	get products(): ProductOrder[] {
 		return this._products
 	}
+
+	private _assertProducts(products: ProductOrder[]) {
+		if (products.length === 0) {
+			throw new InvalidProductsError('Products list cannot be empty')
+		}
+	}
+}
+
+export interface ProductOrder {
+	id: string
+	name: string
+	size: number
+	quantity: number
+	price: number
+	percentageDiscount: number
 }
