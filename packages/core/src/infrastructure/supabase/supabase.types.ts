@@ -51,7 +51,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          products: string
+          products: Json
           status: number
           total: number
           updated_at: string
@@ -60,7 +60,7 @@ export type Database = {
         Insert: {
           created_at: string
           id: string
-          products: string
+          products: Json
           status: number
           total: number
           updated_at: string
@@ -69,7 +69,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
-          products?: string
+          products?: Json
           status?: number
           total?: number
           updated_at?: string
@@ -220,6 +220,13 @@ export type Database = {
         Args: {
           user_table_data: Json
           auth_table_data: Json
+        }
+        Returns: undefined
+      }
+      update_product_from_order: {
+        Args: {
+          order_table_data: Json
+          product_table_data: Json[]
         }
         Returns: undefined
       }
