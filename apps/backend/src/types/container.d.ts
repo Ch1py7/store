@@ -1,3 +1,4 @@
+import type { CreateOrder } from '@/application/order/create'
 import type { CreateProduct } from '@/application/product/create'
 import type { GetProduct } from '@/application/product/get_product'
 import type { GetProducts } from '@/application/product/get_products'
@@ -27,6 +28,9 @@ declare global {
 		createProduct: CreateProduct
 		getProduct: GetProduct
 		getProducts: GetProducts
+
+		// order use cases
+		createOrder: CreateOrder
 
 		// repositories
 		userRepository: UserRepository
