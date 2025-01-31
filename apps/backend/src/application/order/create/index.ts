@@ -18,27 +18,32 @@ export class CreateOrder {
 
 	public async execute({ products, userId }: CreateCommand) {
 		const productsOrder = await this.productsOrder(products)
-
+		
 		products.forEach((p) => {
 			this._assertUniqueSize(p.size)
 		})
+		
+		const productQuantities = products.reduce(
+			(acc, p) => {
+				acc[p.id] = (acc[p.id] || 0) + p.quantity
+				return acc
+			},
+			{} as Record<string, number>
+		)
 
-		const productMap = new Map(products.map((prod) => [prod.id, prod]))
+		const productsWithQuantity = productsOrder.map((p, i) => {
+			const totalQuantity = productQuantities[p.id] || 0
+			p.decreaseStock(totalQuantity)
+			p.changeSize(products[i].size)
 
-		productsOrder.forEach((p) => {
-			const matchingProduct = productMap.get(p.id)
-			if (matchingProduct) {
-				p.decreaseStock(matchingProduct.quantity)
-				p.changeSize(matchingProduct.size)
+			return {
+				id: p.id,
+				name: p.name,
+				price: p.price,
+				percentageDiscount: p.percentageDiscount,
+				size: products[i].size,
+				quantity: products[i].quantity,
 			}
-		})
-
-		const productsWithQuantity = productsOrder.map((p) => {
-			const matchingProduct = productMap.get(p.id)
-			if (!matchingProduct) {
-				throw new ProductNotFoundError(`Product with name "${p.name}" not found`)
-			}
-			return { product: p, quantity: matchingProduct.quantity }
 		})
 
 		const order = new Order({
@@ -49,6 +54,7 @@ export class CreateOrder {
 			status: 1,
 			userId,
 		})
+
 
 		const productsDbModel = productsOrder.map((p) => ({
 			id: p.id,
