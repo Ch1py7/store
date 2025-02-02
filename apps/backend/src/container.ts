@@ -12,7 +12,9 @@ import { DeleteUser } from './application/user/delete'
 import { GetUser } from './application/user/get_user'
 import { GetUsers } from './application/user/get_users'
 import { UpdateUser } from './application/user/update'
+import { AMQPClient } from './infrastructure/amqp/amqp-client'
 import { config } from './infrastructure/config'
+import { CartParser } from './infrastructure/repositories/cart/cart-parser'
 import { CartRepository } from './infrastructure/repositories/cart/cart-repository'
 import { OrderParser } from './infrastructure/repositories/order/order-parser'
 import { OrderRepository } from './infrastructure/repositories/order/order-repository'
@@ -20,7 +22,6 @@ import { ProductParser } from './infrastructure/repositories/product/product-par
 import { ProductRepository } from './infrastructure/repositories/product/product-repository'
 import { UserRepository } from './infrastructure/repositories/user/user-repository'
 import { supabaseClient } from './infrastructure/supabase/client'
-import { CartParser } from './infrastructure/repositories/cart/cart-parser'
 
 export const container = createContainer<Dependencies>({
 	injectionMode: InjectionMode.PROXY,
@@ -58,6 +59,9 @@ container.register({
 	productParser: asClass(ProductParser),
 	orderParser: asClass(OrderParser),
 	cartParser: asClass(CartParser),
+
+	// Amqp client
+	amqpClient: asClass(AMQPClient),
 
 	// common
 	crypto: asValue(crypto),
