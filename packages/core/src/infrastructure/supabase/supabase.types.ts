@@ -47,6 +47,41 @@ export type Database = {
           },
         ]
       }
+      Cart: {
+        Row: {
+          created_at: string
+          id: string
+          products: Json
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at: string
+          id: string
+          products: Json
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          products?: Json
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Cart_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Order: {
         Row: {
           created_at: string
