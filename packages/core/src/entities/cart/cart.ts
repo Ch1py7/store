@@ -39,6 +39,5 @@ export class Cart extends BaseEntity {
 
 interface CartEntity extends Base {
 	userId: string
-	status: number
 	products: ProductCart[]
 }
