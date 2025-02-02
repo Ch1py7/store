@@ -1,6 +1,7 @@
 import type { CreateSession } from '@/application/create_session'
 import type { LoginUser } from '@/application/login'
 import type { RegisterUser } from '@/application/register'
+import type { AMQPClient } from '@/infrastructure/amqp/amqp-client'
 import type { config } from '@/infrastructure/config/index'
 import type { AuthParser } from '@/infrastructure/repository/auth-parser'
 import type { UserAuthRepository } from '@/infrastructure/repository/user-auth-repository'
@@ -25,6 +26,9 @@ declare global {
 
 		// Repositories
 		userAuthRepository: UserAuthRepository
+
+		// Amqp
+		amqpClient: AMQPClient
 
 		// Parser
 		userParser: UserParser
