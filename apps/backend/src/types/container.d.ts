@@ -9,6 +9,8 @@ import type { DeleteUser } from '@/application/user/delete'
 import type { GetUser } from '@/application/user/get_user'
 import type { GetUsers } from '@/application/user/get_users'
 import type { UpdateUser } from '@/application/user/update'
+import type { CartParser } from '@/infrastructure/repositories/cart/cart-parser'
+import type { CartRepository } from '@/infrastructure/repositories/cart/cart-repository'
 import type { OrderParser } from '@/infrastructure/repositories/order/order-parser'
 import type { OrderRepository } from '@/infrastructure/repositories/order/order-repository'
 import type { ProductParser } from '@/infrastructure/repositories/product/product-parser'
@@ -42,6 +44,7 @@ declare global {
 		userRepository: UserRepository
 		productRepository: ProductRepository
 		orderRepository: OrderRepository
+		cartRepository: CartRepository
 
 		// supabase client
 		supabaseClient: typeof supabaseClient
@@ -50,6 +53,7 @@ declare global {
 		userParser: UserParser
 		productParser: ProductParser
 		orderParser: OrderParser
+		cartParser: CartParser
 
 		// common
 		crypto: typeof crypto
