@@ -3,10 +3,8 @@ import { CreateSessionResponse } from './response'
 
 export class CreateSession {
 	private _cipher: Dependencies['cipher']
-	private _crypto: Dependencies['crypto']
 
-	constructor({ cipher, crypto }: Pick<Dependencies, 'cipher' | 'crypto'>) {
-		this._crypto = crypto
+	constructor({ cipher }: Pick<Dependencies, 'cipher'>) {
 		this._cipher = cipher
 	}
 
