@@ -13,25 +13,27 @@
 	"license": "ISC",
 	"dependencies": {
 		"@store/core": "workspace:^",
+		"amqplib": "^0.10.5",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2",
 		"express-validator": "^7.2.1",
 		"jsonwebtoken": "^9.0.2",
-		"uuid": "^11.0.5",
-		"module-alias": "^2.2.3"
+		"module-alias": "^2.2.3",
+		"uuid": "^11.0.5"
 	},
 	"devDependencies": {
+		"@types/amqplib": "^0.10.6",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^5.0.0",
 		"@types/jsonwebtoken": "^9.0.7",
+		"@types/module-alias": "^2.0.4",
 		"@types/node": "^22.10.7",
 		"@types/uuid": "^10.0.0",
-		"@types/module-alias": "^2.0.4",
 		"typescript": "5.6.3"
 	},
 	"_moduleAliases": {
-    "@": "dist"
-  }
+		"@": "dist"
+	}
 }

@@ -8,4 +8,9 @@ export const config = {
 		key: process.env.SUPABASE_KEY!,
 		url: process.env.SUPABASE_URL!,
 	},
+	server: {
+		port: process.env.PORT ?? 7777,
+		amqpUrl: process.env.AMQP_URL ?? '',
+		cipherKey: process.env.CIPHER_KEY ?? '',
+	},
 }
