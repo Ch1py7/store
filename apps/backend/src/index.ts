@@ -4,9 +4,13 @@ import express from 'express'
 import { router as userRoutes } from './infrastructure/http/user-controller'
 import { router as productRoutes } from './infrastructure/http/product-controller'
 import { router as orderRoutes } from './infrastructure/http/order-controller'
+import { container } from './container'
+
+const cart = container.resolve('cartRepository')
+cart.connect()
 
 const app = express()
-const port = 7777
+const port = process.env.PORT || 7777
 
 app.use(express.json())
 app.use(cors({ origin: '*' }))

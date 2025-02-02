@@ -11,6 +11,5 @@ export const config = {
 	server: {
 		port: process.env.PORT ?? 7777,
 		amqpUrl: process.env.AMQP_URL ?? '',
-		cipherKey: process.env.CIPHER_KEY ?? '',
 	},
 }

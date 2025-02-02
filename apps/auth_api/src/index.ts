@@ -4,7 +4,7 @@ import express from 'express'
 import { router as authRoutes } from './infrastructure/http/auth_controller'
 
 const app = express()
-const port = 7777
+const port = process.env.PORT || 7777
 
 app.use(express.json())
 app.use(cors({ origin: '*' }))
