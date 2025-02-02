@@ -1,8 +1,8 @@
 import { Auth } from '@/domain/auth/auth'
-import { EmailAlreadyExistsError } from '@store/core'
 import { Password } from '@/domain/auth/value_objects/password/password'
 import { UserAuth } from '@/domain/user_auth/user-auth'
-import { User } from '@store/core'
+import type { Event } from '@/infrastructure/amqp/amqp-client'
+import { EmailAlreadyExistsError, User } from '@store/core'
 import type { CreateCommand } from './command'
 import { CreateResponse } from './response'
 
@@ -10,15 +10,18 @@ export class RegisterUser {
 	private _userAuthRepository: Dependencies['userAuthRepository']
 	private _crypto: Dependencies['crypto']
 	private _cipher: Dependencies['cipher']
+	private _amqpClient: Dependencies['amqpClient']
 
 	constructor({
 		userAuthRepository,
 		crypto,
 		cipher,
-	}: Pick<Dependencies, 'userAuthRepository' | 'crypto' | 'cipher'>) {
+		amqpClient,
+	}: Pick<Dependencies, 'userAuthRepository' | 'crypto' | 'cipher' | 'amqpClient'>) {
 		this._userAuthRepository = userAuthRepository
 		this._crypto = crypto
 		this._cipher = cipher
+		this._amqpClient = amqpClient
 	}
 
 	public async execute(dto: CreateCommand) {
@@ -58,8 +61,16 @@ export class RegisterUser {
 		const userAuth = new UserAuth({ user, auth })
 
 		await this._userAuthRepository.save(userAuth)
+		await this._amqpClient.publish(this.createCartCreatedEvent(userId))
 
 		return new CreateResponse(user)
+	}
+
+	private createCartCreatedEvent(userId: string): Event {
+		return {
+			meta: { type: 'user.user_created' },
+			toBuffer: () => Buffer.from(JSON.stringify({ userId })),
+		}
 	}
 
 	private assertEmailNotExists(user: Auth | null) {
