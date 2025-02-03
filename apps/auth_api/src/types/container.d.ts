@@ -1,8 +1,8 @@
 import type { CreateSession } from '@/application/create_session'
 import type { LoginUser } from '@/application/login'
 import type { RegisterUser } from '@/application/register'
-import type { AMQPClient } from '@/infrastructure/amqp/amqp-client'
 import type { config } from '@/infrastructure/config/index'
+import type { PubSubClient } from '@/infrastructure/pubsub/pubsub-client'
 import type { AuthParser } from '@/infrastructure/repository/auth-parser'
 import type { UserAuthRepository } from '@/infrastructure/repository/user-auth-repository'
 import type { CryptoCipher } from '@/infrastructure/security/crypto-cypher'
@@ -27,8 +27,8 @@ declare global {
 		// Repositories
 		userAuthRepository: UserAuthRepository
 
-		// Amqp
-		amqpClient: AMQPClient
+		// PubSub
+		pubSubClient: PubSubClient
 
 		// Parser
 		userParser: UserParser

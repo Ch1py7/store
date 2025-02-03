@@ -12,8 +12,9 @@ import { DeleteUser } from './application/user/delete'
 import { GetUser } from './application/user/get_user'
 import { GetUsers } from './application/user/get_users'
 import { UpdateUser } from './application/user/update'
-import { AMQPClient } from './infrastructure/amqp/amqp-client'
 import { config } from './infrastructure/config'
+import { PubSubClient } from './infrastructure/pubsub/pubsub-client'
+import { PubSubListener } from './infrastructure/pubsub/pubsub-listener'
 import { CartParser } from './infrastructure/repositories/cart/cart-parser'
 import { CartRepository } from './infrastructure/repositories/cart/cart-repository'
 import { OrderParser } from './infrastructure/repositories/order/order-parser'
@@ -60,8 +61,9 @@ container.register({
 	orderParser: asClass(OrderParser),
 	cartParser: asClass(CartParser),
 
-	// Amqp client
-	amqpClient: asClass(AMQPClient),
+	// PubSub
+	pubSubClient: asClass(PubSubClient),
+	pubSubListener: asClass(PubSubListener),
 
 	// common
 	crypto: asValue(crypto),

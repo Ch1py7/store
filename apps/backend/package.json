@@ -12,8 +12,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@google-cloud/pubsub": "^4.10.0",
 		"@store/core": "workspace:^",
-		"amqplib": "^0.10.5",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.7",
@@ -24,7 +24,6 @@
 		"uuid": "^11.0.5"
 	},
 	"devDependencies": {
-		"@types/amqplib": "^0.10.6",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^5.0.0",
 		"@types/jsonwebtoken": "^9.0.7",

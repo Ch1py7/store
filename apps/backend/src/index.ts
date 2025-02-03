@@ -6,8 +6,8 @@ import { router as productRoutes } from './infrastructure/http/product-controlle
 import { router as orderRoutes } from './infrastructure/http/order-controller'
 import { container } from './container'
 
-const cart = container.resolve('cartRepository')
-cart.connect()
+const listener = container.resolve('pubSubListener')
+listener.connect()
 
 const app = express()
 const port = process.env.PORT || 7777

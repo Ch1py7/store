@@ -9,7 +9,8 @@ import type { DeleteUser } from '@/application/user/delete'
 import type { GetUser } from '@/application/user/get_user'
 import type { GetUsers } from '@/application/user/get_users'
 import type { UpdateUser } from '@/application/user/update'
-import type { AMQPClient } from '@/infrastructure/amqp/amqp-client'
+import type { PubSubClient } from '@/infrastructure/pubsub/pubsub-client'
+import type { PubSubListener } from '@/infrastructure/pubsub/pubsub-listener'
 import type { CartParser } from '@/infrastructure/repositories/cart/cart-parser'
 import type { CartRepository } from '@/infrastructure/repositories/cart/cart-repository'
 import type { OrderParser } from '@/infrastructure/repositories/order/order-parser'
@@ -56,8 +57,9 @@ declare global {
 		orderParser: OrderParser
 		cartParser: CartParser
 
-		// Amqp client
-		amqpClient: AMQPClient
+		// PubSub
+		pubSubClient: PubSubClient
+		pubSubListener: PubSubListener
 
 		// common
 		crypto: typeof crypto

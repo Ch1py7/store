@@ -9,8 +9,8 @@ export const config = {
 		url: process.env.SUPABASE_URL!,
 	},
 	server: {
-		port: process.env.PORT ?? 7777,
-		amqpUrl: process.env.AMQP_URL ?? '',
-		cipherKey: process.env.CIPHER_KEY ?? '',
+		pubsubId: process.env.PUBSUB_PROJECT_ID!,
+		key: process.env.PUBSUB_KEY!,
+		email: process.env.PUBSUB_EMAIL!,
 	},
 }

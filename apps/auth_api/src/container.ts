@@ -4,8 +4,8 @@ import crypto from 'node:crypto'
 import { CreateSession } from './application/create_session'
 import { LoginUser } from './application/login'
 import { RegisterUser } from './application/register'
-import { AMQPClient } from './infrastructure/amqp/amqp-client'
 import { config } from './infrastructure/config'
+import { PubSubClient } from './infrastructure/pubsub/pubsub-client'
 import { AuthParser } from './infrastructure/repository/auth-parser'
 import { UserAuthRepository } from './infrastructure/repository/user-auth-repository'
 import { CryptoCipher } from './infrastructure/security/crypto-cypher'
@@ -31,8 +31,8 @@ container.register({
 	// Repositories
 	userAuthRepository: asClass(UserAuthRepository),
 
-	// Amqp
-	amqpClient: asClass(AMQPClient),
+	// PubSub
+	pubSubClient: asClass(PubSubClient),
 
 	// Parser
 	userParser: asClass(UserParser),
