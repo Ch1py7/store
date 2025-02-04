@@ -1,4 +1,5 @@
 import type { UpdateCommand } from './command'
+import { UpdateCartResponse } from './response'
 
 export class UpdateCart {
 	private _cartRepository: Dependencies['cartRepository']
@@ -13,5 +14,7 @@ export class UpdateCart {
 		cart.updateProducts(products)
 
 		await this._cartRepository.updateCart(cart)
+
+		return new UpdateCartResponse(cart)
 	}
 }
