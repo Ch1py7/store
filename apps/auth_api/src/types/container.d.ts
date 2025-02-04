@@ -3,8 +3,9 @@ import type { LoginUser } from '@/application/login'
 import type { RegisterUser } from '@/application/register'
 import type { config } from '@/infrastructure/config/index'
 import type { PubSubClient } from '@/infrastructure/pubsub/pubsub-client'
-import type { AuthParser } from '@/infrastructure/repository/auth-parser'
-import type { UserAuthRepository } from '@/infrastructure/repository/user-auth-repository'
+import type { AuthParser } from '@/infrastructure/repositories/auth/auth-parser'
+import type { UserAuthRepository } from '@/infrastructure/repositories/auth/user-auth-repository'
+import type { CartRepository } from '@/infrastructure/repositories/cart/cart-repository'
 import type { CryptoCipher } from '@/infrastructure/security/crypto-cypher'
 import type { supabaseClient } from '@/infrastructure/supabase/client'
 import type { UserParser } from '@store/core'
@@ -26,6 +27,7 @@ declare global {
 
 		// Repositories
 		userAuthRepository: UserAuthRepository
+		cartRepository: CartRepository
 
 		// PubSub
 		pubSubClient: PubSubClient

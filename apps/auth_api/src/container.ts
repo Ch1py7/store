@@ -6,10 +6,11 @@ import { LoginUser } from './application/login'
 import { RegisterUser } from './application/register'
 import { config } from './infrastructure/config'
 import { PubSubClient } from './infrastructure/pubsub/pubsub-client'
-import { AuthParser } from './infrastructure/repository/auth-parser'
-import { UserAuthRepository } from './infrastructure/repository/user-auth-repository'
+import { AuthParser } from './infrastructure/repositories/auth/auth-parser'
+import { UserAuthRepository } from './infrastructure/repositories/auth/user-auth-repository'
 import { CryptoCipher } from './infrastructure/security/crypto-cypher'
 import { supabaseClient } from './infrastructure/supabase/client'
+import { CartRepository } from './infrastructure/repositories/cart/cart-repository'
 
 export const container = createContainer<Dependencies>({
 	injectionMode: InjectionMode.PROXY,
@@ -30,6 +31,7 @@ container.register({
 
 	// Repositories
 	userAuthRepository: asClass(UserAuthRepository),
+	cartRepository: asClass(CartRepository),
 
 	// PubSub
 	pubSubClient: asClass(PubSubClient),
