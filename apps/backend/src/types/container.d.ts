@@ -1,3 +1,5 @@
+import type { GetCart } from '@/application/cart/get'
+import type { UpdateCart } from '@/application/cart/update'
 import type { CreateOrder } from '@/application/order/create'
 import type { GetOrder } from '@/application/order/get_order'
 import type { GetOrders } from '@/application/order/get_orders'
@@ -41,6 +43,10 @@ declare global {
 		getOrder: GetOrder
 		getOrders: GetOrders
 		getOrdersByUserId: GetOrdersByUserId
+
+		// cart use cases
+		getCart: GetCart
+		updateCart: UpdateCart
 
 		// repositories
 		userRepository: UserRepository

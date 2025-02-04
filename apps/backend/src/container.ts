@@ -1,6 +1,8 @@
 import { UserParser } from '@store/core'
 import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
+import { GetCart } from './application/cart/get'
+import { UpdateCart } from './application/cart/update'
 import { CreateOrder } from './application/order/create'
 import { GetOrder } from './application/order/get_order'
 import { GetOrders } from './application/order/get_orders'
@@ -45,6 +47,10 @@ container.register({
 	getOrder: asClass(GetOrder),
 	getOrders: asClass(GetOrders),
 	getOrdersByUserId: asClass(GetOrdersByUserId),
+
+	// cart use cases
+	getCart: asClass(GetCart),
+	updateCart: asClass(UpdateCart),
 
 	// repositories
 	userRepository: asClass(UserRepository),
