@@ -27,6 +27,16 @@ export class Cart extends BaseEntity {
 		return this._total.value
 	}
 
+	public updateProducts(products: ProductCart[]) {
+		this._products = new Products(products)
+		this.setUpdatedAt()
+		return this
+	}
+
+	private setUpdatedAt() {
+		this.updatedAt = Date.now()
+	}
+
 	private setTotal(products: ProductCart[]) {
 		const total = products.reduce((prev, { price, percentageDiscount, quantity }) => {
 			const discountedPrice = price * (1 - percentageDiscount / 100)
