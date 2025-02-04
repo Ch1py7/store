@@ -1,7 +1,7 @@
 import type { GetCartCommand } from './command'
 import { GetCartResponse } from './response'
 
-export class GetUser {
+export class GetCart {
 	private _cartRepository: Dependencies['cartRepository']
 
 	constructor({ cartRepository }: Pick<Dependencies, 'cartRepository'>) {
