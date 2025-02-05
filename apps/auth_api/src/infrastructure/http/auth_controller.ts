@@ -11,7 +11,7 @@ router.post('/auth/register', async (req: express.Request, res: express.Response
 
 	if (!firstName || !email || !lastName || !password || !role) {
 		res.status(400).json({
-			message: 'Missing required fields: firstName, email, lastName, password, role',
+			error: 'Missing required fields: firstName, email, lastName, password, role.',
 		})
 		return
 	}
@@ -44,7 +44,7 @@ router.get('/auth/login', async (req: express.Request, res: express.Response) =>
 
 	if (!email || !password) {
 		res.status(400).json({
-			message: 'Missing required fields: email, password',
+			error: 'Missing required fields: email, password',
 		})
 		return
 	}

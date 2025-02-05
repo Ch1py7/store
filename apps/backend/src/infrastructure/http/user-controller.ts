@@ -11,7 +11,7 @@ router.patch('/users/:id', async (req: express.Request, res: express.Response) =
 
 	if (!id || !firstName || !lastName) {
 		res.status(400).json({
-			message: 'Missing required fields: id, firstname, lastName',
+			error: 'Missing required fields: id, firstname, lastName',
 		})
 		return
 	}
@@ -40,7 +40,7 @@ router.patch('/users/:id/delete', async (req: express.Request, res: express.Resp
 
 	if (!id) {
 		res.status(400).json({
-			message: 'Missing required field: id',
+			error: 'Missing required field: id',
 		})
 		return
 	}

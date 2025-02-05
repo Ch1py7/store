@@ -9,7 +9,7 @@ router.post('/orders/', async (req: express.Request, res: express.Response) => {
 
 	if (!userId || !products) {
 		res.status(400).json({
-			message: 'Missing required fields: userId, products',
+			error: 'Missing required fields: userId, products',
 		})
 		return
 	}
@@ -19,7 +19,7 @@ router.post('/orders/', async (req: express.Request, res: express.Response) => {
 
 	if (!isValidProducts) {
 		res.status(400).json({
-			message: 'Each product must have id, quantity, and size',
+			error: 'Each product must have id, quantity, and size',
 		})
 		return
 	}
@@ -43,8 +43,15 @@ router.post('/orders/', async (req: express.Request, res: express.Response) => {
 	}
 })
 
-router.get('/orders/:id?', async (req: express.Request, res: express.Response) => {
+router.get('/orders/:id', async (req: express.Request, res: express.Response) => {
 	const { id } = req.params
+
+	if (!id) {
+		res.status(400).json({
+			error: 'Missing required fields: id',
+		})
+		return
+	}
 
 	try {
 		if (id) {
@@ -74,8 +81,15 @@ router.get('/orders/:id?', async (req: express.Request, res: express.Response) =
 	}
 })
 
-router.get('/orders/user/:id?', async (req: express.Request, res: express.Response) => {
+router.get('/orders/user/:id', async (req: express.Request, res: express.Response) => {
 	const { id } = req.params
+
+	if (!id) {
+		res.status(400).json({
+			error: 'Missing required fields: id',
+		})
+		return
+	}
 
 	try {
 		const getOrdersByUserId = container.resolve('getOrdersByUserId')

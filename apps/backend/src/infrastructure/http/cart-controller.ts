@@ -8,7 +8,7 @@ router.get('/cart/:userId', async (req: express.Request, res: express.Response) 
 
 	if (!userId) {
 		res.status(400).json({
-			message: 'Missing required field: userId',
+			error: 'Missing required field: userId',
 		})
 		return
 	}
@@ -37,7 +37,7 @@ router.patch('/cart/userId', async (req: express.Request, res: express.Response)
 
 	if (!userId) {
 		res.status(400).json({
-			message: 'Missing required field: userId',
+			error: 'Missing required field: userId',
 		})
 		return
 	}

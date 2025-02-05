@@ -9,7 +9,7 @@ router.post('/products/', async (req: express.Request, res: express.Response) =>
 
 	if (!name || !description || !percentageDiscount || !price || !size || !stock) {
 		res.status(400).json({
-			message: 'Missing required fields: name, description, percentageDiscount, price, size, stock',
+			error: 'Missing required fields: name, description, percentageDiscount, price, size, stock',
 		})
 		return
 	}
