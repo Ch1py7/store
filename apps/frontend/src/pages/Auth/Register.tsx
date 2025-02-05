@@ -1,9 +1,67 @@
+import { toasty } from '@/shared/lib/notifications/toast'
+import { AuthService } from '@/shared/service/requests/auth'
+import { postRequest } from '@/shared/service/requests/requests'
+import { RegisterValidations } from '@/shared/service/validations/register'
+import { AxiosError } from 'axios'
 import { Building2, ShoppingBag, User } from 'lucide-react'
 import { useState } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+
+type Inputs = {
+	firstName: string
+	lastName: string
+	email: string
+	password: string
+	confirmPassword: string
+	businessName: string
+}
+
+interface JWT {
+	message: string
+	data: string
+}
 
 export const Register: React.FC = (): React.ReactNode => {
 	const [isBusinessRegister, setIsBusinessRegister] = useState(false)
+	const [error, setError] = useState<Record<string, string>>({})
+	const { register, handleSubmit, reset } = useForm<Inputs>()
+
+	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
+		const validationErrors = new RegisterValidations(inputsData, isBusinessRegister).validate()
+		setError(validationErrors)
+
+		if (Object.keys(validationErrors).length > 0) {
+			toasty.error('Please fix the highlighted errors.')
+			return
+		}
+
+		try {
+			const dataToSend = { ...inputsData, role: isBusinessRegister ? 1 : 2 }
+			const { data, status } = await postRequest<JWT>(AuthService.register(), dataToSend)
+			if (status === 201) {
+				toasty.success(data.message)
+			}
+		} catch (er) {
+			if (er instanceof AxiosError && er.response?.data?.error) {
+				toasty.error(er.response.data.error)
+			} else {
+				toasty.error('An unexpected error occurred. Please try again later.')
+			}
+		}
+	}
+
+	const changeError = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name } = e.currentTarget
+
+		setError((prev) => prev)
+	}
+
+	const changeRole = (role: boolean) => {
+		setError({})
+		setIsBusinessRegister(role)
+		reset()
+	}
 
 	return (
 		<div className='max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg mx-auto'>
@@ -22,9 +80,7 @@ export const Register: React.FC = (): React.ReactNode => {
 			<div className='flex justify-center space-x-4 mb-8'>
 				<button
 					type='button'
-					onClick={() => {
-						setIsBusinessRegister(false)
-					}}
+					onClick={() => changeRole(false)}
 					className={`flex items-center px-4 py-2 rounded-md ${
 						!isBusinessRegister ? 'bg-black text-white' : 'bg-gray-100'
 					}`}
@@ -34,9 +90,7 @@ export const Register: React.FC = (): React.ReactNode => {
 				</button>
 				<button
 					type='button'
-					onClick={() => {
-						setIsBusinessRegister(true)
-					}}
+					onClick={() => changeRole(true)}
 					className={`flex items-center px-4 py-2 rounded-md ${
 						isBusinessRegister ? 'bg-black text-white' : 'bg-gray-100'
 					}`}
@@ -46,7 +100,7 @@ export const Register: React.FC = (): React.ReactNode => {
 				</button>
 			</div>
 
-			<form className='mt-8 space-y-6'>
+			<form className='mt-8 space-y-6' onSubmit={handleSubmit(onSubmit)}>
 				<div className='rounded-md shadow-sm space-y-4'>
 					{isBusinessRegister ? (
 						<>
@@ -54,27 +108,48 @@ export const Register: React.FC = (): React.ReactNode => {
 								<label className='block text-sm font-medium text-gray-700'>
 									Business Name
 									<input
-										name='name'
+										{...register('businessName')}
+										onInput={changeError}
 										type='text'
-										required
 										maxLength={20}
-										className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black'
+										className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.businessName ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 									/>
 								</label>
+								{error.businessName && (
+									<p className='mt-2 text-sm text-red-600'>{error.businessName}</p>
+								)}
 							</div>
 						</>
 					) : (
-						<div>
-							<label className='block text-sm font-medium text-gray-700'>
-								Name
-								<input
-									name='name'
-									type='text'
-									required
-									maxLength={20}
-									className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black'
-								/>
-							</label>
+						<div className='space-y-4'>
+							<div>
+								<label className='block text-sm font-medium text-gray-700'>
+									First Name
+									<input
+										{...register('firstName')}
+										onInput={changeError}
+										placeholder='First name'
+										type='text'
+										maxLength={20}
+										className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.firstName ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+									/>
+								</label>
+								{error.firstName && <p className='mt-2 text-sm text-red-600'>{error.firstName}</p>}
+							</div>
+							<div>
+								<label className='block text-sm font-medium text-gray-700'>
+									Last Name
+									<input
+										{...register('lastName')}
+										onInput={changeError}
+										placeholder='Last name'
+										type='text'
+										maxLength={20}
+										className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.lastName ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+									/>
+								</label>
+								{error.lastName && <p className='mt-2 text-sm text-red-600'>{error.lastName}</p>}
+							</div>
 						</div>
 					)}
 
@@ -82,36 +157,42 @@ export const Register: React.FC = (): React.ReactNode => {
 						<label className='block text-sm font-medium text-gray-700'>
 							Email address
 							<input
-								name='email'
-								required
-								className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black'
+								{...register('email')}
+								onInput={changeError}
+								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.email ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
+						{error.email && <p className='mt-2 text-sm text-red-600'>{error.email}</p>}
 					</div>
 
 					<div>
 						<label className='block text-sm font-medium text-gray-700'>
 							Password
 							<input
-								name='password'
+								{...register('password')}
+								onInput={changeError}
+								placeholder='At least 8 characters'
 								type='password'
-								required
 								maxLength={20}
-								className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black'
+								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.password ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
+						{error.password && <p className='mt-2 text-sm text-red-600'>{error.password}</p>}
 					</div>
 
 					<div>
 						<label className='block text-sm font-medium text-gray-700'>
 							Confirm Password
 							<input
-								name='confirmPassword'
+								{...register('confirmPassword')}
+								onInput={changeError}
 								type='password'
-								required
-								className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black'
+								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
+						{error.confirmPassword && (
+							<p className='mt-2 text-sm text-red-600'>{error.confirmPassword}</p>
+						)}
 					</div>
 				</div>
 
