@@ -51,10 +51,12 @@ export const Register: React.FC = (): React.ReactNode => {
 		}
 	}
 
-	const changeError = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name } = e.currentTarget
-
-		setError((prev) => prev)
+	const changeErrors = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setError((prev) => {
+			const newErrors = { ...prev }
+			delete newErrors[e.target.name]
+			return newErrors
+		})
 	}
 
 	const changeRole = (role: boolean) => {
@@ -109,7 +111,7 @@ export const Register: React.FC = (): React.ReactNode => {
 									Business Name
 									<input
 										{...register('businessName')}
-										onInput={changeError}
+										onInput={changeErrors}
 										type='text'
 										maxLength={20}
 										className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.businessName ? 'border-red-500' : 'border-gray-300'} rounded-md`}
@@ -127,7 +129,7 @@ export const Register: React.FC = (): React.ReactNode => {
 									First Name
 									<input
 										{...register('firstName')}
-										onInput={changeError}
+										onInput={changeErrors}
 										placeholder='First name'
 										type='text'
 										maxLength={20}
@@ -141,7 +143,7 @@ export const Register: React.FC = (): React.ReactNode => {
 									Last Name
 									<input
 										{...register('lastName')}
-										onInput={changeError}
+										onInput={changeErrors}
 										placeholder='Last name'
 										type='text'
 										maxLength={20}
@@ -158,7 +160,7 @@ export const Register: React.FC = (): React.ReactNode => {
 							Email address
 							<input
 								{...register('email')}
-								onInput={changeError}
+								onInput={changeErrors}
 								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.email ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
@@ -170,7 +172,7 @@ export const Register: React.FC = (): React.ReactNode => {
 							Password
 							<input
 								{...register('password')}
-								onInput={changeError}
+								onInput={changeErrors}
 								placeholder='At least 8 characters'
 								type='password'
 								maxLength={20}
@@ -185,7 +187,7 @@ export const Register: React.FC = (): React.ReactNode => {
 							Confirm Password
 							<input
 								{...register('confirmPassword')}
-								onInput={changeError}
+								onInput={changeErrors}
 								type='password'
 								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
