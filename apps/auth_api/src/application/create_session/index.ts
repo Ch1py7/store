@@ -8,19 +8,27 @@ export class CreateSession {
 		this._cipher = cipher
 	}
 
-	public async execute({ firstName, lastName, role, id: sub }: CreateSessionCommand) {
-		const iat = Date.now()
-		const exp = iat + 86400000
+	public async execute({ firstName, lastName, role, id: userId }: CreateSessionCommand) {
+		const access_token = this._cipher.signJwt(
+			{
+				firstName,
+				lastName,
+				role,
+				userId,
+			},
+			false
+		)
 
-		const token = this._cipher.signJwt({
-			exp,
-			sub,
-			iat,
-			firstName,
-			lastName,
-			role,
-		})
+		const refresh_token = this._cipher.signJwt(
+			{
+				firstName,
+				lastName,
+				role,
+				userId,
+			},
+			true
+		)
 
-		return new CreateSessionResponse(token)
+		return new CreateSessionResponse({ access_token, refresh_token })
 	}
 }
