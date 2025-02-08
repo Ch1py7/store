@@ -74,7 +74,7 @@ router.post('/auth/login', async (req: express.Request, res: express.Response) =
 	}
 })
 
-router.post('/auth/refresh', authorization, async (req: express.Request, res: express.Response) => {
+router.post('/auth/refresh', async (req: express.Request, res: express.Response) => {
 	const { refresh_token } = req.cookies
 	if (!refresh_token) {
 		res.status(400).json({ error: 'Missing refresh token' })
@@ -92,10 +92,10 @@ router.post('/auth/refresh', authorization, async (req: express.Request, res: ex
 			message: 'Token refreshed successfully',
 		})
 	} catch (error) {
-		console.error('Error update token:', error)
+		console.log('Error update token:', error)
 
 		res.status(500).json({
-			message: 'Login failed due to a server error. Please try again later.',
+			message: 'An error occurred while refreshing the token.',
 			error: error instanceof Error ? error.message : 'Unknown error',
 		})
 	}
@@ -120,28 +120,28 @@ const setAuthCookies = (res: express.Response, access_token: string, refresh_tok
 	res.cookie('access_token', access_token, {
 		httpOnly: true,
 		maxAge: 900000,
-		secure: false,
+		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('refresh_token', refresh_token, {
 		httpOnly: true,
 		maxAge: 86400000,
-		secure: false,
+		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('token_type', 'Bearer', {
 		httpOnly: false,
 		maxAge: 86400000,
-		secure: false,
+		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('expires_in', 900, {
 		httpOnly: false,
 		maxAge: 900000,
-		secure: false,
+		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
