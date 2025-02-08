@@ -17,11 +17,6 @@ type Inputs = {
 	businessName: string
 }
 
-interface JWT {
-	message: string
-	data: string
-}
-
 export const Register: React.FC = (): React.ReactNode => {
 	const [isBusinessRegister, setIsBusinessRegister] = useState(false)
 	const [error, setError] = useState<Record<string, string>>({})
@@ -38,11 +33,15 @@ export const Register: React.FC = (): React.ReactNode => {
 
 		try {
 			const dataToSend = { ...inputsData, role: isBusinessRegister ? 1 : 2 }
-			const { data, status } = await postRequest<JWT>(AuthService.register(), dataToSend)
+			const { data, status } = await postRequest<{ message: string }>(
+				AuthService.register,
+				dataToSend
+			)
 			if (status === 201) {
 				toasty.success(data.message)
 			}
 		} catch (er) {
+			console.log(er)
 			if (er instanceof AxiosError && er.response?.data?.error) {
 				toasty.error(er.response.data.error)
 			} else {
