@@ -1,15 +1,21 @@
 import { LocalStorage } from '@/shared/context/localStorage'
+import { useAuthStore } from '@/shared/context/useAuthStore'
 import { Input } from '@/shared/ui/Input'
 import { LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
 	const inputRef = useRef<HTMLInputElement>(null)
-	const [isLogin, setIsLogin] = useState<boolean>(false)
 	const { getProductsQuantity } = useContext(LocalStorage.Context)
 	const { pathname } = useLocation()
+
+	const { isAuthenticated, user, checkAuth } = useAuthStore()
+
+	useEffect(() => {
+		checkAuth()
+	}, [checkAuth])
 
 	return (
 		<nav className='pb-12'>
@@ -40,18 +46,22 @@ export const Navbar: React.FC = (): React.ReactNode => {
 							</span>
 						)}
 					</Link>
-					{!isLogin ? (
+					{!user ? (
 						<Link to='/auth/login' className='text-gray-700 hover:text-black flex items-center'>
 							<LogIn className='h-5 w-5' />
 						</Link>
 					) : (
-						<button type='button' className='text-gray-700 hover:text-black flex items-center'>
+						<button
+							onClick={() => {}}
+							type='button'
+							className='text-gray-700 hover:text-black flex items-center'
+						>
 							<LogOut className='h-4 w-4' />
 						</button>
 					)}
 				</div>
 				<div className='min-h-6 min-w-6'>
-					<Menu isLogin={isLogin} />
+					<Menu isLogin={Boolean(user)} />
 				</div>
 			</div>
 		</nav>

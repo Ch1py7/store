@@ -1,6 +1,7 @@
 import { SearchBar } from '@/shared/ui/SearchBar'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { Layout } from './app/layout/Layout'
+import { ProtectedRoute } from './app/ProtectedRoute'
 import { Account } from './pages/Account/Account'
 import { Login } from './pages/Auth/Login'
 import { Recovery } from './pages/Auth/Recovery'
@@ -19,6 +20,9 @@ export const App = () => {
 				<SearchBar />
 				<Layout>
 					<Routes>
+						<Route element={<ProtectedRoute requiredRole={2} />}>
+							<Route path='/admin' element={<h1>user</h1>} />
+						</Route>
 						<Route path='/' element={<Products />} />
 						<Route path='/account' element={<Account />} />
 						<Route path='/cart' element={<Cart />} />
