@@ -42,7 +42,7 @@ export class TokensRepository implements ITokensRepository {
 
 		const domainModel = this._refreshTokensParser.toDomain(data)
 
-		if (domainModel.expires_at > Date.now()) {
+		if (domainModel.expires_at < Date.now()) {
 			throw new RefreshTokenExpiredError('Refresh token expired')
 		}
 
