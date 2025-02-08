@@ -4,3 +4,10 @@ export class RefreshTokenExpiredError extends Error {
 		this.name = 'RefreshTokenExpiredError'
 	}
 }
+
+export class RefreshTokenRevokedError extends Error {
+	constructor(message: string) {
+		super(message)
+		this.name = 'RefreshTokenRevokedError'
+	}
+}

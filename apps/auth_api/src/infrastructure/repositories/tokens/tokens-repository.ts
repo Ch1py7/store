@@ -1,4 +1,4 @@
-import { RefreshTokenExpiredError } from '@/domain/refresh_tokens/errors'
+import { RefreshTokenExpiredError, RefreshTokenRevokedError } from '@/domain/refresh_tokens/errors'
 import type { RefreshToken } from '@/domain/refresh_tokens/refresh-tokens'
 import type { ITokensRepository } from '@/domain/repositories/tokens-repository'
 
@@ -44,6 +44,12 @@ export class TokensRepository implements ITokensRepository {
 
 		if (domainModel.expires_at < Date.now()) {
 			throw new RefreshTokenExpiredError('Refresh token expired')
+		}
+
+		console.log(domainModel.isRevoked)
+
+		if (domainModel.isRevoked) {
+			throw new RefreshTokenRevokedError('Refresh token revoked')
 		}
 
 		return domainModel.userId
