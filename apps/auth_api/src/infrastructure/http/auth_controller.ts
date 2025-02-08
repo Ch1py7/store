@@ -42,7 +42,7 @@ router.post('/auth/register', async (req: express.Request, res: express.Response
 })
 
 router.post('/auth/login', async (req: express.Request, res: express.Response) => {
-	const { email, password } = req.query as { email: string; password: string }
+	const { email, password } = req.body
 
 	if (!email || !password) {
 		res.status(400).json({
