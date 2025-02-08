@@ -37,8 +37,12 @@ export class CryptoCipher {
 			.join('')
 	}
 
-	public verifyJwt = <T extends object>(token: string) => {
-		return jwt.verify(token, this._SECRET) as T & JwtPayload
+	public md5(value: string): string {
+		return this._crypto.createHash('md5').update(value).digest('hex')
+	}
+
+	public verifyJwt = (token: string) => {
+		return jwt.verify(token, this._SECRET) as JwtContent & JwtPayload
 	}
 
 	public signJwt = (payload: JwtContent) => {
