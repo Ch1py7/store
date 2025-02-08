@@ -107,13 +107,12 @@ router.get('/auth/me', authorization, async (req: express.Request, res: express.
 		return
 	}
 
-	res.json({
+	res.status(200).json({
 		firstName: req.user.firstName,
 		lastName: req.user.lastName,
 		role: req.user.role,
 	})
 })
-
 
 const setAuthCookies = (res: express.Response, access_token: string, refresh_token: string) => {
 	const isProduction = process.env.NODE_ENV === 'production'
@@ -121,25 +120,29 @@ const setAuthCookies = (res: express.Response, access_token: string, refresh_tok
 	res.cookie('access_token', access_token, {
 		httpOnly: true,
 		maxAge: 900000,
-		secure: isProduction,
+		secure: false,
 		sameSite: 'strict',
+		path: '/',
 	})
 	res.cookie('refresh_token', refresh_token, {
 		httpOnly: true,
 		maxAge: 86400000,
-		secure: isProduction,
+		secure: false,
 		sameSite: 'strict',
+		path: '/',
 	})
 	res.cookie('token_type', 'Bearer', {
 		httpOnly: false,
 		maxAge: 86400000,
-		secure: isProduction,
+		secure: false,
 		sameSite: 'strict',
+		path: '/',
 	})
 	res.cookie('expires_in', 900, {
 		httpOnly: false,
 		maxAge: 900000,
-		secure: isProduction,
+		secure: false,
 		sameSite: 'strict',
+		path: '/',
 	})
 }

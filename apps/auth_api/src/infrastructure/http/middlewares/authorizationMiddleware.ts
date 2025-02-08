@@ -9,9 +9,9 @@ export const authorization = (
 	next: express.NextFunction
 ) => {
 	const token = req.cookies.access_token
-
+	
 	if (!token) {
-		res.status(401).json({ error: 'Unauthorized' }) // ⬅️ `return` added
+		res.status(401).json({ error: 'Unauthorized' })
 		return
 	}
 
@@ -19,10 +19,10 @@ export const authorization = (
 
 	try {
 		const decoded = cipher.verifyJwt(token)
-		req.user = decoded // Attach user to request
+		req.user = decoded 
 		next()
 	} catch (err) {
-		res.status(401).json({ error: 'Invalid or expired access token' }) // ⬅️ `return` added
+		res.status(401).json({ error: 'Invalid or expired access token' }) 
 		return
 	}
 }
