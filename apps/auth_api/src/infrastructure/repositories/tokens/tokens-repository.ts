@@ -1,3 +1,4 @@
+import { RefreshTokenExpiredError } from '@/domain/refresh_tokens/errors'
 import type { RefreshToken } from '@/domain/refresh_tokens/refresh-tokens'
 import type { ITokensRepository } from '@/domain/repositories/tokens-repository'
 
@@ -33,12 +34,18 @@ export class TokensRepository implements ITokensRepository {
 	async getUserByToken(token: string) {
 		const { data, error } = await this._supabaseClient
 			.from('RefreshToken')
-			.select('user_id')
+			.select('*')
 			.eq('refresh_token', token)
 			.single()
 
 		if (error) throw error
 
-		return data.user_id
+		const domainModel = this._refreshTokensParser.toDomain(data)
+
+		if (domainModel.expires_at > Date.now()) {
+			throw new RefreshTokenExpiredError('Refresh token expired')
+		}
+
+		return domainModel.userId
 	}
 }
