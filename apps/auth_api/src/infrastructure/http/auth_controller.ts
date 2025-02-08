@@ -88,14 +88,11 @@ router.post('/auth/refresh', async (req: express.Request, res: express.Response)
 			await refreshSession.execute(refreshSessionCommand)
 
 		setAuthCookies(res, new_access_token, new_refresh_token)
-		res.status(200).json({
-			message: 'Token refreshed successfully',
-		})
+		res.status(200)
 	} catch (error) {
 		console.log('Error update token:', error)
 
 		res.status(500).json({
-			message: 'An error occurred while refreshing the token.',
 			error: error instanceof Error ? error.message : 'Unknown error',
 		})
 	}
