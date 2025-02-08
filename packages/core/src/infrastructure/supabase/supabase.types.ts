@@ -163,6 +163,41 @@ export type Database = {
         }
         Relationships: []
       }
+      RefreshToken: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          is_revoked: boolean
+          refresh_token: string
+          user_id: string
+        }
+        Insert: {
+          created_at: string
+          expires_at: string
+          id: string
+          is_revoked: boolean
+          refresh_token: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_revoked?: boolean
+          refresh_token?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Roles: {
         Row: {
           id: number
