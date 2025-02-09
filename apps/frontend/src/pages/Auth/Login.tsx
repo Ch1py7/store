@@ -1,12 +1,11 @@
+import { useAuthStore } from '@/shared/context/useAuthStore'
 import { toasty } from '@/shared/lib/notifications/toast'
-import { AuthService } from '@/shared/service/requests/auth'
-import { postRequest } from '@/shared/service/requests/requests'
 import { LoginValidations } from '@/shared/service/validations/login'
 import { AxiosError } from 'axios'
 import { ShoppingBag } from 'lucide-react'
 import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 type Inputs = {
 	email: string
@@ -15,7 +14,9 @@ type Inputs = {
 
 export const Login: React.FC = (): React.ReactNode => {
 	const [error, setError] = useState<Record<string, string>>({})
+	const navigate = useNavigate()
 	const { register, handleSubmit } = useForm<Inputs>()
+	const { login } = useAuthStore()
 
 	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
 		const validationErrors = new LoginValidations(inputsData).validate()
@@ -28,8 +29,8 @@ export const Login: React.FC = (): React.ReactNode => {
 
 		try {
 			const dataToSend = { ...inputsData }
-			const { data, status } = await postRequest<{ message: string }>(AuthService.login, dataToSend)
-			if (status === 201) {
+			const { data, status } = await login(dataToSend)
+			if (status === 200) {
 				toasty.success(data.message)
 			}
 		} catch (er) {

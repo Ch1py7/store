@@ -12,6 +12,7 @@ import { ProductsCatalog as Products } from './pages/Products/ProductsCatalog'
 import { Wishlist } from './pages/Wishlist/Wishlist'
 import { LocalStorage } from './shared/context/localStorage'
 import { Toast } from './shared/ui/Toast'
+import { Roles } from './shared/utils'
 
 export const App = () => {
 	return (
@@ -21,21 +22,16 @@ export const App = () => {
 				<Layout>
 					<Routes>
 						<Route path='/' element={<Products />} />
-						<Route element={<ProtectedRoute requiredRole={1} />}>
-							<Route path='/admin' element={<h1>user</h1>} />
-							<Route path='/account' element={<Account />} />
-						</Route>
-						<Route element={<ProtectedRoute requiredRole={2} />}>
-							<Route path='/account' element={<Account />} />
-						</Route>
-						<Route element={<ProtectedRoute />}>
+						<Route path='/cart' element={<Cart />} />
+						<Route path='/wishlist' element={<Wishlist />} />
+						<Route path='/account' element={<Account />} />
+						<Route element={<ProtectedRoute allowedRoles={[Roles.guest]} redirectTo='/account' />}>
 							<Route path='/auth/login' element={<Login />} />
 							<Route path='/auth/register' element={<Register />} />
 							<Route path='/auth/recovery' element={<Recovery />} />
 							<Route path='/auth/validation' element={<Validation />} />
-							<Route path='/cart' element={<Cart />} />
-							<Route path='/wishlist' element={<Wishlist />} />
 						</Route>
+						<Route path='*' element={<h1>Not found</h1>} />
 					</Routes>
 				</Layout>
 			</LocalStorage.Provider>

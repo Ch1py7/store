@@ -1,12 +1,11 @@
+import { useAuthStore } from '@/shared/context/useAuthStore'
 import { toasty } from '@/shared/lib/notifications/toast'
-import { AuthService } from '@/shared/service/requests/auth'
-import { postRequest } from '@/shared/service/requests/requests'
 import { RegisterValidations } from '@/shared/service/validations/register'
 import { AxiosError } from 'axios'
 import { Building2, ShoppingBag, User } from 'lucide-react'
 import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 type Inputs = {
 	firstName: string
@@ -20,7 +19,9 @@ type Inputs = {
 export const Register: React.FC = (): React.ReactNode => {
 	const [isBusinessRegister, setIsBusinessRegister] = useState(false)
 	const [error, setError] = useState<Record<string, string>>({})
+	const navigate = useNavigate()
 	const { register, handleSubmit, reset } = useForm<Inputs>()
+	const { register: userRegistration } = useAuthStore()
 
 	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
 		const validationErrors = new RegisterValidations(inputsData, isBusinessRegister).validate()
@@ -33,15 +34,11 @@ export const Register: React.FC = (): React.ReactNode => {
 
 		try {
 			const dataToSend = { ...inputsData, role: isBusinessRegister ? 1 : 2 }
-			const { data, status } = await postRequest<{ message: string }>(
-				AuthService.register,
-				dataToSend
-			)
+			const { data, status } = await userRegistration(dataToSend)
 			if (status === 201) {
 				toasty.success(data.message)
 			}
 		} catch (er) {
-			console.log(er)
 			if (er instanceof AxiosError && er.response?.data?.error) {
 				toasty.error(er.response.data.error)
 			} else {

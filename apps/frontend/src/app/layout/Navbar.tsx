@@ -3,15 +3,21 @@ import { useAuthStore } from '@/shared/context/useAuthStore'
 import { Input } from '@/shared/ui/Input'
 import { LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useContext, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
 	const inputRef = useRef<HTMLInputElement>(null)
+	const navigate = useNavigate()
 	const { getProductsQuantity } = useContext(LocalStorage.Context)
 	const { pathname } = useLocation()
 
-	const { isAuthenticated, user, checkAuth } = useAuthStore()
+	const { user, checkAuth, logout } = useAuthStore()
+
+	const logoutSession = async() => {
+		await logout()
+		navigate('/')
+	}
 
 	useEffect(() => {
 		checkAuth()
@@ -52,7 +58,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 						</Link>
 					) : (
 						<button
-							onClick={() => {}}
+							onClick={() => logoutSession()}
 							type='button'
 							className='text-gray-700 hover:text-black flex items-center'
 						>
