@@ -33,7 +33,6 @@ export const Login: React.FC = (): React.ReactNode => {
 				toasty.success(data.message)
 			}
 		} catch (er) {
-			console.log(er)
 			if (er instanceof AxiosError && er.response?.data?.error) {
 				toasty.error(er.response.data.error)
 			} else {
