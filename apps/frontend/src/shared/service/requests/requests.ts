@@ -38,7 +38,9 @@ axiosInstance.interceptors.response.use(
 )
 
 const logoutAndRedirect = () => {
-	// window.location.href = '/auth/login'
+	if (window.location.pathname !== '/auth/login') {
+		window.location.href = '/auth/login'
+	}
 }
 
 export const postRequest = async <T>(url: string, dataToSend: any) => {
