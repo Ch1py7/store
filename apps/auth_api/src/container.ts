@@ -14,6 +14,7 @@ import { RefreshTokenParser } from './infrastructure/repositories/tokens/tokens-
 import { TokensRepository } from './infrastructure/repositories/tokens/tokens-repository'
 import { CryptoCipher } from './infrastructure/security/crypto-cypher'
 import { supabaseClient } from './infrastructure/supabase/client'
+import { RevokeSessionSession } from './application/revoke_session'
 
 export const container = createContainer<Dependencies>({
 	injectionMode: InjectionMode.PROXY,
@@ -29,6 +30,7 @@ container.register({
 	loginUser: asClass(LoginUser),
 	createSession: asClass(CreateSession),
 	refreshSession: asClass(RefreshSessionSession),
+	revokeSession: asClass(RevokeSessionSession),
 
 	// DB
 	supabaseClient: asValue(supabaseClient),

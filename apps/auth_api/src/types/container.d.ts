@@ -2,6 +2,7 @@ import type { CreateSession } from '@/application/create_session'
 import type { LoginUser } from '@/application/login'
 import type { RefreshSessionSession } from '@/application/refresh_session'
 import type { RegisterUser } from '@/application/register'
+import { RevokeSessionSession } from '@/application/revoke_session'
 import type { config } from '@/infrastructure/config/index'
 import type { PubSubClient } from '@/infrastructure/pubsub/pubsub-client'
 import type { AuthParser } from '@/infrastructure/repositories/auth/auth-parser'
@@ -25,6 +26,7 @@ declare global {
 		loginUser: LoginUser
 		createSession: CreateSession
 		refreshSession: RefreshSessionSession
+		revokeSession: RevokeSessionSession
 
 		// DB
 		supabaseClient: typeof supabaseClient
