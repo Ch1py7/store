@@ -1,20 +1,22 @@
 import { useAuthStore } from '@/shared/context/useAuthStore'
+import { Roles } from '@/shared/utils'
 import { Navigate, Outlet } from 'react-router-dom'
 
 interface ProtectedRouteProps {
-	requiredRole?: number
+	allowedRoles: number[]; // 1 = admin, 2 = user, 0 = guest
+	redirectTo: string
 }
 
-export const ProtectedRoute = ({ requiredRole }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ allowedRoles, redirectTo }: ProtectedRouteProps) => {
 	const { user, loading } = useAuthStore()
 
-	if (!user) {
-		if (!requiredRole) return <Outlet />
-		return <Navigate to='/auth/login' replace />
+	const role = user ? user.role : Roles.guest
+
+	if (!loading) {
+		if (!allowedRoles.includes(role)) {
+			return <Navigate to={redirectTo} replace />;
+		}
 	}
 
-	if (user.role !== requiredRole) {
-		return <Navigate to='/unauthorized' replace />
-	}
 	return <Outlet />
 }
