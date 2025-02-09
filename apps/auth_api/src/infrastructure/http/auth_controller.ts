@@ -2,6 +2,7 @@ import { CreateSessionCommand } from '@/application/create_session/command'
 import { LoginCommand } from '@/application/login/command'
 import { RefreshSessionCommand } from '@/application/refresh_session/command'
 import { CreateCommand } from '@/application/register/command'
+import { RevokeSessionCommand } from '@/application/revoke_session/command'
 import { container } from '@/container'
 import express, { type Router } from 'express'
 import { authorization } from './middlewares/authorizationMiddleware'
@@ -32,8 +33,6 @@ router.post('/auth/register', async (req: express.Request, res: express.Response
 			message: 'User registered successfully',
 		})
 	} catch (error) {
-		console.error('Error registering user:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while register the user',
 			error: (error as Error).message || 'Unknown error',
@@ -65,8 +64,6 @@ router.post('/auth/login', async (req: express.Request, res: express.Response) =
 			message: 'User login successfully',
 		})
 	} catch (error) {
-		console.error('Error login user:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while login the user',
 			error: (error as Error).message || 'Unknown error',
@@ -91,6 +88,29 @@ router.post('/auth/refresh', async (req: express.Request, res: express.Response)
 		res.status(200)
 	} catch (error) {
 		console.log('Error update token:', error)
+
+		res.status(500).json({
+			error: error instanceof Error ? error.message : 'Unknown error',
+		})
+	}
+})
+
+router.post('/auth/logout', async (req: express.Request, res: express.Response) => {
+	const { refresh_token } = req.cookies
+	if (!refresh_token) {
+		res.status(400).json({ error: 'Missing refresh token' })
+		return
+	}
+
+	try {
+		const revokeSessionCommand = new RevokeSessionCommand(refresh_token)
+		const revokeSession = container.resolve('revokeSession')
+		await revokeSession.execute(revokeSessionCommand)
+
+		setAuthCookies(res, '', '')
+		res.status(200).json({ message: 'Logged out' })
+	} catch (error) {
+		console.log('Error to logout:', error)
 
 		res.status(500).json({
 			error: error instanceof Error ? error.message : 'Unknown error',
