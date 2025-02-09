@@ -3,7 +3,7 @@ import { Roles } from '@/shared/utils'
 import { Navigate, Outlet } from 'react-router-dom'
 
 interface ProtectedRouteProps {
-	allowedRoles: number[]; // 1 = admin, 2 = user, 0 = guest
+	allowedRoles: number[] // 1 = admin, 2 = user, 0 = guest
 	redirectTo: string
 }
 
@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ allowedRoles, redirectTo }: ProtectedRouteProps
 
 	if (!loading) {
 		if (!allowedRoles.includes(role)) {
-			return <Navigate to={redirectTo} replace />;
+			return <Navigate to={redirectTo} replace />
 		}
 	}
 
