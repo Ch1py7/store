@@ -7,8 +7,3 @@ export namespace AuthService {
 
 	export const refreshToken = 'http://localhost:7777/api/v1/auth/refresh'
 }
-
-interface Login {
-	email: string
-	password: string
-}
