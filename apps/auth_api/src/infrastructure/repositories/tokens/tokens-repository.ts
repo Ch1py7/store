@@ -21,6 +21,15 @@ export class TokensRepository implements ITokensRepository {
 		if (error) throw error
 	}
 
+	async revokeToken(token: string) {
+		const { error } = await this._supabaseClient
+			.from('RefreshToken')
+			.update({ is_revoked: true })
+			.eq('refresh_token', token)
+
+		if (error) throw error
+	}
+
 	async revokeTokens(userId: string) {
 		const { error } = await this._supabaseClient
 			.from('RefreshToken')
