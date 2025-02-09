@@ -24,8 +24,6 @@ router.post('/products/', async (req: express.Request, res: express.Response) =>
 			data: response,
 		})
 	} catch (error) {
-		console.error('Error creating product:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while creating product',
 			error: (error as Error).message || 'Unknown error',
@@ -55,8 +53,6 @@ router.get('/products/:id?', async (req: express.Request, res: express.Response)
 			})
 		}
 	} catch (error) {
-		console.error('Error fetching products or product:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while fetching the products',
 			error: (error as Error).message || 'Unknown error',

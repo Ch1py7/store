@@ -22,8 +22,6 @@ router.get('/cart/:userId', async (req: express.Request, res: express.Response) 
 			data: { cart },
 		})
 	} catch (error) {
-		console.error('Error fetching cart:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while fetching the cart',
 			error: (error as Error).message || 'Unknown error',
@@ -51,8 +49,6 @@ router.patch('/cart/userId', async (req: express.Request, res: express.Response)
 			data: { cart },
 		})
 	} catch (error) {
-		console.error('Error fetching orders:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while fetching the orders',
 			error: (error as Error).message || 'Unknown error',

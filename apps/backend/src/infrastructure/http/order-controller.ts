@@ -34,8 +34,6 @@ router.post('/orders/', async (req: express.Request, res: express.Response) => {
 			data: response,
 		})
 	} catch (error) {
-		console.error('Error creating order:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while creating order',
 			error: (error as Error).message || 'Unknown error',
@@ -72,8 +70,6 @@ router.get('/orders/:id', async (req: express.Request, res: express.Response) =>
 			})
 		}
 	} catch (error) {
-		console.error('Error fetching orders or order:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while fetching the orders',
 			error: (error as Error).message || 'Unknown error',
@@ -100,8 +96,6 @@ router.get('/orders/user/:id', async (req: express.Request, res: express.Respons
 			data: { orders },
 		})
 	} catch (error) {
-		console.error('Error fetching orders:', error)
-
 		res.status(500).json({
 			message: 'An error occurred while fetching the orders',
 			error: (error as Error).message || 'Unknown error',
