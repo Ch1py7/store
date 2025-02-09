@@ -55,8 +55,6 @@ export class TokensRepository implements ITokensRepository {
 			throw new RefreshTokenExpiredError('Refresh token expired')
 		}
 
-		console.log(domainModel.isRevoked)
-
 		if (domainModel.isRevoked) {
 			throw new RefreshTokenRevokedError('Refresh token revoked')
 		}
