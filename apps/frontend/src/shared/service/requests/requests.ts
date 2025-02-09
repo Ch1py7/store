@@ -23,25 +23,17 @@ axiosInstance.interceptors.response.use(
 
 				return axiosInstance(originalRequest)
 			} catch (refreshError) {
-				logoutAndRedirect()
 				return Promise.reject(refreshError)
 			}
 		}
 
 		if (error.response?.status === 500 && errorMessage === 'Refresh token revoked') {
-			logoutAndRedirect()
 			return Promise.reject(error)
 		}
 
 		return Promise.reject(error)
 	}
 )
-
-const logoutAndRedirect = () => {
-	if (window.location.pathname !== '/auth/login') {
-		window.location.href = '/auth/login'
-	}
-}
 
 export const postRequest = async <T>(url: string, dataToSend: any) => {
 	try {
