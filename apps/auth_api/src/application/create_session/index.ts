@@ -13,7 +13,7 @@ export class CreateSession {
 
 	public async execute({ firstName, lastName, role, id }: CreateSessionCommand) {
 		const accessToken_iat = Date.now()
-		const accessToken_exp = accessToken_iat + 900
+		const accessToken_exp = accessToken_iat + 900000
 		const access_token = this._cipher.signJwt({
 			firstName,
 			lastName,

@@ -15,7 +15,8 @@
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.48.1",
-		"awilix": "^12.0.4"
+		"awilix": "^12.0.4",
+		"dayjs": "^1.11.13"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

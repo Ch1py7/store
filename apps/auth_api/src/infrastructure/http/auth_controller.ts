@@ -4,8 +4,14 @@ import { RefreshSessionCommand } from '@/application/refresh_session/command'
 import { CreateCommand } from '@/application/register/command'
 import { RevokeSessionCommand } from '@/application/revoke_session/command'
 import { container } from '@/container'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import express, { type Router } from 'express'
 import { authorization } from './middlewares/authorizationMiddleware'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export const router: Router = express.Router()
 
@@ -85,7 +91,9 @@ router.post('/auth/refresh', async (req: express.Request, res: express.Response)
 			await refreshSession.execute(refreshSessionCommand)
 
 		setAuthCookies(res, new_access_token, new_refresh_token)
-		res.status(200)
+		res.status(200).json({
+			message: 'Token refreshed successfully',
+		})
 	} catch (error) {
 		console.log('Error update token:', error)
 
@@ -133,31 +141,34 @@ router.get('/auth/me', authorization, async (req: express.Request, res: express.
 
 const setAuthCookies = (res: express.Response, access_token: string, refresh_token: string) => {
 	const isProduction = process.env.NODE_ENV === 'production'
+	const now = dayjs().tz('America/Mexico_City')
+	const accessTokenExpires = now.add(1, 'minute')
+	const refreshTokenExpires = now.add(7, 'day')
 
 	res.cookie('access_token', access_token, {
 		httpOnly: true,
-		maxAge: 900000,
+		expires: accessTokenExpires.toDate(),
 		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('refresh_token', refresh_token, {
 		httpOnly: true,
-		maxAge: 86400000,
+		expires: refreshTokenExpires.toDate(),
 		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('token_type', 'Bearer', {
 		httpOnly: false,
-		maxAge: 86400000,
+		expires: accessTokenExpires.toDate(),
 		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',
 	})
 	res.cookie('expires_in', 900, {
 		httpOnly: false,
-		maxAge: 900000,
+		expires: accessTokenExpires.toDate(),
 		secure: isProduction,
 		sameSite: 'strict',
 		path: '/',

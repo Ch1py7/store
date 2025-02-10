@@ -25,7 +25,7 @@ export class RefreshSessionSession {
 		const user = await this._userAuthRepository.getSession(userId)
 
 		const iat = Date.now()
-		const exp = iat + 900
+		const exp = iat + 900000
 		const new_access_token = this._cipher.signJwt({
 			firstName: user.firstName,
 			lastName: user.lastName,

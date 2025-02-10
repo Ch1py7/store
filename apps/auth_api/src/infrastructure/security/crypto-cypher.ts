@@ -42,7 +42,12 @@ export class CryptoCipher {
 	}
 
 	public verifyJwt = (token: string) => {
-		return jwt.verify(token, this._SECRET) as JwtContent & JwtPayload
+		const decoded = jwt.verify(token, this._SECRET) as JwtContent & JwtPayload
+		if (decoded.exp < Date.now()) {
+			throw new jwt.TokenExpiredError('Token expired', new Date(decoded.exp))
+		}
+		
+		return decoded
 	}
 
 	public signJwt = (payload: JwtContent) => {

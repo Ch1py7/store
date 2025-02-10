@@ -6,13 +6,15 @@ export class RefreshToken {
 	private _created_at: number
 	private _expires_at: number
 
+	private weekToExpireMS = 60000 * 60 * 24 * 7
+
 	constructor(refreshToken: IRefreshTokenConstructor) {
 		this._id = refreshToken.id
 		this._userId = refreshToken.userId
 		this._refreshToken = refreshToken.refreshToken
 		this._isRevoked = refreshToken.isRevoked
 		this._created_at = refreshToken.created_at
-		this._expires_at = refreshToken.created_at + 86400000
+		this._expires_at = refreshToken.created_at + this.weekToExpireMS
 	}
 
 	get id() {

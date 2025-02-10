@@ -34,7 +34,7 @@ export class TokensRepository implements ITokensRepository {
 		const { error } = await this._supabaseClient
 			.from('RefreshToken')
 			.update({ is_revoked: true })
-			.eq('user_id', userId)
+			.neq('user_id', userId)
 			.gt('expires_at', new Date(Date.now()).toISOString())
 
 		if (error) throw error
