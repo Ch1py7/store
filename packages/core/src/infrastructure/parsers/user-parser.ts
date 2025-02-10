@@ -11,7 +11,7 @@ export class UserParser {
 			createdAt: new Date(dbModel.created_at).getTime(),
 			role: dbModel.role_id,
 			verificationCode: dbModel.verification_code,
-			email: dbModel.email
+			email: dbModel.email,
 		})
 	}
 

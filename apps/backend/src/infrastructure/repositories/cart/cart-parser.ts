@@ -7,7 +7,7 @@ export class CartParser {
 			updatedAt: new Date(dbModel.updated_at).getTime(),
 			createdAt: new Date(dbModel.created_at).getTime(),
 			products: JSON.parse(JSON.stringify(dbModel.products)),
-			userId: dbModel.user_id
+			userId: dbModel.user_id,
 		})
 	}
 

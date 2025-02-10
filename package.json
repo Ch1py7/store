@@ -8,10 +8,7 @@
 		"format:check": "biome format ."
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@biomejs/biome",
-			"esbuild"
-		]
+		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild"]
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.48.1",

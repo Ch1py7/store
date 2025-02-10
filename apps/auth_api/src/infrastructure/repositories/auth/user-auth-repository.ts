@@ -45,11 +45,7 @@ export class UserAuthRepository implements IUserAuthRepository {
 	}
 
 	public async findByEmail(email: string) {
-		const { data } = await this._supabaseClient
-			.from('Auth')
-			.select('*')
-			.eq('email', email)
-			.single()
+		const { data } = await this._supabaseClient.from('Auth').select('*').eq('email', email).single()
 
 		return data && this._authParser.toDomain(data)
 	}

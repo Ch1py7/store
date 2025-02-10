@@ -25,10 +25,7 @@ export class OrderRepository implements IOrderRepository {
 	}
 
 	async findOrdersByUserId(id: string) {
-		const { data, error } = await this._supabaseClient
-			.from('Order')
-			.select('*')
-			.eq('user_id', id)
+		const { data, error } = await this._supabaseClient.from('Order').select('*').eq('user_id', id)
 
 		if (error) throw error
 

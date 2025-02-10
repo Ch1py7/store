@@ -19,7 +19,7 @@ export const authorization = (
 	const cipher = new CryptoCipher({ config, crypto })
 
 	try {
-		const decoded = cipher.verifyJwt(token)		
+		const decoded = cipher.verifyJwt(token)
 		req.user = decoded
 		next()
 	} catch (err) {

@@ -18,11 +18,11 @@ export class CreateOrder {
 
 	public async execute({ products, userId }: CreateCommand) {
 		const productsOrder = await this.productsOrder(products)
-		
+
 		products.forEach((p) => {
 			this._assertUniqueSize(p.size)
 		})
-		
+
 		const productQuantities = products.reduce(
 			(acc, p) => {
 				acc[p.id] = (acc[p.id] || 0) + p.quantity
@@ -54,7 +54,6 @@ export class CreateOrder {
 			status: 1,
 			userId,
 		})
-
 
 		const productsDbModel = productsOrder.map((p) => ({
 			id: p.id,

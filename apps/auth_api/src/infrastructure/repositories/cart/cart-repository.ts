@@ -4,12 +4,10 @@ import type { Cart } from '@store/core'
 export class CartRepository implements ICartRepository {
 	private _supabaseClient: Dependencies['supabaseClient']
 
-	constructor({
-		supabaseClient,
-	}: Pick<Dependencies, 'supabaseClient'>) {
+	constructor({ supabaseClient }: Pick<Dependencies, 'supabaseClient'>) {
 		this._supabaseClient = supabaseClient
 	}
-	
+
 	async assertCartExists(userId: string): Promise<boolean> {
 		const { data } = await this._supabaseClient
 			.from('Cart')

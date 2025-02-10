@@ -16,19 +16,19 @@ export class Auth extends BaseEntity {
 		this._salt = auth.salt
 	}
 
-	get userId () {
+	get userId() {
 		return this._userId
 	}
 
-	get email () {
+	get email() {
 		return this._email.value
 	}
 
-	get password () {
+	get password() {
 		return this._password
 	}
 
-	get salt () {
+	get salt() {
 		return this._salt
 	}
 }

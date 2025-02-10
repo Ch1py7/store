@@ -6,5 +6,5 @@ export const getTotalCart = (cart: ProductCart[]) => {
 export enum Roles {
 	admin = 1,
 	user = 2,
-	guest = 0
+	guest = 0,
 }

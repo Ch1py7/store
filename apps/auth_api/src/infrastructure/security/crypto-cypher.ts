@@ -46,7 +46,7 @@ export class CryptoCipher {
 		if (decoded.exp < Date.now()) {
 			throw new jwt.TokenExpiredError('Token expired', new Date(decoded.exp))
 		}
-		
+
 		return decoded
 	}
 

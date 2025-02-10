@@ -6,11 +6,14 @@ export class PubSubClient {
 	private _subscriptionName = 'user_events_subscription'
 
 	constructor({ config }: Pick<Dependencies, 'config'>) {
-		this._client = new PubSub({ projectId: config.server.pubsubId, credentials: {
-			project_id: config.server.pubsubId,
-			client_email: config.server.email,
-			private_key: config.server.key
-		} })
+		this._client = new PubSub({
+			projectId: config.server.pubsubId,
+			credentials: {
+				project_id: config.server.pubsubId,
+				client_email: config.server.email,
+				private_key: config.server.key,
+			},
+		})
 	}
 
 	private async getTopic() {

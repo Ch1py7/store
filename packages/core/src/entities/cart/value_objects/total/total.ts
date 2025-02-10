@@ -14,7 +14,7 @@ export class Total {
 
 	private _assertTotal(value: number) {
 		if (!Number.isInteger(value) || value < 0) {
-			throw new InvalidTotalError('The total must be a non-negative integer.');
+			throw new InvalidTotalError('The total must be a non-negative integer.')
 		}
 	}
 }
