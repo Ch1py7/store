@@ -1,12 +1,15 @@
 import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
+import { toasty } from '@/shared/lib/notifications/toast'
 import { Input } from '@/shared/ui/Input'
-import { LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
-import { useContext, useEffect, useRef } from 'react'
+import { Modal } from '@/shared/ui/Modal'
+import { AlertCircle, LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
+	const [showModal, setShowModal] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
 	const { getProductsQuantity } = useContext(LocalStorage.Context)
@@ -14,8 +17,10 @@ export const Navbar: React.FC = (): React.ReactNode => {
 
 	const { user, checkAuth, logout } = useAuthStore()
 
-	const logoutSession = async() => {
+	const logoutSession = async () => {
 		await logout()
+		setShowModal(false)
+		toasty.success('Session closed successfully')
 		navigate('/')
 	}
 
@@ -25,6 +30,28 @@ export const Navbar: React.FC = (): React.ReactNode => {
 
 	return (
 		<nav className='pb-12'>
+			<Modal showModal={showModal} setShowModal={setShowModal} title='Confirmation'>
+				<div className='p-4 text-center'>
+					<AlertCircle className='w-16 h-16 mx-auto text-gray-500' />
+					<h3 className='mb-5 mt-3 text-lg font-normal text-black'>
+						Are you sure you want to leave the session?
+					</h3>
+					<button
+						type='button'
+						className='text-white bg-red-700 hover:bg-red-500 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center'
+						onClick={() => logoutSession()}
+					>
+						Yes, I'm sure
+					</button>
+					<button
+						type='button'
+						className='py-2.5 px-5 ms-3 text-sm font-medium text-white bg-black rounded-lg border border-gray-200 hover:bg-gray-700'
+						onClick={() => setShowModal((prev) => !prev)}
+					>
+						No, cancel
+					</button>
+				</div>
+			</Modal>
 			<div className='flex justify-between items-center'>
 				<Link to='/' className='flex items-center space-x-2'>
 					<ShoppingBag className='h-6 w-6' />
@@ -58,7 +85,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 						</Link>
 					) : (
 						<button
-							onClick={() => logoutSession()}
+							onClick={() => setShowModal(true)}
 							type='button'
 							className='text-gray-700 hover:text-black flex items-center'
 						>
