@@ -29,6 +29,7 @@ export class RefreshSessionSession {
 		const new_access_token = this._cipher.signJwt({
 			firstName: user.firstName,
 			lastName: user.lastName,
+			email: user.email,
 			role: user.role,
 			sub: userId,
 			iat,

@@ -59,7 +59,7 @@ router.post('/auth/login', async (req: express.Request, res: express.Response) =
 		const loginUser = container.resolve('loginUser')
 		const userResponse = await loginUser.execute(userCommand)
 
-		const sessionCommand = new CreateSessionCommand(userResponse)
+		const sessionCommand = new CreateSessionCommand({ ...userResponse, email })
 		const createSession = container.resolve('createSession')
 		const { access_token, refresh_token } = await createSession.execute(sessionCommand)
 
@@ -133,6 +133,7 @@ router.get('/auth/me', authorization, async (req: express.Request, res: express.
 	res.status(200).json({
 		firstName: req.user.firstName,
 		lastName: req.user.lastName,
+		email: req.user.email,
 		role: req.user.role,
 	})
 })
