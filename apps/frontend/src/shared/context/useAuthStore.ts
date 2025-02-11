@@ -5,6 +5,7 @@ import { getRequest, postRequest } from '../service/requests/requests'
 type User = {
 	firstName: string
 	lastName: string
+	email: string
 	role: number
 } | null
 

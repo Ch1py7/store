@@ -2,22 +2,31 @@ import { Search } from 'lucide-react'
 import { useEffect } from 'react'
 
 interface InputProps {
+	id?: string
 	inputRef?: React.RefObject<HTMLInputElement>
 	onInput?: React.ChangeEventHandler<HTMLInputElement>
 	onChange?: React.ChangeEventHandler<HTMLInputElement>
 	name?: string
 	value?: string
 	placeholder?: string
+	disabled?: boolean
 }
 
 export const Input: React.FC<InputProps> = ({
+	id,
 	inputRef,
 	name = 'search',
 	onChange,
 	onInput,
 	placeholder,
 	value,
+	disabled,
 }): React.ReactElement => {
+	if (id) {
+		const input = document.getElementById(id) as HTMLInputElement
+		if (input) input.disabled = Boolean(disabled)
+	}
+
 	useEffect(() => {
 		if (!inputRef) return
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -39,6 +48,7 @@ export const Input: React.FC<InputProps> = ({
 				<Search className='h-5 w-5 absolute left-5 top-[50%] transform -translate-x-1/2 -translate-y-1/2 traslate move text-disabled' />
 			)}
 			<input
+				id={id}
 				ref={inputRef}
 				placeholder={placeholder}
 				onChange={onChange}
