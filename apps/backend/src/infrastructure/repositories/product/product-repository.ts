@@ -33,6 +33,18 @@ export class ProductRepository implements IProductRepository {
 		return this._productParser.toDomain(data)
 	}
 
+	public async findByIds(id: string[]) {
+		const { data, error } = await this._supabaseClient
+			.from('Product')
+			.select('*')
+			.in('id', id)
+
+		if (error) throw error
+
+		const domainData = data.map((d) => this._productParser.toDomain(d))
+		return domainData
+	}
+
 	public async findAll(): Promise<ProductDomain[]> {
 		const { data, error } = await this._supabaseClient.from('Product').select('*')
 
