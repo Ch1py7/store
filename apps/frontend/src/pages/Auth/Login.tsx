@@ -63,7 +63,7 @@ export const Login: React.FC = (): React.ReactNode => {
 							<input
 								{...register('email')}
 								onInput={changeErrors}
-								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.password ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+								className={`mt-1 block w-full px-3 py-2 shadow-sm border ${error.password ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
 						{error.email && <p className='mt-2 text-sm text-red-600'>{error.email}</p>}
@@ -75,7 +75,7 @@ export const Login: React.FC = (): React.ReactNode => {
 								{...register('password')}
 								onInput={changeErrors}
 								type='password'
-								className={`mt-1 block w-full px-3 py-2 shadow-sm focus:ring-black focus:border-black border ${error.password ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+								className={`mt-1 block w-full px-3 py-2 shadow-sm border ${error.password ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 							/>
 						</label>
 						{error.password && <p className='mt-2 text-sm text-red-600'>{error.password}</p>}
@@ -103,7 +103,7 @@ export const Login: React.FC = (): React.ReactNode => {
 
 				<button
 					type='submit'
-					className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black'
+					className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800'
 				>
 					Sign in
 				</button>
