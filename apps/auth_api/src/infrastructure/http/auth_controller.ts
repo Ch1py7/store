@@ -9,42 +9,40 @@ import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import express, { type Router } from 'express'
 import { authorization } from './middlewares/authorizationMiddleware'
+import { validateRegister } from './middlewares/validateRegister'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 export const router: Router = express.Router()
 
-router.post('/auth/register', async (req: express.Request, res: express.Response) => {
-	const { firstName, email, lastName, password, role, cart } = req.body
+router.post(
+	'/auth/register',
+	validateRegister,
+	async (req: express.Request, res: express.Response) => {
+		const { firstName, email, lastName, password, role, cart } = req.body
 
-	if (!firstName || !email || !lastName || !password || !role || !cart) {
-		res.status(400).json({
-			error: 'Missing required fields: firstName, email, lastName, password, role.',
-		})
-		return
+		try {
+			const userCommand = new CreateCommand({ firstName, email, lastName, password, role, cart })
+			const registerUser = container.resolve('registerUser')
+			const userResponse = await registerUser.execute(userCommand)
+
+			const sessionCommand = new CreateSessionCommand(userResponse)
+			const createSession = container.resolve('createSession')
+			const { access_token, refresh_token } = await createSession.execute(sessionCommand)
+
+			setAuthCookies(res, access_token, refresh_token)
+			res.status(201).json({
+				message: 'User registered successfully',
+			})
+		} catch (error) {
+			res.status(500).json({
+				message: 'An error occurred while register the user',
+				error: (error as Error).message || 'Unknown error',
+			})
+		}
 	}
-
-	try {
-		const userCommand = new CreateCommand({ firstName, email, lastName, password, role, cart })
-		const registerUser = container.resolve('registerUser')
-		const userResponse = await registerUser.execute(userCommand)
-
-		const sessionCommand = new CreateSessionCommand(userResponse)
-		const createSession = container.resolve('createSession')
-		const { access_token, refresh_token } = await createSession.execute(sessionCommand)
-
-		setAuthCookies(res, access_token, refresh_token)
-		res.status(201).json({
-			message: 'User registered successfully',
-		})
-	} catch (error) {
-		res.status(500).json({
-			message: 'An error occurred while register the user',
-			error: (error as Error).message || 'Unknown error',
-		})
-	}
-})
+)
 
 router.post('/auth/login', async (req: express.Request, res: express.Response) => {
 	const { email, password } = req.body
