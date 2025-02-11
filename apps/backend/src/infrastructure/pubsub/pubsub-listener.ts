@@ -23,20 +23,20 @@ export class PubSubListener {
 	}
 
 	private onUserCreated() {
-		this._pubSubClient.subscribe((data: Event<{ userId: string }>) => {
+		this._pubSubClient.subscribe((data: Event<{ userId: string, cart: [] }>) => {
 			if (data.meta.type === 'user.user_created') {
-				this.cartCreation(data.payload.userId)
+				this.cartCreation(data.payload.userId, data.payload.cart)
 			}
 		})
 	}
 
-	private cartCreation(userId: string) {
+	private cartCreation(userId: string, products: []) {
 		const cart = new CartDomain({
 			id: randomUUID().toString(),
 			userId,
 			createdAt: Date.now(),
 			updatedAt: Date.now(),
-			products: [],
+			products: products ? products : [],
 		})
 
 		this._cartRepository.createCart(cart)

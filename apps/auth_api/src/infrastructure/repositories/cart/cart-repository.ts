@@ -1,5 +1,4 @@
 import type { ICartRepository } from '@/domain/repositories/cart-repository'
-import type { Cart } from '@store/core'
 
 export class CartRepository implements ICartRepository {
 	private _supabaseClient: Dependencies['supabaseClient']

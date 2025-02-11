@@ -61,15 +61,15 @@ export class RegisterUser {
 		const userAuth = new UserAuth({ user, auth })
 
 		await this._userAuthRepository.save(userAuth)
-		await this._pubSubClient.publish(this.createCartCreatedEvent(userId))
+		await this._pubSubClient.publish(this.createCartCreatedEvent(userId, dto.cart))
 
 		return new CreateResponse(user)
 	}
 
-	private createCartCreatedEvent(userId: string): Event {
+	private createCartCreatedEvent(userId: string, cart: []): Event {
 		return {
 			meta: { type: 'user.user_created' },
-			payload: { userId },
+			payload: { userId, cart },
 		}
 	}
 

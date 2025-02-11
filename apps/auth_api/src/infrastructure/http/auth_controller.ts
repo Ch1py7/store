@@ -16,9 +16,9 @@ dayjs.extend(timezone)
 export const router: Router = express.Router()
 
 router.post('/auth/register', async (req: express.Request, res: express.Response) => {
-	const { firstName, email, lastName, password, role } = req.body
+	const { firstName, email, lastName, password, role, cart } = req.body
 
-	if (!firstName || !email || !lastName || !password || !role) {
+	if (!firstName || !email || !lastName || !password || !role || !cart) {
 		res.status(400).json({
 			error: 'Missing required fields: firstName, email, lastName, password, role.',
 		})
@@ -26,7 +26,7 @@ router.post('/auth/register', async (req: express.Request, res: express.Response
 	}
 
 	try {
-		const userCommand = new CreateCommand({ firstName, email, lastName, password, role })
+		const userCommand = new CreateCommand({ firstName, email, lastName, password, role, cart })
 		const registerUser = container.resolve('registerUser')
 		const userResponse = await registerUser.execute(userCommand)
 
