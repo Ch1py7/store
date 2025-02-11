@@ -5,7 +5,7 @@ export class Total {
 
 	constructor(value: number) {
 		this._assertTotal(value)
-		this.value = value
+		this.value = Number(value.toFixed(2))
 	}
 
 	get total() {
@@ -13,7 +13,7 @@ export class Total {
 	}
 
 	private _assertTotal(value: number) {
-		if (!Number.isInteger(value) || value < 0) {
+		if (value < 0) {
 			throw new InvalidTotalError('The total must be a non-negative integer.')
 		}
 	}
