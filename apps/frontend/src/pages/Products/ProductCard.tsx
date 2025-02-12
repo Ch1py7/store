@@ -1,8 +1,8 @@
 import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
-import { Heart } from '@/shared/ui/Heart'
-import { useCallback, useContext, useState } from 'react'
+import { ProductImage } from '@/shared/ui/ProductImage'
+import { useContext } from 'react'
 
 interface ProductCardProps {
 	id: string
@@ -14,17 +14,15 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNode => {
-	const {
-		addToCart: localAddToCart,
-		getProductQuantity: localGetProductQuantity,
-	} = useContext(LocalStorage.Context)
+	const { addToCart: localAddToCart, getProductQuantity: localGetProductQuantity } = useContext(
+		LocalStorage.Context
+	)
 	const {
 		addProduct: userAddProduct,
 		getProductQuantity: userGetProductQuantity,
 		loading,
 	} = useCartStore()
 	const { user } = useAuthStore()
-	const [isHovered, setIsHovered] = useState<boolean>(false)
 
 	const handleAddProduct = (product: ProductCardProps) => {
 		if (user) {
@@ -43,7 +41,24 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 
 	return (
 		<div className='relative flex flex-col items-center justify-between'>
-			
+			<div>
+				<button type='button' className='flex justify-center overflow-hidden shadow-md'>
+					<ProductImage
+						name={product.name}
+						// todo: change it with image db
+						source={'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab'}
+					/>
+				</button>
+				<div className='mt-4 w-full'>
+					<h3 className='text-lg font-medium'>
+						{product.name}{' '}
+						<button type='button' className='text-disabled' title='click to see more sizes'>
+							({product.size})
+						</button>
+					</h3>
+					<p className='text-gray-600'>${product.price}</p>
+				</div>
+			</div>
 			<button
 				type='button'
 				className='mt-2 w-full bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 relative'

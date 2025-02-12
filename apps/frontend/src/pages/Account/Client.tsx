@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom'
 export const Client: React.FC = (): React.ReactNode => {
 	const { user, loading, isAuthenticated } = useAuthStore()
 	const [userData, setUserData] = useState({ firstName: '', lastName: '', email: '' })
-	const [isFavHovered, setFavIsHovered] = useState<boolean>(false)
 	const [cart, setCart] = useState<number>(0)
 
 	const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
