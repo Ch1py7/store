@@ -53,7 +53,7 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 					<h3 className='text-lg font-medium'>
 						{product.name}{' '}
 						<button type='button' className='text-disabled' title='click to see more sizes'>
-							({product.size})
+							({product.sizeToShow})
 						</button>
 					</h3>
 					<p className='text-gray-600'>${product.price}</p>
