@@ -11,6 +11,7 @@ export class ProductParser {
 			percentageDiscount: dbModel.percentageDiscount,
 			price: dbModel.price,
 			size: JSON.parse(dbModel.size),
+			sizeToShow: dbModel.size_to_show,
 			stock: dbModel.stock,
 		})
 	}
@@ -25,6 +26,7 @@ export class ProductParser {
 			percentageDiscount: domainModel.percentageDiscount,
 			price: domainModel.price,
 			size: JSON.stringify(domainModel.size),
+			size_to_show: domainModel.sizeToShow,
 			stock: domainModel.stock,
 		}
 	}

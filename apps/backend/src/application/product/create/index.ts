@@ -21,6 +21,7 @@ export class CreateProduct {
 			percentageDiscount: dto.percentageDiscount,
 			price: dto.price,
 			size: dto.size,
+			sizeToShow: dto.sizeToShow,
 			stock: dto.stock,
 		})
 
