@@ -1,6 +1,5 @@
 import { useAuthStore } from '@/shared/context/useAuthStore'
-import { getCart, getFavorites } from '@/shared/service/localStorage'
-import { Heart } from '@/shared/ui/Heart'
+import { getCart } from '@/shared/service/localStorage'
 import { Input } from '@/shared/ui/Input'
 import { getTotalCart } from '@/shared/utils'
 import { ShoppingBag, User } from 'lucide-react'
@@ -42,25 +41,13 @@ export const Client: React.FC = (): React.ReactNode => {
 								</div>
 							</div>
 							<div className='space-y-6'>
-								<div>
-									<h2 className='text-2xl font-semibold text-center mb-8'>Client Dashboard</h2>
-									<div className='grid grid-cols-1 xxs:grid-cols-2 gap-4 mb-8'>
-										<Link to='/cart' className='border rounded-lg p-4 text-center'>
-											<ShoppingBag className='h-8 w-8 mx-auto mb-2' />
-											<p className='font-semibold'>Products in Cart</p>
-											<p className='text-2xl font-bold'>{cart}</p>
-										</Link>
-										<Link
-											to='/wishlist'
-											className='border rounded-lg p-4 text-center'
-											onMouseEnter={() => setFavIsHovered(true)}
-											onMouseLeave={() => setFavIsHovered(false)}
-										>
-											<Heart classNames='h-8 w-8 mx-auto mb-2' like={isFavHovered} />
-											<p className='font-semibold'>Wishlist</p>
-											<p className='text-2xl font-bold'>{getFavorites().length}</p>
-										</Link>
-									</div>
+								<h2 className='text-2xl font-semibold text-center mb-8'>Client Dashboard</h2>
+								<div className='grid grid-cols-1 gap-4 mb-8'>
+									<Link to='/cart' className='border rounded-lg p-4 text-center'>
+										<ShoppingBag className='h-8 w-8 mx-auto mb-2' />
+										<p className='font-semibold'>Products in Cart</p>
+										<p className='text-2xl font-bold'>{cart}</p>
+									</Link>
 								</div>
 								<div className='space-y-4'>
 									<h3 className='text-lg font-semibold'>Personal Information</h3>

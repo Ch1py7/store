@@ -1,24 +1,21 @@
 import {
 	addProduct,
 	getCart,
-	getFavorites,
 	handleCheckout,
-	handleFavorite,
 	removeProduct,
 	restProduct,
 } from '@/shared/service/localStorage'
 import { createContext, useEffect, useState } from 'react'
+import type { Product } from './useCartStore'
 
 interface CartContextState {
-	cart: ProductCart[]
-	addToCart: (product: Product) => void
+	cart: Product[]
+	addToCart: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	restToCart: (product: Product) => void
 	removeToCart: (id: Product['id']) => void
 	getProductQuantity: (id: string) => number
 	getProductsQuantity: () => number
-	handleFavorites: (product: Product) => void
 	handleCheckouts: (id: string) => void
-	favorites: Product[]
 	total: number
 }
 
@@ -33,19 +30,16 @@ const Context = createContext<CartContextState>({
 	removeToCart: () => {},
 	getProductQuantity: () => 0,
 	getProductsQuantity: () => 0,
-	handleFavorites: () => {},
 	handleCheckouts: () => {},
-	favorites: [],
 	total: 0,
 })
 
 const Provider: React.FC<CartProviderProps> = ({ children }) => {
-	const [cart, setCart] = useState<ProductCart[]>(getCart())
-	const [favorites, setFavorites] = useState<Product[]>(getFavorites())
+	const [cart, setCart] = useState<Product[]>(getCart())
 	const [total, setTotal] = useState<number>(0)
 
-	const addToCart = (product: Product) => {
-		addProduct(product)
+	const addToCart = (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
+		addProduct({ ...product })
 		setCart(getCart())
 	}
 
@@ -69,11 +63,6 @@ const Provider: React.FC<CartProviderProps> = ({ children }) => {
 		return q
 	}
 
-	const handleFavorites = (product: Product) => {
-		handleFavorite(product)
-		setFavorites(getFavorites())
-	}
-
 	const handleCheckouts = (id: string) => {
 		handleCheckout(id)
 		setCart(getCart())
@@ -94,9 +83,7 @@ const Provider: React.FC<CartProviderProps> = ({ children }) => {
 				restToCart,
 				removeToCart,
 				cart,
-				handleFavorites,
 				handleCheckouts,
-				favorites,
 				getProductsQuantity,
 				total,
 			}}

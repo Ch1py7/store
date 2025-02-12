@@ -1,20 +1,17 @@
-const cartName = 'cart'
-const favoriteName = 'favorites'
+import type { Product } from '../context/useCartStore'
 
-const saveCart = (products: ProductCart[] | Product[]) => {
+const cartName = 'cart'
+
+const saveCart = (products: Omit<Product, 'quantity' | 'toCheckout'>[]) => {
 	localStorage.setItem(cartName, JSON.stringify(products))
 }
 
-const saveFavorite = (products: ProductCart[] | Product[]) => {
-	localStorage.setItem(favoriteName, JSON.stringify(products))
-}
-
-export const getCart = (): ProductCart[] => {
+export const getCart = (): Product[] => {
 	const cart = localStorage.getItem(cartName)
 	return cart ? JSON.parse(cart) : []
 }
 
-export const addProduct = (product: Product) => {
+export const addProduct = (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
 	const cart = getCart()
 	const productIndex = cart.findIndex((item) => item.id === product.id)
 
@@ -27,7 +24,7 @@ export const addProduct = (product: Product) => {
 	saveCart(cart)
 }
 
-export const restProduct = (product: Product) => {
+export const restProduct = (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
 	const cart = getCart()
 	const productIndex = cart.findIndex((item) => item.id === product.id)
 
@@ -36,7 +33,7 @@ export const restProduct = (product: Product) => {
 	saveCart(cart)
 }
 
-export const removeProduct = (id: ProductCart['id']) => {
+export const removeProduct = (id: Product['id']) => {
 	const cart = getCart()
 	const productIndex = cart.findIndex((item) => item.id === id)
 
@@ -45,28 +42,10 @@ export const removeProduct = (id: ProductCart['id']) => {
 	saveCart(newCart)
 }
 
-export const handleCheckout = (id: ProductCart['id']) => {
+export const handleCheckout = (id: Product['id']) => {
 	const cart = getCart()
 	const productIndex = cart.findIndex((p) => p.id === id)
 
 	cart[productIndex].toCheckout = !cart[productIndex].toCheckout
 	saveCart(cart)
-}
-
-export const getFavorites = (): Product[] => {
-	const favorite = localStorage.getItem(favoriteName)
-	return favorite ? JSON.parse(favorite) : []
-}
-
-export const handleFavorite = (product: Product) => {
-	const favorites = getFavorites()
-	const productIndex = favorites.findIndex((fav) => fav.id === product.id)
-
-	if (productIndex === -1) {
-		favorites.push(product)
-	} else {
-		delete favorites[productIndex]
-	}
-	const favsNoNull = favorites.filter((_, index) => index !== productIndex)
-	saveFavorite(favsNoNull)
 }

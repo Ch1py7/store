@@ -1,16 +1,17 @@
-import { LocalStorage } from '@/shared/context/localStorage'
+import { useCartStore } from '@/shared/context/useCartStore'
 import { LogIn, LogOut, MenuIcon, ShoppingCart, X } from 'lucide-react'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 interface MenuProps {
 	isLogin: boolean
+	cartCount: number
 }
 
-export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
+export const Menu: React.FC<MenuProps> = ({ isLogin, cartCount }): React.ReactNode => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const { pathname } = useLocation()
-	const { getProductsQuantity } = useContext(LocalStorage.Context)
+	const { loading } = useCartStore()
 	return (
 		<>
 			<div className='relative z-50'>
@@ -61,9 +62,9 @@ export const Menu: React.FC<MenuProps> = ({ isLogin }): React.ReactNode => {
 									<ShoppingCart className='w-4 h-4' />
 									Cart
 								</div>
-								{Boolean(getProductsQuantity()) && (
-									<span className='font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
-										{getProductsQuantity() > 9 ? '9+' : getProductsQuantity()}
+								{!loading && cartCount > 0 && (
+									<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
+										{cartCount > 9 ? '9+' : cartCount}
 									</span>
 								)}
 							</Link>

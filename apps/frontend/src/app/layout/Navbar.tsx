@@ -1,5 +1,6 @@
 import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
+import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { Input } from '@/shared/ui/Input'
 import { Modal } from '@/shared/ui/Modal'
@@ -10,15 +11,24 @@ import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
 	const [showModal, setShowModal] = useState(false)
+	const [cartCount, setCartCount] = useState(0)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
-	const { getProductsQuantity } = useContext(LocalStorage.Context)
+	const { getProductsQuantity: localGetProductsQuantity } = useContext(LocalStorage.Context)
 	const { pathname } = useLocation()
 
 	const { user, checkAuth, logout } = useAuthStore()
+	const {
+		cart,
+		getCart,
+		loading,
+		clearCart,
+		getProductsQuantity: userGetProductsQuantity,
+	} = useCartStore()
 
 	const logoutSession = async () => {
 		await logout()
+		clearCart()
 		setShowModal(false)
 		toasty.success('Session closed successfully')
 		navigate('/')
@@ -27,6 +37,16 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	useEffect(() => {
 		checkAuth()
 	}, [checkAuth])
+
+	useEffect(() => {
+		if (user) {
+			getCart()
+		}
+	}, [user, getCart])
+
+	useEffect(() => {
+		setCartCount(cart ? userGetProductsQuantity() : localGetProductsQuantity())
+	}, [cart, localGetProductsQuantity, userGetProductsQuantity])
 
 	return (
 		<nav className='pb-12'>
@@ -73,9 +93,9 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 					<Link to='/cart' className='text-gray-700 hover:text-black flex items-center relative'>
 						<ShoppingCart />
-						{Boolean(getProductsQuantity()) && (
+						{!loading && cartCount > 0 && (
 							<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
-								{getProductsQuantity() > 9 ? '9+' : getProductsQuantity()}
+								{cartCount > 9 ? '9+' : cartCount}
 							</span>
 						)}
 					</Link>
@@ -94,7 +114,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 				</div>
 				<div className='min-h-6 min-w-6'>
-					<Menu isLogin={Boolean(user)} />
+					<Menu isLogin={Boolean(user)} cartCount={cartCount} />
 				</div>
 			</div>
 		</nav>
