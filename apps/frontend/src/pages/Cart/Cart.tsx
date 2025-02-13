@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { Order } from '@/shared/ui/Order'
@@ -24,9 +23,7 @@ export const Cart: React.FC = (): React.ReactNode => {
 						</div>
 						<button
 							type='button'
-							onClick={() =>
-								total === 0 ? toasty.error(noProductsToBuy) : navigate('/checkout')
-							}
+							onClick={() => (total === 0 ? toasty.error(noProductsToBuy) : navigate('/checkout'))}
 							className={`mt-4 bg-black text-white px-4 py-2 rounded-md self-end ${total === 0 ? 'bg-disabled' : 'hover:bg-gray-800'} shadow-md`}
 						>
 							Proceed to checkout

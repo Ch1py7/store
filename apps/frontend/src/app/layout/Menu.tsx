@@ -63,7 +63,7 @@ export const Menu: React.FC<MenuProps> = ({ isLogin, cartCount }): React.ReactNo
 									Cart
 								</div>
 								{!loading && cartCount > 0 && (
-									<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
+									<span className='font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
 										{cartCount > 9 ? '9+' : cartCount}
 									</span>
 								)}

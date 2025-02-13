@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
 import { ProductImage } from '@/shared/ui/ProductImage'
 
