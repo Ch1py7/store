@@ -10,7 +10,6 @@ import { Menu } from './Menu'
 
 export const Navbar: React.FC = (): React.ReactNode => {
 	const [showModal, setShowModal] = useState(false)
-	const [cartCount, setCartCount] = useState(0)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
@@ -20,7 +19,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 		getCart,
 		loading,
 		clearCart,
-		getProductsQuantity
+		productsQuantity
 	} = useCartStore()
 
 	const logoutSession = async () => {
@@ -38,10 +37,6 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	useEffect(() => {
 		getCart()
 	}, [getCart])
-
-	useEffect(() => {
-		if (!loading) setCartCount(getProductsQuantity())
-	}, [loading, getProductsQuantity])
 
 	return (
 		<nav className='pb-12'>
@@ -88,9 +83,9 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 					<Link to='/cart' className='text-gray-700 hover:text-black flex items-center relative'>
 						<ShoppingCart />
-						{!loading && cartCount > 0 && (
+						{!loading && productsQuantity > 0 && (
 							<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
-								{cartCount > 9 ? '9+' : cartCount}
+								{productsQuantity > 9 ? '9+' : productsQuantity}
 							</span>
 						)}
 					</Link>
@@ -109,7 +104,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 				</div>
 				<div className='min-h-6 min-w-6'>
-					<Menu isLogin={Boolean(user)} cartCount={cartCount} />
+					<Menu isLogin={Boolean(user)} cartCount={productsQuantity} />
 				</div>
 			</div>
 		</nav>

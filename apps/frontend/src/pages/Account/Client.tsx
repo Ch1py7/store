@@ -1,7 +1,6 @@
 import { useAuthStore } from '@/shared/context/useAuthStore'
-import { getCart } from '@/shared/service/localStorage'
+import { useCartStore } from '@/shared/context/useCartStore'
 import { Input } from '@/shared/ui/Input'
-import { getTotalCart } from '@/shared/utils'
 import { ShoppingBag, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -9,18 +8,12 @@ import { Link } from 'react-router-dom'
 export const Client: React.FC = (): React.ReactNode => {
 	const { user, loading, isAuthenticated } = useAuthStore()
 	const [userData, setUserData] = useState({ firstName: '', lastName: '', email: '' })
-	const [cart, setCart] = useState<number>(0)
+	const { cart, productsQuantity } = useCartStore()
 
 	const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target
 		setUserData((prev) => ({ ...prev, [name]: value }))
 	}
-
-	useEffect(() => {
-		const cart = getCart()
-		const total = getTotalCart(cart)
-		setCart(total)
-	}, [])
 
 	useEffect(() => {
 		if (user) {
@@ -45,7 +38,7 @@ export const Client: React.FC = (): React.ReactNode => {
 									<Link to='/cart' className='border rounded-lg p-4 text-center'>
 										<ShoppingBag className='h-8 w-8 mx-auto mb-2' />
 										<p className='font-semibold'>Products in Cart</p>
-										<p className='text-2xl font-bold'>{cart}</p>
+										<p className='text-2xl font-bold'>{productsQuantity}</p>
 									</Link>
 								</div>
 								<div className='space-y-4'>

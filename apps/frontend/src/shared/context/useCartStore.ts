@@ -8,6 +8,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 	cart: [],
 	loading: true,
 	total: 0,
+	productsQuantity: 0,
 
 	getCart: async () => {
 		set({ loading: true })
@@ -32,6 +33,8 @@ export const useCartStore = create<CartState>((set, get) => ({
 			set({ cart, loading: false })
 		} catch {
 			set({ cart: [], loading: false })
+		} finally {
+			get().setProductsQuantity()
 		}
 	},
 
@@ -51,11 +54,14 @@ export const useCartStore = create<CartState>((set, get) => ({
 			set({ cart, loading: false })
 		} catch {
 			set({ cart: [], loading: false })
+		} finally {
+			get().setProductsQuantity()
 		}
 	},
 
 	clearCart: () => {
-		set({ cart: [] })
+		set({ cart: [], total: 0, productsQuantity: 0 })
+		get().getCart()
 	},
 
 	addProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
@@ -114,10 +120,11 @@ export const useCartStore = create<CartState>((set, get) => ({
 		return cart.find((product) => product.id === id)?.quantity || 0
 	},
 
-	getProductsQuantity: () => {
+	setProductsQuantity: () => {
 		const cart = get().cart
-		if (!cart) return 0
-		return get().cart.reduce((prev, cur) => prev + cur.quantity, 0) || 0
+		if (!cart) return
+		const productsQuantity = get().cart.reduce((prev, cur) => prev + cur.quantity, 0) || 0
+		set({ productsQuantity })
 	},
 }))
 
@@ -148,5 +155,6 @@ interface CartState {
 	restProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	removeProduct: (id: string) => void
 	getProductQuantity: (id: string) => number
-	getProductsQuantity: () => number
+	productsQuantity: number
+	setProductsQuantity: () => void
 }
