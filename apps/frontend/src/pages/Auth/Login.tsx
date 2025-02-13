@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/shared/context/useAuthStore'
+import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { LoginValidations } from '@/shared/service/validations/login'
 import { AxiosError } from 'axios'
@@ -14,9 +15,9 @@ type Inputs = {
 
 export const Login: React.FC = (): React.ReactNode => {
 	const [error, setError] = useState<Record<string, string>>({})
-	const navigate = useNavigate()
 	const { register, handleSubmit } = useForm<Inputs>()
 	const { login } = useAuthStore()
+	const { getCart } = useCartStore()
 
 	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
 		const validationErrors = new LoginValidations(inputsData).validate()
@@ -32,6 +33,7 @@ export const Login: React.FC = (): React.ReactNode => {
 			const { data, status } = await login(dataToSend)
 			if (status === 200) {
 				toasty.success(data.message)
+				await getCart()
 			}
 		} catch (er) {
 			if (er instanceof AxiosError && er.response?.data?.error) {

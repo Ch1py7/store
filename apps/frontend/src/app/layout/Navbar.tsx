@@ -14,17 +14,11 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 
-	const { user, checkAuth, logout } = useAuthStore()
-	const {
-		getCart,
-		loading,
-		clearCart,
-		productsQuantity
-	} = useCartStore()
+	const { user, checkAuth, logout, loading } = useAuthStore()
+	const { getCart, getProductsQuantity } = useCartStore()
 
 	const logoutSession = async () => {
 		await logout()
-		clearCart()
 		setShowModal(false)
 		toasty.success('Session closed successfully')
 		navigate('/')
@@ -35,8 +29,11 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	}, [checkAuth])
 
 	useEffect(() => {
-		getCart()
-	}, [getCart])
+		if (loading) {
+			getCart()
+			console.log('ola')
+		}
+	}, [loading, getCart])
 
 	return (
 		<nav className='pb-12'>
@@ -83,9 +80,9 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 					<Link to='/cart' className='text-gray-700 hover:text-black flex items-center relative'>
 						<ShoppingCart />
-						{!loading && productsQuantity > 0 && (
+						{getProductsQuantity() > 0 && (
 							<span className='absolute transform -translate-y-1/2 font-semibold bg-black right-0 -top-3 rounded-full text-center w-6 h-6 text-white text-sm flex justify-center items-center'>
-								{productsQuantity > 9 ? '9+' : productsQuantity}
+								{getProductsQuantity() > 9 ? '9+' : getProductsQuantity()}
 							</span>
 						)}
 					</Link>
@@ -104,7 +101,11 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					)}
 				</div>
 				<div className='min-h-6 min-w-6'>
-					<Menu isLogin={Boolean(user)} cartCount={productsQuantity} />
+					<Menu
+						isLogin={Boolean(user)}
+						cartCount={getProductsQuantity()}
+						setShowModal={setShowModal}
+					/>
 				</div>
 			</div>
 		</nav>

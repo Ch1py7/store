@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export const Client: React.FC = (): React.ReactNode => {
-	const { user, loading, isAuthenticated } = useAuthStore()
+	const { user, loading: authLoading, isAuthenticated } = useAuthStore()
 	const [userData, setUserData] = useState({ firstName: '', lastName: '', email: '' })
-	const { productsQuantity } = useCartStore()
+	const { getProductsQuantity, loading: cartLoading } = useCartStore()
 
 	const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target
@@ -24,11 +24,11 @@ export const Client: React.FC = (): React.ReactNode => {
 	return (
 		<div className='max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8'>
 			<div className='max-w-3xl mx-auto'>
-				{!loading && (
+				{!authLoading && !cartLoading && (
 					<div className='bg-white shadow rounded-lg p-8'>
 						<div className='flex items-center justify-center mb-8'>
 							<div className='h-24 w-24 bg-gray-200 rounded-full flex items-center justify-center'>
-								{isAuthenticated ? (
+								{isAuthenticated() ? (
 									// todo: change it with image db
 									<User className='h-12 w-12' />
 								) : (
@@ -42,7 +42,7 @@ export const Client: React.FC = (): React.ReactNode => {
 								<Link to='/cart' className='border rounded-lg p-4 text-center'>
 									<ShoppingBag className='h-8 w-8 mx-auto mb-2' />
 									<p className='font-semibold'>Products in Cart</p>
-									<p className='text-2xl font-bold'>{productsQuantity}</p>
+									<p className='text-2xl font-bold'>{getProductsQuantity()}</p>
 								</Link>
 							</div>
 							<div className='space-y-4'>

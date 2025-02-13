@@ -6,12 +6,22 @@ import { Link, useLocation } from 'react-router-dom'
 interface MenuProps {
 	isLogin: boolean
 	cartCount: number
+	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const Menu: React.FC<MenuProps> = ({ isLogin, cartCount }): React.ReactNode => {
+export const Menu: React.FC<MenuProps> = ({
+	isLogin,
+	cartCount,
+	setShowModal,
+}): React.ReactNode => {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const { pathname } = useLocation()
 	const { loading } = useCartStore()
+
+	const logoutSession = async () => {
+		setShowModal(false)
+		setIsOpen((prev) => !prev)
+	}
 	return (
 		<>
 			<div className='relative z-50'>
@@ -79,7 +89,7 @@ export const Menu: React.FC<MenuProps> = ({ isLogin, cartCount }): React.ReactNo
 								</Link>
 							) : (
 								<button
-									onClick={() => setIsOpen((prev) => !prev)}
+									onClick={() => logoutSession()}
 									type='button'
 									className='text-gray-700 hover:text-black flex items-center gap-2'
 								>

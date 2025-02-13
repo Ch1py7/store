@@ -11,7 +11,9 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNode => {
-	const { addProduct, getProductQuantity, loading } = useCartStore()
+	const loading = useCartStore((state) => state.loading)
+	const getProductQuantity = useCartStore((state) => state.getProductQuantity)
+	const addProduct = useCartStore((state) => state.addProduct)
 
 	const handleAddProduct = (product: ProductCardProps) => {
 		addProduct({ ...product, size: product.sizeToShow })
