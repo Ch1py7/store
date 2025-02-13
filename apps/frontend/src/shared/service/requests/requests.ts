@@ -68,7 +68,7 @@ export const deleteRequest = async <T>(url: string) => {
 	try {
 		const response = (await axiosInstance.delete(url)) as { data: T; status: number }
 
-		return { data: response.data, status: response.status }
+		return { response: response.data, status: response.status }
 	} catch (er) {
 		if (er instanceof AxiosError) {
 			throw er
@@ -81,7 +81,7 @@ export const patchRequest = async <T>(url: string, data: any) => {
 	try {
 		const response = (await axiosInstance.patch(url, data)) as { data: T; status: number }
 
-		return { data: response.data, status: response.status }
+		return { response: response.data, status: response.status }
 	} catch (er) {
 		if (er instanceof AxiosError) {
 			throw er

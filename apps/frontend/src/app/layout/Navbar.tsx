@@ -1,11 +1,10 @@
-import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { Input } from '@/shared/ui/Input'
 import { Modal } from '@/shared/ui/Modal'
 import { AlertCircle, LogIn, LogOut, ShoppingBag, ShoppingCart } from 'lucide-react'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from './Menu'
 
@@ -14,16 +13,14 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	const [cartCount, setCartCount] = useState(0)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
-	const { getProductsQuantity: localGetProductsQuantity } = useContext(LocalStorage.Context)
 	const { pathname } = useLocation()
 
 	const { user, checkAuth, logout } = useAuthStore()
 	const {
-		cart,
 		getCart,
 		loading,
 		clearCart,
-		getProductsQuantity: userGetProductsQuantity,
+		getProductsQuantity
 	} = useCartStore()
 
 	const logoutSession = async () => {
@@ -39,14 +36,12 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	}, [checkAuth])
 
 	useEffect(() => {
-		if (user) {
-			getCart()
-		}
-	}, [user, getCart])
+		getCart()
+	}, [getCart])
 
 	useEffect(() => {
-		setCartCount(cart ? userGetProductsQuantity() : localGetProductsQuantity())
-	}, [cart, localGetProductsQuantity, userGetProductsQuantity])
+		if (!loading) setCartCount(getProductsQuantity())
+	}, [loading, getProductsQuantity])
 
 	return (
 		<nav className='pb-12'>

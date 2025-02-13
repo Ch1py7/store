@@ -17,7 +17,7 @@ router.get('/cart/', authorization, async (req: express.Request, res: express.Re
 
 		res.status(200).json({
 			message: 'Cart fetched successfully',
-			cart,
+			data: cart,
 		})
 	} catch (error) {
 		res.status(500).json({
@@ -45,7 +45,7 @@ router.patch(
 
 			res.status(200).json({
 				message: 'Cart updated successfully',
-				cart,
+				data: cart,
 			})
 		} catch (error) {
 			res.status(500).json({

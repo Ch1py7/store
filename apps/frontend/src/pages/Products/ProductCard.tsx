@@ -1,8 +1,6 @@
-import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
 import { ProductImage } from '@/shared/ui/ProductImage'
-import { useContext } from 'react'
 
 interface ProductCardProps {
 	id: string
@@ -14,29 +12,10 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNode => {
-	const { addToCart: localAddToCart, getProductQuantity: localGetProductQuantity } = useContext(
-		LocalStorage.Context
-	)
-	const {
-		addProduct: userAddProduct,
-		getProductQuantity: userGetProductQuantity,
-		loading,
-	} = useCartStore()
-	const { user } = useAuthStore()
+	const { addProduct, getProductQuantity, loading } = useCartStore()
 
 	const handleAddProduct = (product: ProductCardProps) => {
-		if (user) {
-			userAddProduct({ ...product, size: product.sizeToShow })
-		} else {
-			localAddToCart({ ...product, size: product.sizeToShow })
-		}
-	}
-
-	const handleProductQuantity = (id: string) => {
-		if (user) {
-			return userGetProductQuantity(id)
-		}
-		return localGetProductQuantity(id)
+		addProduct({ ...product, size: product.sizeToShow })
 	}
 
 	return (
@@ -61,13 +40,14 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 			</div>
 			<button
 				type='button'
-				className='mt-2 w-full bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 relative'
+				className={`mt-2 w-full bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 relative ${loading && 'bg-disabled'}`}
 				onClick={() => handleAddProduct(product)}
+				disabled={loading}
 			>
 				Add to Cart
-				{!loading && Boolean(handleProductQuantity(product.id)) && (
+				{!loading && getProductQuantity(product.id) !== 0 && (
 					<span className='absolute right-5 bg-white text-black w-6 h-6 inline-block rounded-full'>
-						{handleProductQuantity(product.id)}
+						{getProductQuantity(product.id)}
 					</span>
 				)}
 			</button>

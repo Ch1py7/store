@@ -29,6 +29,7 @@ export class Cart extends BaseEntity {
 
 	public updateProducts(products: ProductCart[]) {
 		this._products = new Products(products)
+		this._total = this.setTotal(products)
 		this.setUpdatedAt()
 		return this
 	}

@@ -1,10 +1,10 @@
-import { LocalStorage } from '@/shared/context/localStorage'
 import { useAuthStore } from '@/shared/context/useAuthStore'
+import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { RegisterValidations } from '@/shared/service/validations/register'
 import { AxiosError } from 'axios'
 import { Building2, ShoppingBag, User } from 'lucide-react'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -21,10 +21,10 @@ export const Register: React.FC = (): React.ReactNode => {
 	const [isBusinessRegister, setIsBusinessRegister] = useState(false)
 	const [includeCart, setIncludeCart] = useState(true)
 	const [error, setError] = useState<Record<string, string>>({})
-	const { cart } = useContext(LocalStorage.Context)
 	const navigate = useNavigate()
 	const { register, handleSubmit, reset } = useForm<Inputs>()
 	const { register: userRegistration } = useAuthStore()
+	const { cart } = useCartStore()
 
 	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
 		const validationErrors = new RegisterValidations(inputsData, isBusinessRegister).validate()
@@ -204,7 +204,12 @@ export const Register: React.FC = (): React.ReactNode => {
 
 				{cart && !isBusinessRegister && (
 					<label className='flex gap-3 text-sm font-medium text-gray-700 pe-1'>
-						<input checked={includeCart} onInput={() => setIncludeCart((prev) => !prev)} type='checkbox' className='' />
+						<input
+							checked={includeCart}
+							onInput={() => setIncludeCart((prev) => !prev)}
+							type='checkbox'
+							className=''
+						/>
 						You already have things in your cart, do you want to add them?
 					</label>
 				)}
