@@ -21,23 +21,23 @@ interface AuthState {
 	login: (data: any) => Promise<Response>
 	register: (data: any) => Promise<Response>
 	logout: () => Promise<void>
-	isAuthenticated: boolean
+	isAuthenticated: () => boolean
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
 	user: null,
 	loading: true,
-	isAuthenticated: false,
 
+	isAuthenticated: () => get().user !== null,
 
 	checkAuth: async () => {
 		set({ loading: true })
 
 		try {
 			const { response: data } = await getRequest<User>(AuthService.getUserData)
-			set({ user: data, loading: false, isAuthenticated: true })
+			set({ user: data, loading: false })
 		} catch {
-			set({ user: null, loading: false, isAuthenticated: false })
+			set({ user: null, loading: false })
 		}
 	},
 

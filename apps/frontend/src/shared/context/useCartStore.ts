@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getCart } from '../service/localStorage'
+import { getCart, updateCart } from '../service/localStorage'
 import { CartService } from '../service/requests/cart'
 import { getRequest, patchRequest } from '../service/requests/requests'
 import { useAuthStore } from './useAuthStore'
@@ -8,21 +8,20 @@ export const useCartStore = create<CartState>((set, get) => ({
 	cart: [],
 	loading: true,
 	total: 0,
-	productsQuantity: 0,
 
 	getCart: async () => {
 		set({ loading: true })
-		await new Promise<void>((resolve) => {
-			const unsubscribe = useAuthStore.subscribe((state) => {
-				if (!state.loading) {
-					unsubscribe()
-					resolve()
-				}
-			})
-		})
-		const { user } = useAuthStore.getState()
-		let cart: Product[] = []
 		try {
+			await new Promise<void>((resolve) => {
+				const unsubscribe = useAuthStore.subscribe((state) => {
+					if (!state.loading) {
+						unsubscribe()
+						resolve()
+					}
+				})
+			})
+			const user = useAuthStore.getState().user
+			let cart: Product[] = []
 			if (user) {
 				const { response } = await getRequest<Response>(CartService.getCart)
 				cart = response.data.products
@@ -30,19 +29,17 @@ export const useCartStore = create<CartState>((set, get) => ({
 			} else {
 				cart = getCart()
 			}
-			set({ cart, loading: false })
+			set({ cart })
+			set((state) => ({ ...state, loading: false }))
 		} catch {
 			set({ cart: [], loading: false })
-		} finally {
-			get().setProductsQuantity()
 		}
 	},
 
 	updateCart: async () => {
 		set({ loading: true })
 		const { user } = useAuthStore.getState()
-		let cart: Product[] = user ? get().cart : getCart()
-
+		let cart: Product[] = get().cart
 		try {
 			if (user) {
 				const { response } = await patchRequest<Response>(CartService.updateCart, {
@@ -50,19 +47,22 @@ export const useCartStore = create<CartState>((set, get) => ({
 				})
 				cart = response.data.products
 				set({ total: response.data.total })
+			} else {
+				updateCart(cart)
 			}
-			set({ cart, loading: false })
+			set({ cart })
 		} catch {
-			set({ cart: [], loading: false })
+			set({ cart: [] })
 		} finally {
-			get().setProductsQuantity()
+			get().getProductsQuantity()
+			set({ loading: false })
 		}
 	},
 
-	clearCart: () => {
-		set({ cart: [], total: 0, productsQuantity: 0 })
-		get().getCart()
-	},
+	// clearCart: async () => {
+	// 	set({ cart: [], total: 0, productsQuantity: 0 })
+	// 	await get().getCart()
+	// },
 
 	addProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
 		const cart = get().cart
@@ -120,11 +120,10 @@ export const useCartStore = create<CartState>((set, get) => ({
 		return cart.find((product) => product.id === id)?.quantity || 0
 	},
 
-	setProductsQuantity: () => {
+	getProductsQuantity: () => {
 		const cart = get().cart
-		if (!cart) return
-		const productsQuantity = get().cart.reduce((prev, cur) => prev + cur.quantity, 0) || 0
-		set({ productsQuantity })
+		if (!cart) return 0
+		return get().cart.reduce((prev, cur) => prev + cur.quantity, 0) || 0
 	},
 }))
 
@@ -150,11 +149,10 @@ interface CartState {
 	handleCheckout: (id: string) => void
 	getCart: () => Promise<void>
 	updateCart: () => Promise<void>
-	clearCart: () => void
+	// clearCart: () => void
 	addProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	restProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	removeProduct: (id: string) => void
 	getProductQuantity: (id: string) => number
-	productsQuantity: number
-	setProductsQuantity: () => void
+	getProductsQuantity: () => number
 }
