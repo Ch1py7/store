@@ -62,9 +62,6 @@ export class CryptoCipher {
 
 interface JwtContent {
 	sub: string
-	firstName: string
-	lastName: string
-	email: string
 	role: number
 	iat: number
 	exp: number

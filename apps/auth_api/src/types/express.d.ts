@@ -6,9 +6,6 @@ declare global {
 		interface Request {
 			user?: {
 				sub: string
-				firstName: string
-				lastName: string
-				email: string
 				role: number
 				iat: number
 				exp: number

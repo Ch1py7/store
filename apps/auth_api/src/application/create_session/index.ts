@@ -11,13 +11,10 @@ export class CreateSession {
 		this._tokensRepository = tokensRepository
 	}
 
-	public async execute({ firstName, lastName, email, role, id }: CreateSessionCommand) {
+	public async execute({ role, id }: CreateSessionCommand) {
 		const accessToken_iat = Date.now()
 		const accessToken_exp = accessToken_iat + 900000
 		const access_token = this._cipher.signJwt({
-			firstName,
-			lastName,
-			email,
 			role,
 			sub: id,
 			iat: accessToken_iat,
