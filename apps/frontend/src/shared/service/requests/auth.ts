@@ -5,7 +5,5 @@ export namespace AuthService {
 
 	export const logout = 'http://localhost:7777/api/v1/auth/logout'
 
-	export const getUserData = 'http://localhost:7777/api/v1/auth/me'
-
 	export const refreshToken = 'http://localhost:7777/api/v1/auth/refresh'
 }

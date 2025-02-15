@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { AuthService } from '../service/requests/auth'
 import { getRequest, postRequest } from '../service/requests/requests'
+import { UserService } from '../service/requests/user'
 
 type User = {
 	firstName: string
@@ -34,7 +35,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 		set({ loading: true })
 
 		try {
-			const { response: data } = await getRequest<User>(AuthService.getUserData)
+			const { response: data } = await getRequest<User>(UserService.getUserData)
 			set({ user: data, loading: false })
 		} catch {
 			set({ user: null, loading: false })

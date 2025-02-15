@@ -1,13 +1,13 @@
-interface IRegister {
+interface ILogin {
 	email: string
 	password: string
 }
 
 export class LoginValidations {
 	private _errorFields: Record<string, string> = {}
-	private _data: IRegister
+	private _data: ILogin
 
-	constructor(data: IRegister) {
+	constructor(data: ILogin) {
 		this._data = data
 	}
 
