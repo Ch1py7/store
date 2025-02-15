@@ -31,7 +31,6 @@ export const Navbar: React.FC = (): React.ReactNode => {
 	useEffect(() => {
 		if (loading) {
 			getCart()
-			console.log('ola')
 		}
 	}, [loading, getCart])
 
