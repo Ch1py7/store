@@ -2,22 +2,27 @@ import { DeleteCommand } from '@/application/user/delete/command'
 import { UpdateCommand } from '@/application/user/update/command'
 import { container } from '@/container'
 import express, { type Router } from 'express'
+import { authorization } from './middlewares/authorizationMiddleware'
 
 export const router: Router = express.Router()
 
-router.patch('/users/:id', async (req: express.Request, res: express.Response) => {
-	const { id } = req.params
+router.patch('/users', authorization, async (req: express.Request, res: express.Response) => {
+	if (!req.user) {
+		res.status(401).json({ error: 'Unauthorized' })
+		return
+	}
+
 	const { firstName, lastName } = req.body
 
-	if (!id || !firstName || !lastName) {
+	if (!firstName || !lastName) {
 		res.status(400).json({
-			error: 'Missing required fields: id, firstname, lastName',
+			error: 'Missing required fields: firstname, lastName',
 		})
 		return
 	}
 
 	try {
-		const command = new UpdateCommand({ id, firstName, lastName })
+		const command = new UpdateCommand({ id: req.user.sub, firstName, lastName })
 		const updateUser = container.resolve('updateUser')
 		const response = await updateUser.execute(command)
 
@@ -89,4 +94,21 @@ router.get('/users/:id?', async (req: express.Request, res: express.Response) =>
 			error: (error as Error).message || 'Unknown error',
 		})
 	}
+})
+
+router.get('/user/me', authorization, async (req: express.Request, res: express.Response) => {
+	if (!req.user) {
+		res.status(401).json({ error: 'Unauthorized' })
+		return
+	}
+
+	const getUser = container.resolve('getUser')
+	const { firstName, lastName, email, role } = await getUser.execute({ id: req.user.sub })
+
+	res.status(200).json({
+		firstName,
+		lastName,
+		email,
+		role,
+	})
 })

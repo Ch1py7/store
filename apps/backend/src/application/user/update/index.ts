@@ -13,7 +13,5 @@ export class UpdateUser {
 		user.updateFirstName(firstName).updateLastName(lastName)
 
 		await this._userRepository.updateUser(user)
-
-		// TODO: configure to return updated jwt
 	}
 }

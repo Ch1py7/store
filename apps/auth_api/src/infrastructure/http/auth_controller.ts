@@ -124,20 +124,6 @@ router.post('/auth/logout', async (req: express.Request, res: express.Response) 
 	}
 })
 
-router.get('/auth/me', authorization, async (req: express.Request, res: express.Response) => {
-	if (!req.user) {
-		res.status(401).json({ error: 'Unauthorized' })
-		return
-	}
-
-	res.status(200).json({
-		firstName: req.user.firstName,
-		lastName: req.user.lastName,
-		email: req.user.email,
-		role: req.user.role,
-	})
-})
-
 const setAuthCookies = (res: express.Response, access_token: string, refresh_token: string) => {
 	const isProduction = process.env.NODE_ENV === 'production'
 	const now = dayjs().tz('America/Mexico_City')

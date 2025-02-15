@@ -14,15 +14,13 @@ export class UserRepository implements IUserRepository {
 	public async updateUser(user: UserDomain) {
 		const dbModel = this._userParser.toDbModel(user)
 
-		const { data, error } = await this._supabaseClient
+		const { error } = await this._supabaseClient
 			.from('User')
 			.update(dbModel)
 			.eq('id', dbModel.id)
 			.eq('is_deleted', false)
 			.select('id')
 			.single()
-
-		if (!data) throw new UserNotFoundError('User not found.')
 
 		if (error) throw error
 	}
