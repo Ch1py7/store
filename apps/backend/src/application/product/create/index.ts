@@ -23,6 +23,7 @@ export class CreateProduct {
 			size: dto.size,
 			sizeToShow: dto.sizeToShow,
 			stock: dto.stock,
+			category: dto.category,
 		})
 
 		await this._productRepository.save(product)

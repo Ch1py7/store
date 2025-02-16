@@ -6,8 +6,9 @@ export class CreateCommand {
 	public size: number[]
 	public sizeToShow: number
 	public stock: number
+	public category: number
 
-	constructor({ name, description, percentageDiscount, price, size, sizeToShow, stock }: CommandConstructor) {
+	constructor({ name, description, percentageDiscount, price, size, sizeToShow, stock, category }: CommandConstructor) {
 		this.name = name
 		this.description = description
 		this.percentageDiscount = percentageDiscount
@@ -15,6 +16,7 @@ export class CreateCommand {
 		this.size = size
 		this.sizeToShow = sizeToShow
 		this.stock = stock
+		this.category = category
 	}
 }
 
@@ -26,4 +28,5 @@ interface CommandConstructor {
 	size: number[]
 	sizeToShow: number
 	stock: number
+	category: number
 }

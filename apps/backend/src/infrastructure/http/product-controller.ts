@@ -1,16 +1,17 @@
 import { CreateCommand } from '@/application/product/create/command'
 import { container } from '@/container'
 import express, { type Router } from 'express'
+import { authorization } from './middlewares/authorizationMiddleware'
 
 export const router: Router = express.Router()
 
-router.post('/products/', async (req: express.Request, res: express.Response) => {
-	const { name, description, percentageDiscount, price, size, stock, sizeToShow } = req.body
+router.post('/products/', authorization, async (req: express.Request, res: express.Response) => {
+	const { name, description, percentageDiscount, price, size, stock, sizeToShow, category } = req.body
 
-	if (!name || !description || !percentageDiscount || !price || !size || !stock || !sizeToShow) {
+	if (!name || !description || !percentageDiscount || !price || !size || !stock || !sizeToShow || !category) {
 		res.status(400).json({
 			error:
-				'Missing required fields: name, description, percentageDiscount, price, size, stock, sizeToShow',
+				'Missing required fields: name, description, percentageDiscount, price, size, stock, sizeToShow, category',
 		})
 		return
 	}
@@ -24,6 +25,7 @@ router.post('/products/', async (req: express.Request, res: express.Response) =>
 			size,
 			stock,
 			sizeToShow,
+			category
 		})
 		const createProduct = container.resolve('createProduct')
 		const response = await createProduct.execute(command)

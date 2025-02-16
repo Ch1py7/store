@@ -13,6 +13,7 @@ export class ProductParser {
 			size: JSON.parse(dbModel.size),
 			sizeToShow: dbModel.size_to_show,
 			stock: dbModel.stock,
+			category: dbModel.category
 		})
 	}
 
@@ -28,6 +29,7 @@ export class ProductParser {
 			size: JSON.stringify(domainModel.size),
 			size_to_show: domainModel.sizeToShow,
 			stock: domainModel.stock,
+			category: domainModel.category
 		}
 	}
 }
