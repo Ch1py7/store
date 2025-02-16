@@ -58,7 +58,7 @@ export const Navbar: React.FC = (): React.ReactNode => {
 					</button>
 				</div>
 			</Modal>
-			<div className='flex justify-between items-center'>
+			<div className='flex justify-between items-center px-4 sm:px-6 lg:px-8'>
 				<Link to='/' className='flex items-center space-x-2'>
 					<ShoppingBag className='h-6 w-6' />
 					<span className='hidden sm:block font-semibold text-xl'>MINIMALIST</span>

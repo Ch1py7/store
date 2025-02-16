@@ -3,8 +3,15 @@ import { X } from 'lucide-react'
 interface ModalProps {
 	showModal?: boolean
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-	title?: string
+	size?: 'small' | 'medium' | 'large'
 	children: React.ReactNode
+	title?: string
+}
+
+enum modalSizes {
+	small = 'w-[400px]',
+	medium = 'w-[800px]',
+	large = 'w-[1200px]',
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -12,13 +19,17 @@ export const Modal: React.FC<ModalProps> = ({
 	setShowModal,
 	title,
 	children,
+	size = 'small',
 }): React.ReactNode | null => {
 	document.body.style.overflowY = showModal ? 'hidden' : ''
+
+	const modalSizeClass =
+		size in modalSizes ? modalSizes[size as keyof typeof modalSizes] : modalSizes.small
 
 	if (!showModal) return null
 	return (
 		<div className='fixed z-10 top-0 left-0 bottom-0 right-0 overflow-hidden bg-gray-500/75 backdrop-blur-[1px] flex justify-center items-center'>
-			<div className='relative bg-white rounded-lg shadow-sm'>
+			<div className={`relative bg-white rounded-lg shadow-sm ${modalSizeClass}`}>
 				{title && (
 					<div className='flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200'>
 						<h3 className='text-xl font-semibold text-gray-900'>{title}</h3>

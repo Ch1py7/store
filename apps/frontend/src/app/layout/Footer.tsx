@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone } from 'lucide-react'
 
 export const Footer: React.FC = (): React.ReactNode => {
 	return (
-		<footer className='pt-12'>
+		<footer className='pt-12 px-4 sm:px-6 lg:px-8'>
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
 				<div>
 					<h3 className='text-sm font-semibold uppercase tracking-wider'>Contact</h3>

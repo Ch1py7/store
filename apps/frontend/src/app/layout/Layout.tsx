@@ -8,7 +8,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }): React.ReactNode => {
 	return (
 		<div className='bg-white shadow-sm py-5'>
-			<div className='mx-auto px-4 sm:px-6 lg:px-8'>
+			<div className='mx-auto'>
 				<Navbar />
 				<main className='min-h-[67vh]'>{children}</main>
 				<Footer />
