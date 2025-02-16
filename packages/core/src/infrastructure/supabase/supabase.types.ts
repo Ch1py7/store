@@ -129,6 +129,7 @@ export type Database = {
       }
       Product: {
         Row: {
+          category: number
           created_at: string
           description: string
           id: string
@@ -141,6 +142,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category: number
           created_at: string
           description: string
           id: string
@@ -153,6 +155,7 @@ export type Database = {
           updated_at: string
         }
         Update: {
+          category?: number
           created_at?: string
           description?: string
           id?: string
@@ -163,6 +166,32 @@ export type Database = {
           size_to_show?: number
           stock?: number
           updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Product_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "ProductsCategories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ProductsCategories: {
+        Row: {
+          category: string
+          id: number
+          is_deleted: boolean
+        }
+        Insert: {
+          category: string
+          id?: number
+          is_deleted?: boolean
+        }
+        Update: {
+          category?: string
+          id?: number
+          is_deleted?: boolean
         }
         Relationships: []
       }

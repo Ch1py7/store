@@ -1,11 +1,12 @@
 import { type Base, BaseEntity } from '@/entities/base-entity'
+import { Category } from './value_objects/category/category'
 import { Description } from './value_objects/description/description'
 import { Name } from './value_objects/name/name'
 import { PercentageDiscount } from './value_objects/percentageDiscount/percentage-discount'
 import { Price } from './value_objects/price/price'
 import { Size } from './value_objects/size/size'
-import { Stock } from './value_objects/stock/stock'
 import { SizeToShow } from './value_objects/sizeToShow/sizeToShow'
+import { Stock } from './value_objects/stock/stock'
 
 export class Product extends BaseEntity {
 	private _name: Name
@@ -15,6 +16,7 @@ export class Product extends BaseEntity {
 	private _sizeToShow: SizeToShow
 	private _stock: Stock
 	private _percentageDiscount: PercentageDiscount
+	private _category: Category
 
 	constructor(product: ProductEntity) {
 		super({ createdAt: product.createdAt, updatedAt: product.updatedAt, id: product.id })
@@ -27,6 +29,7 @@ export class Product extends BaseEntity {
 		this._percentageDiscount = product.percentageDiscount
 			? new PercentageDiscount(product.percentageDiscount)
 			: new PercentageDiscount(0)
+		this._category = new Category(product.category)
 	}
 
 	get name() {
@@ -57,6 +60,10 @@ export class Product extends BaseEntity {
 		return this._percentageDiscount.value
 	}
 
+	get category() {
+		return this._category.value
+	}
+
 	get DiscountedPrice(): Price {
 		const discountedValue = this._price.value * (1 - this._percentageDiscount.value / 100)
 
@@ -84,4 +91,5 @@ export interface ProductEntity extends Base {
 	sizeToShow: number
 	stock: number
 	percentageDiscount: number
+	category: number
 }
