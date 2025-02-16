@@ -25,7 +25,8 @@ export const App = () => {
 						<Route path='/auth/login' element={<Login />} />
 						<Route path='/auth/register' element={<Register />} />
 						<Route path='/auth/recovery' element={<Recovery />} />
-						<Route path='/auth/validation' element={<Validation />} />
+						{/* todo: create account activation flow in back */}
+						{/* <Route path='/auth/validation' element={<Validation />} /> */}
 					</Route>
 					<Route path='*' element={<h1>Not found</h1>} />
 				</Routes>

@@ -116,12 +116,13 @@ export const Login: React.FC = (): React.ReactNode => {
 					Sign up
 				</Link>
 			</div>
-			<div className='text-center'>
+			{/* todo: create account activation flow in back */}
+			{/* <div className='text-center'>
 				<span className='text-sm text-gray-600'>Do you lose your activation? </span>
 				<Link to='/auth/validation' className='text-sm font-medium text-black hover:text-gray-800'>
 					Recovere it
 				</Link>
-			</div>
+			</div> */}
 		</div>
 	)
 }
