@@ -83,7 +83,7 @@ export const Register: React.FC = (): React.ReactNode => {
 				</p>
 			</div>
 
-			<div className='flex justify-center space-x-4 mb-8'>
+			{/* <div className='flex justify-center space-x-4 mb-8'>
 				<button
 					type='button'
 					onClick={() => changeRole(false)}
@@ -104,7 +104,7 @@ export const Register: React.FC = (): React.ReactNode => {
 					<Building2 className='h-4 w-4 mr-2' />
 					Business
 				</button>
-			</div>
+			</div> */}
 
 			<form className='mt-8 space-y-6' onSubmit={handleSubmit(onSubmit)}>
 				<div className='rounded-md shadow-sm space-y-4'>
