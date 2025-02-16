@@ -6,7 +6,7 @@ import { Account } from './pages/Account/Account'
 import { Login } from './pages/Auth/Login'
 import { Recovery } from './pages/Auth/Recovery'
 import { Register } from './pages/Auth/Register'
-import { Validation } from './pages/Auth/Validation'
+import { Business } from './pages/Business/Business'
 import { Cart } from './pages/Cart/Cart'
 import { ProductsCatalog as Products } from './pages/Products/ProductsCatalog'
 import { Toast } from './shared/ui/Toast'
@@ -18,15 +18,24 @@ export const App = () => {
 			<SearchBar />
 			<Layout>
 				<Routes>
-					<Route path='/' element={<Products />} />
-					<Route path='/cart' element={<Cart />} />
-					<Route path='/account' element={<Account />} />
 					<Route element={<ProtectedRoute allowedRoles={[Roles.guest]} redirectTo='/account' />}>
 						<Route path='/auth/login' element={<Login />} />
 						<Route path='/auth/register' element={<Register />} />
 						<Route path='/auth/recovery' element={<Recovery />} />
 						{/* todo: create account activation flow in back */}
 						{/* <Route path='/auth/validation' element={<Validation />} /> */}
+					</Route>
+					<Route
+						element={
+							<ProtectedRoute allowedRoles={[Roles.guest, Roles.user]} redirectTo='/business' />
+						}
+					>
+						<Route path='/' element={<Products />} />
+						<Route path='/cart' element={<Cart />} />
+						<Route path='/account' element={<Account />} />
+					</Route>
+					<Route element={<ProtectedRoute allowedRoles={[Roles.admin]} redirectTo='/' />}>
+						<Route path='/business' element={<Business />} />
 					</Route>
 					<Route path='*' element={<h1>Not found</h1>} />
 				</Routes>
