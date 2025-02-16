@@ -1,5 +1,6 @@
 import { useCartStore } from '@/shared/context/useCartStore'
 import { ProductImage } from '@/shared/ui/ProductImage'
+import { getSize } from '@/shared/utils'
 
 interface ProductCardProps {
 	id: string
@@ -33,7 +34,7 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 					<h3 className='text-lg font-medium'>
 						{product.name}{' '}
 						<button type='button' className='text-disabled' title='click to see more sizes'>
-							({product.sizeToShow})
+							({getSize(product.sizeToShow)})
 						</button>
 					</h3>
 					<p className='text-gray-600'>${product.price}</p>
