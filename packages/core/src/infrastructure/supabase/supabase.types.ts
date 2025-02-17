@@ -82,6 +82,41 @@ export type Database = {
           },
         ]
       }
+      Inventory: {
+        Row: {
+          attributes: Json
+          created_at: string
+          id: string
+          product_id: string
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          attributes: Json
+          created_at: string
+          id: string
+          product_id: string
+          stock: number
+          updated_at: string
+        }
+        Update: {
+          attributes?: Json
+          created_at?: string
+          id?: string
+          product_id?: string
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Inventory_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "Product"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Order: {
         Row: {
           created_at: string
@@ -134,11 +169,7 @@ export type Database = {
           description: string
           id: string
           name: string
-          percentageDiscount: number
           price: number
-          size: string
-          size_to_show: number
-          stock: number
           updated_at: string
         }
         Insert: {
@@ -147,11 +178,7 @@ export type Database = {
           description: string
           id: string
           name: string
-          percentageDiscount: number
           price: number
-          size: string
-          size_to_show: number
-          stock: number
           updated_at: string
         }
         Update: {
@@ -160,11 +187,7 @@ export type Database = {
           description?: string
           id?: string
           name?: string
-          percentageDiscount?: number
           price?: number
-          size?: string
-          size_to_show?: number
-          stock?: number
           updated_at?: string
         }
         Relationships: [
@@ -173,6 +196,35 @@ export type Database = {
             columns: ["category"]
             isOneToOne: false
             referencedRelation: "ProductsCategories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ProductAttributes: {
+        Row: {
+          attribute_name: string
+          attribute_value: string
+          id: string
+          product_id: string
+        }
+        Insert: {
+          attribute_name: string
+          attribute_value: string
+          id: string
+          product_id: string
+        }
+        Update: {
+          attribute_name?: string
+          attribute_value?: string
+          id?: string
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ProductAttributes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "Product"
             referencedColumns: ["id"]
           },
         ]
@@ -194,6 +246,57 @@ export type Database = {
           is_deleted?: boolean
         }
         Relationships: []
+      }
+      Promotions: {
+        Row: {
+          category_id: number
+          created_at: string
+          end_date: string
+          id: number
+          is_active: boolean
+          percentage_discount: number
+          product_id: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: number
+          created_at: string
+          end_date: string
+          id?: number
+          is_active: boolean
+          percentage_discount: number
+          product_id: string
+          start_date: string
+          updated_at: string
+        }
+        Update: {
+          category_id?: number
+          created_at?: string
+          end_date?: string
+          id?: number
+          is_active?: boolean
+          percentage_discount?: number
+          product_id?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Promotions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "ProductsCategories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Promotions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "Product"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       RefreshToken: {
         Row: {

@@ -39,9 +39,5 @@ export interface ProductEntity extends Base {
 	name: string
 	price: number
 	description: string
-	size: number[]
-	sizeToShow: number
-	stock: number
-	percentageDiscount: number
 	category: number
 }
