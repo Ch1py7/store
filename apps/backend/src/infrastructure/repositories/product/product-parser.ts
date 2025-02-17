@@ -8,12 +8,8 @@ export class ProductParser {
 			description: dbModel.description,
 			updatedAt: new Date(dbModel.updated_at).getTime(),
 			createdAt: new Date(dbModel.created_at).getTime(),
-			percentageDiscount: dbModel.percentageDiscount,
 			price: dbModel.price,
-			size: JSON.parse(dbModel.size),
-			sizeToShow: dbModel.size_to_show,
-			stock: dbModel.stock,
-			category: dbModel.category
+			category: dbModel.category,
 		})
 	}
 
@@ -24,11 +20,7 @@ export class ProductParser {
 			description: domainModel.description,
 			created_at: new Date(domainModel.createdAt).toISOString(),
 			updated_at: new Date(domainModel.updatedAt).toISOString(),
-			percentageDiscount: domainModel.percentageDiscount,
 			price: domainModel.price,
-			size: JSON.stringify(domainModel.size),
-			size_to_show: domainModel.sizeToShow,
-			stock: domainModel.stock,
 			category: domainModel.category
 		}
 	}
