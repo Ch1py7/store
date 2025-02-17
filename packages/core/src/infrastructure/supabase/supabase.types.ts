@@ -428,7 +428,7 @@ export type Database = {
         }
         Returns: undefined
       }
-      update_product_from_order: {
+      update_inventory_from_order: {
         Args: {
           order_table_data: Json
           product_table_data: Json[]

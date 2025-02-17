@@ -16,7 +16,7 @@ export class OrderRepository implements IOrderRepository {
 		order: Order,
 		products: Pick<Database['public']['Tables']['Product']['Row'], 'id' | 'updated_at'>[]
 	) {
-		const { error } = await this._supabaseClient.rpc('update_product_from_order', {
+		const { error } = await this._supabaseClient.rpc('update_inventory_from_order', {
 			order_table_data: this._orderParser.toDbModel(order),
 			product_table_data: products,
 		})

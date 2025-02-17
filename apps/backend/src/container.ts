@@ -19,6 +19,8 @@ import { PubSubClient } from './infrastructure/pubsub/pubsub-client'
 import { PubSubListener } from './infrastructure/pubsub/pubsub-listener'
 import { CartParser } from './infrastructure/repositories/cart/cart-parser'
 import { CartRepository } from './infrastructure/repositories/cart/cart-repository'
+import { InventoryParser } from './infrastructure/repositories/inventory/inventory-parser'
+import { InventoryRepository } from './infrastructure/repositories/inventory/inventory-repository'
 import { OrderParser } from './infrastructure/repositories/order/order-parser'
 import { OrderRepository } from './infrastructure/repositories/order/order-repository'
 import { ProductParser } from './infrastructure/repositories/product/product-parser'
@@ -57,6 +59,7 @@ container.register({
 	productRepository: asClass(ProductRepository),
 	orderRepository: asClass(OrderRepository),
 	cartRepository: asClass(CartRepository),
+	inventoryRepository: asClass(InventoryRepository),
 
 	// supabase client
 	supabaseClient: asValue(supabaseClient),
@@ -66,6 +69,7 @@ container.register({
 	productParser: asClass(ProductParser),
 	orderParser: asClass(OrderParser),
 	cartParser: asClass(CartParser),
+	inventoryParser: asClass(InventoryParser),
 
 	// PubSub
 	pubSubClient: asClass(PubSubClient),
