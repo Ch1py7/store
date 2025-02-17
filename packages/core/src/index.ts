@@ -3,6 +3,8 @@ export * from '@/entities/order'
 export * from '@/entities/product'
 export * from '@/entities/user'
 export * from '@/entities/cart'
+export * from '@/entities/inventory'
+export * from '@/entities/promotion'
 
 export * from '@/infrastructure/parsers/user-parser'
 
