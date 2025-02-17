@@ -421,6 +421,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_inventory_by_product: {
+        Args: {
+          product_table_data: Json
+          inventory_table_data: Json
+        }
+        Returns: undefined
+      }
       insert_user_auth: {
         Args: {
           user_table_data: Json
