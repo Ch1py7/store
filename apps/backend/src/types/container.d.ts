@@ -1,5 +1,6 @@
 import type { GetCart } from '@/application/cart/get'
 import type { UpdateCart } from '@/application/cart/update'
+import type { CreateInventory } from '@/application/inventory/create'
 import type { CreateOrder } from '@/application/order/create'
 import type { GetOrder } from '@/application/order/get_order'
 import type { GetOrders } from '@/application/order/get_orders'
@@ -19,6 +20,7 @@ import type { InventoryParser } from '@/infrastructure/repositories/inventory/in
 import type { InventoryRepository } from '@/infrastructure/repositories/inventory/inventory-repository'
 import type { OrderParser } from '@/infrastructure/repositories/order/order-parser'
 import type { OrderRepository } from '@/infrastructure/repositories/order/order-repository'
+import type { ProductInventoryRepository } from '@/infrastructure/repositories/product/product-inventory-repository'
 import type { ProductParser } from '@/infrastructure/repositories/product/product-parser'
 import type { ProductRepository } from '@/infrastructure/repositories/product/product-repository'
 import type { UserRepository } from '@/infrastructure/repositories/user/user-repository'
@@ -50,12 +52,16 @@ declare global {
 		getCart: GetCart
 		updateCart: UpdateCart
 
+		// inventory use cases
+		createInventory: CreateInventory
+
 		// repositories
 		userRepository: UserRepository
 		productRepository: ProductRepository
 		orderRepository: OrderRepository
 		cartRepository: CartRepository
 		inventoryRepository: InventoryRepository
+		productInventoryRepository: ProductInventoryRepository
 
 		// supabase client
 		supabaseClient: typeof supabaseClient

@@ -6,12 +6,11 @@ import { authorization } from './middlewares/authorizationMiddleware'
 export const router: Router = express.Router()
 
 router.post('/products/', authorization, async (req: express.Request, res: express.Response) => {
-	const { name, description, percentageDiscount, price, size, stock, sizeToShow, category } = req.body
+	const { name, description, price, stock, category, attributes } = req.body
 
-	if (!name || !description || !percentageDiscount || !price || !size || !stock || !sizeToShow || !category) {
+	if (!name || !description || !price || !stock || !category || !attributes) {
 		res.status(400).json({
-			error:
-				'Missing required fields: name, description, percentageDiscount, price, size, stock, sizeToShow, category',
+			error: 'Missing required fields: name, description, price, stock, category, attributes',
 		})
 		return
 	}
@@ -20,12 +19,10 @@ router.post('/products/', authorization, async (req: express.Request, res: expre
 		const command = new CreateCommand({
 			name,
 			description,
-			percentageDiscount,
 			price,
-			size,
 			stock,
-			sizeToShow,
-			category
+			category,
+			attributes,
 		})
 		const createProduct = container.resolve('createProduct')
 		const response = await createProduct.execute(command)

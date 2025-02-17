@@ -3,6 +3,7 @@ import { InjectionMode, asClass, asValue, createContainer } from 'awilix'
 import crypto from 'node:crypto'
 import { GetCart } from './application/cart/get'
 import { UpdateCart } from './application/cart/update'
+import { CreateInventory } from './application/inventory/create'
 import { CreateOrder } from './application/order/create'
 import { GetOrder } from './application/order/get_order'
 import { GetOrders } from './application/order/get_orders'
@@ -23,6 +24,7 @@ import { InventoryParser } from './infrastructure/repositories/inventory/invento
 import { InventoryRepository } from './infrastructure/repositories/inventory/inventory-repository'
 import { OrderParser } from './infrastructure/repositories/order/order-parser'
 import { OrderRepository } from './infrastructure/repositories/order/order-repository'
+import { ProductInventoryRepository } from './infrastructure/repositories/product/product-inventory-repository'
 import { ProductParser } from './infrastructure/repositories/product/product-parser'
 import { ProductRepository } from './infrastructure/repositories/product/product-repository'
 import { UserRepository } from './infrastructure/repositories/user/user-repository'
@@ -54,12 +56,16 @@ container.register({
 	getCart: asClass(GetCart),
 	updateCart: asClass(UpdateCart),
 
+	// inventory use cases
+	createInventory: asClass(CreateInventory),
+
 	// repositories
 	userRepository: asClass(UserRepository),
 	productRepository: asClass(ProductRepository),
 	orderRepository: asClass(OrderRepository),
 	cartRepository: asClass(CartRepository),
 	inventoryRepository: asClass(InventoryRepository),
+	productInventoryRepository: asClass(ProductInventoryRepository),
 
 	// supabase client
 	supabaseClient: asValue(supabaseClient),

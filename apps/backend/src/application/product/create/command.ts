@@ -1,32 +1,26 @@
 export class CreateCommand {
 	public name: string
 	public description: string
-	public percentageDiscount: number
 	public price: number
-	public size: number[]
-	public sizeToShow: number
-	public stock: number
 	public category: number
+	public attributes: Record<string, string>
+	public stock: number
 
-	constructor({ name, description, percentageDiscount, price, size, sizeToShow, stock, category }: CommandConstructor) {
+	constructor({ name, description, price, category, attributes, stock }: CommandConstructor) {
 		this.name = name
 		this.description = description
-		this.percentageDiscount = percentageDiscount
-		this.price = price
-		this.size = size
-		this.sizeToShow = sizeToShow
-		this.stock = stock
 		this.category = category
+		this.price = price
+		this.attributes = attributes
+		this.stock = stock
 	}
 }
 
 interface CommandConstructor {
 	name: string
 	description: string
-	percentageDiscount: number
 	price: number
-	size: number[]
-	sizeToShow: number
-	stock: number
 	category: number
+	attributes: Record<string, string>
+	stock: number
 }
