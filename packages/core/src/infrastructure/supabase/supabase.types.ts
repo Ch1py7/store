@@ -251,10 +251,10 @@ export type Database = {
         Row: {
           category_id: number
           created_at: string
+          discount_percentage: number
           end_date: string
-          id: number
+          id: string
           is_active: boolean
-          percentage_discount: number
           product_id: string
           start_date: string
           updated_at: string
@@ -262,10 +262,10 @@ export type Database = {
         Insert: {
           category_id: number
           created_at: string
+          discount_percentage: number
           end_date: string
-          id?: number
+          id: string
           is_active: boolean
-          percentage_discount: number
           product_id: string
           start_date: string
           updated_at: string
@@ -273,10 +273,10 @@ export type Database = {
         Update: {
           category_id?: number
           created_at?: string
+          discount_percentage?: number
           end_date?: string
-          id?: number
+          id?: string
           is_active?: boolean
-          percentage_discount?: number
           product_id?: string
           start_date?: string
           updated_at?: string
@@ -285,14 +285,14 @@ export type Database = {
           {
             foreignKeyName: "Promotions_category_id_fkey"
             columns: ["category_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "ProductsCategories"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "Promotions_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "Product"
             referencedColumns: ["id"]
           },
@@ -431,7 +431,7 @@ export type Database = {
       update_inventory_from_order: {
         Args: {
           order_table_data: Json
-          product_table_data: Json[]
+          inventory_table_data: Json[]
         }
         Returns: undefined
       }

@@ -1,14 +1,15 @@
 import { type Base, BaseEntity } from '@/entities/base-entity'
 import { ID } from '../value_objects/id/id'
 import { Timestamps } from '../value_objects/timestamps/timestamps'
-import { DiscountPercentage } from './value_objects/percentageDiscount/discount-percentage'
+import { DiscountPercentage } from './value_objects/discountPercentage/discount-percentage'
 
 export class Promotion extends BaseEntity {
 	private _discountPercentage: DiscountPercentage
 	private _productId: ID
-	private _categoryId: ID
+	private _categoryId: number
 	private _startDate: number
 	private _endDate: number
+	private _isActive: boolean
 
 	constructor(promotion: PromotionEntity) {
 		super({ createdAt: promotion.createdAt, updatedAt: promotion.updatedAt, id: promotion.id })
@@ -16,13 +17,14 @@ export class Promotion extends BaseEntity {
 			? new DiscountPercentage(promotion.discountPercentage)
 			: new DiscountPercentage(0)
 		this._productId = new ID(promotion.productId)
-		this._categoryId = new ID(promotion.categoryId)
+		this._categoryId = promotion.categoryId
 		const { createdAt: startDate, updatedAt: endDate } = new Timestamps(
 			promotion.startDate,
 			promotion.endDate
 		)
 		this._startDate = startDate
 		this._endDate = endDate
+		this._isActive = promotion.isActive
 	}
 
 	get discountPercentage() {
@@ -34,7 +36,7 @@ export class Promotion extends BaseEntity {
 	}
 
 	get categoryId() {
-		return this._categoryId.value
+		return this._categoryId
 	}
 
 	get startDate() {
@@ -43,6 +45,10 @@ export class Promotion extends BaseEntity {
 
 	get endDate() {
 		return this._endDate
+	}
+
+	get isActive() {
+		return this._isActive
 	}
 
 	public updatediscountPercentage(percentage: number) {
@@ -57,8 +63,8 @@ export class Promotion extends BaseEntity {
 		return this
 	}
 
-	public updateCategoryId(categoryId: string) {
-		this._categoryId = new ID(categoryId)
+	public updateCategoryId(categoryId: number) {
+		this._categoryId = categoryId
 		this.setUpdatedAt()
 		return this
 	}
@@ -77,6 +83,12 @@ export class Promotion extends BaseEntity {
 		return this
 	}
 
+	public handleActive() {
+		this._isActive = !this._isActive
+		this.setUpdatedAt()
+		return this
+	}
+
 	private setUpdatedAt() {
 		this.updatedAt = Date.now()
 	}
@@ -85,7 +97,8 @@ export class Promotion extends BaseEntity {
 export interface PromotionEntity extends Base {
 	discountPercentage: number
 	productId: string
-	categoryId: string
+	categoryId: number
 	startDate: number
 	endDate: number
+	isActive: boolean
 }

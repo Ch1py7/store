@@ -22,8 +22,6 @@ export class Products {
 export interface ProductOrder {
 	id: string
 	name: string
-	size: number
 	quantity: number
 	price: number
-	percentageDiscount: number
 }

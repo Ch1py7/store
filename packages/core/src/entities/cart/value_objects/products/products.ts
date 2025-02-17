@@ -13,8 +13,6 @@ export class Products {
 export interface ProductCart {
 	id: string
 	name: string
-	size: number
 	quantity: number
 	price: number
-	percentageDiscount: number
 }

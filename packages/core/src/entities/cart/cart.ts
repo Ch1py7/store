@@ -39,9 +39,8 @@ export class Cart extends BaseEntity {
 	}
 
 	private setTotal(products: ProductCart[]) {
-		const total = products.reduce((prev, { price, percentageDiscount, quantity }) => {
-			const discountedPrice = price * (1 - percentageDiscount / 100)
-			return prev + discountedPrice * quantity
+		const total = products.reduce((prev, { price, quantity }) => {
+			return prev + price * quantity
 		}, 0)
 
 		return new Total(total)
