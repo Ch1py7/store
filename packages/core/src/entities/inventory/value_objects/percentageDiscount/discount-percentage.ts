@@ -1,6 +1,6 @@
 import { InvalidPercentageError } from './errors'
 
-export class PercentageDiscount {
+export class DiscountPercentage {
 	public readonly value: number
 
 	constructor(value: number) {
