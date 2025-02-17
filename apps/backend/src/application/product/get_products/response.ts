@@ -5,25 +5,15 @@ export class GetProductsResponse {
 		id: string
 		name: string
 		description: string
-		percentageDiscount: number
 		price: number
-		size: number[]
-		sizeToShow: number
-		stock: number
 	}[]
 
 	constructor(products: Product[]) {
-		this.products = products.map(
-			({ id, name, description, percentageDiscount, price, size, sizeToShow, stock }) => ({
-				id: id,
-				name: name,
-				description: description,
-				percentageDiscount: percentageDiscount,
-				price: price,
-				size: size,
-				sizeToShow: sizeToShow,
-				stock: stock,
-			})
-		)
+		this.products = products.map(({ id, name, description, price }) => ({
+			id: id,
+			name: name,
+			description: description,
+			price: price,
+		}))
 	}
 }

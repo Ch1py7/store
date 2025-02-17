@@ -29,4 +29,29 @@ export class InventoryRepository implements IInventoryRepository {
 
 		if (error) throw error
 	}
+
+	public async findById(id: string) {
+		const { data, error } = await this._supabaseClient
+			.from('Inventory')
+			.select('*, Product(category)')
+			.eq('id', id)
+			.single()
+
+		if (error) throw error
+
+		return this._inventoryParser.toDomain(data, data.Product.category)
+	}
+
+	public async findByProductId(productId: string[]) {
+		const { data, error } = await this._supabaseClient
+			.from('Inventory')
+			.select('*, Product(category)')
+			.in('product_id', productId)
+
+		if (error) throw error
+
+		const domainModels = data.map((d) => this._inventoryParser.toDomain(d, d.Product.category))
+
+		return domainModels
+	}
 }

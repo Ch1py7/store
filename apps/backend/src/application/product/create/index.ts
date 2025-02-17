@@ -18,11 +18,7 @@ export class CreateProduct {
 			updatedAt: Date.now(),
 			name: dto.name,
 			description: dto.description,
-			percentageDiscount: dto.percentageDiscount,
 			price: dto.price,
-			size: dto.size,
-			sizeToShow: dto.sizeToShow,
-			stock: dto.stock,
 			category: dto.category,
 		})
 

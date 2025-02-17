@@ -12,6 +12,9 @@ export class ProductRepository implements IProductRepository {
 		this._supabaseClient = supabaseClient
 		this._productParser = productParser
 	}
+	findByIdWitDiscount(id: string): Promise<ProductDomain> {
+		throw new Error('Method not implemented.')
+	}
 
 	public async save(product: ProductDomain) {
 		const { error } = await this._supabaseClient
@@ -33,11 +36,47 @@ export class ProductRepository implements IProductRepository {
 		return this._productParser.toDomain(data)
 	}
 
-	public async findByIds(id: string[]) {
+	public async findByIdWithDiscount(id: string) {
 		const { data, error } = await this._supabaseClient
 			.from('Product')
-			.select('*')
+			.select('*, Promotions(discount_percentage)')
+			.eq('id', id)
+			.single()
+
+		if (error) throw error
+
+		const domainModel = this._productParser.toDomain(data)
+		return {
+			id: domainModel.id,
+			name: domainModel.name,
+			price: domainModel.price,
+			percentageDiscount: data.Promotions?.discount_percentage || 0,
+		}
+	}
+
+	public async findByIdsWithDiscount(id: string[]) {
+		const { data, error } = await this._supabaseClient
+			.from('Product')
+			.select('*, Promotions(discount_percentage)')
 			.in('id', id)
+
+		if (error) throw error
+
+		const domainWithDiscount = data.map((d) => {
+			const domainModel = this._productParser.toDomain(d)
+			return {
+				id: domainModel.id,
+				name: domainModel.name,
+				price: domainModel.price,
+				percentageDiscount: d.Promotions?.discount_percentage || 0,
+			}
+		})
+
+		return domainWithDiscount
+	}
+
+	public async findByIds(id: string[]) {
+		const { data, error } = await this._supabaseClient.from('Product').select('*').in('id', id)
 
 		if (error) throw error
 

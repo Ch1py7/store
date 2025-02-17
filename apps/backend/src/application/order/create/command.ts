@@ -3,7 +3,6 @@ export class CreateCommand {
 	public products: {
 		id: string
 		quantity: number
-		size: number
 	}[]
 
 	constructor({ userId, products }: CommandConstructor) {
@@ -17,6 +16,5 @@ interface CommandConstructor {
 	products: {
 		id: string
 		quantity: number
-		size: number
 	}[]
 }

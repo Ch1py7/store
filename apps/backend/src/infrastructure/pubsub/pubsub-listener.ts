@@ -38,20 +38,18 @@ export class PubSubListener {
 			const productIds = products.map((p) => p.id)
 			const foundProducts = await this._productRepository.findByIds(productIds)
 			const productMap = new Map(foundProducts.map((p) => [p.id, p]))
-			const cartWithPrices = products.map(({ id, size, quantity }) => {
+			const cartWithPrices = products.map(({ id, quantity }) => {
 				const product = productMap.get(id)
 				if (!product) throw new Error(`Product with ID ${id} not found`)
-	
+
 				return {
 					id,
 					name: product.name,
-					size,
 					quantity,
 					price: product.price,
-					percentageDiscount: product.percentageDiscount,
 				}
 			})
-	
+
 			const cart = new CartDomain({
 				id: randomUUID().toString(),
 				userId,
@@ -59,7 +57,7 @@ export class PubSubListener {
 				updatedAt: Date.now(),
 				products: cartWithPrices ? cartWithPrices : [],
 			})
-	
+
 			this._cartRepository.createCart(cart)
 		} catch (e) {
 			console.log(e)
@@ -69,6 +67,5 @@ export class PubSubListener {
 
 interface Product {
 	id: string
-	size: number
 	quantity: number
 }

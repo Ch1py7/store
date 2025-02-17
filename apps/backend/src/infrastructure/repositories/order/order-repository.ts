@@ -14,11 +14,11 @@ export class OrderRepository implements IOrderRepository {
 	}
 	async saveOrderUpdateProduct(
 		order: Order,
-		products: Pick<Database['public']['Tables']['Product']['Row'], 'id' | 'updated_at'>[]
+		inventory: Pick<Database['public']['Tables']['Inventory']['Row'], 'id' | 'updated_at'>[]
 	) {
 		const { error } = await this._supabaseClient.rpc('update_inventory_from_order', {
 			order_table_data: this._orderParser.toDbModel(order),
-			product_table_data: products,
+			inventory_table_data: inventory,
 		})
 
 		if (error) throw error

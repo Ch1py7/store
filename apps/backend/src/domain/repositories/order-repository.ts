@@ -6,6 +6,6 @@ export interface IOrderRepository {
 	findOrdersByUserId(id: string): Promise<OrderDomain[]>
 	saveOrderUpdateProduct(
 		order: OrderDomain,
-		product: Pick<Database['public']['Tables']['Product']['Row'], 'id' | 'stock' | 'updated_at'>[]
+		product: Pick<Database['public']['Tables']['Product']['Row'], 'id' | 'updated_at'>[]
 	): Promise<void>
 }
