@@ -18,6 +18,8 @@ import { UpdateUser } from './application/user/update'
 import { config } from './infrastructure/config'
 import { PubSubClient } from './infrastructure/pubsub/pubsub-client'
 import { PubSubListener } from './infrastructure/pubsub/pubsub-listener'
+import { AttributeParser } from './infrastructure/repositories/attributes/attributes-parser'
+import { AttributeRepository } from './infrastructure/repositories/attributes/attributes-repository'
 import { CartParser } from './infrastructure/repositories/cart/cart-parser'
 import { CartRepository } from './infrastructure/repositories/cart/cart-repository'
 import { InventoryParser } from './infrastructure/repositories/inventory/inventory-parser'
@@ -66,6 +68,7 @@ container.register({
 	cartRepository: asClass(CartRepository),
 	inventoryRepository: asClass(InventoryRepository),
 	productInventoryRepository: asClass(ProductInventoryRepository),
+	attributeRepository: asClass(AttributeRepository),
 
 	// supabase client
 	supabaseClient: asValue(supabaseClient),
@@ -76,6 +79,7 @@ container.register({
 	orderParser: asClass(OrderParser),
 	cartParser: asClass(CartParser),
 	inventoryParser: asClass(InventoryParser),
+	attributeParser: asClass(AttributeParser),
 
 	// PubSub
 	pubSubClient: asClass(PubSubClient),

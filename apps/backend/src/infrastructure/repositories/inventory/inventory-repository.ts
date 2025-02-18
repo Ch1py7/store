@@ -39,7 +39,7 @@ export class InventoryRepository implements IInventoryRepository {
 
 		if (error) throw error
 
-		return this._inventoryParser.toDomain(data, data.Product.category)
+		return this._inventoryParser.toDomain(data)
 	}
 
 	public async findByProductId(productId: string[]) {
@@ -50,7 +50,7 @@ export class InventoryRepository implements IInventoryRepository {
 
 		if (error) throw error
 
-		const domainModels = data.map((d) => this._inventoryParser.toDomain(d, d.Product.category))
+		const domainModels = data.map((d) => this._inventoryParser.toDomain(d))
 
 		return domainModels
 	}

@@ -14,6 +14,8 @@ import type { GetUsers } from '@/application/user/get_users'
 import type { UpdateUser } from '@/application/user/update'
 import type { PubSubClient } from '@/infrastructure/pubsub/pubsub-client'
 import type { PubSubListener } from '@/infrastructure/pubsub/pubsub-listener'
+import type { AttributeParser } from '@/infrastructure/repositories/attributes/attributes-parser'
+import type { AttributeRepository } from '@/infrastructure/repositories/attributes/attributes-repository'
 import type { CartParser } from '@/infrastructure/repositories/cart/cart-parser'
 import type { CartRepository } from '@/infrastructure/repositories/cart/cart-repository'
 import type { InventoryParser } from '@/infrastructure/repositories/inventory/inventory-parser'
@@ -62,6 +64,7 @@ declare global {
 		cartRepository: CartRepository
 		inventoryRepository: InventoryRepository
 		productInventoryRepository: ProductInventoryRepository
+		attributeRepository: AttributeRepository
 
 		// supabase client
 		supabaseClient: typeof supabaseClient
@@ -72,6 +75,7 @@ declare global {
 		orderParser: OrderParser
 		cartParser: CartParser
 		inventoryParser: InventoryParser
+		attributeParser: AttributeParser
 
 		// PubSub
 		pubSubClient: PubSubClient

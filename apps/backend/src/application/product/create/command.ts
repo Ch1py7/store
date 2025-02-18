@@ -3,7 +3,7 @@ export class CreateCommand {
 	public description: string
 	public price: number
 	public category: number
-	public attributes: Record<string, string>
+	public attributes: { name: string; value: string }[]
 	public stock: number
 
 	constructor({ name, description, price, category, attributes, stock }: CommandConstructor) {
@@ -21,6 +21,6 @@ interface CommandConstructor {
 	description: string
 	price: number
 	category: number
-	attributes: Record<string, string>
+	attributes: { name: string; value: string }[]
 	stock: number
 }

@@ -18,8 +18,6 @@ export class CreateInventory {
 			id: this._crypto.randomUUID(),
 			createdAt: Date.now(),
 			updatedAt: Date.now(),
-			attributes: dto.attributes,
-			category: dto.category,
 			productId: dto.productId,
 			stock: dto.stock,
 		})
