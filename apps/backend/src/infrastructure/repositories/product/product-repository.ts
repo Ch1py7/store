@@ -84,12 +84,24 @@ export class ProductRepository implements IProductRepository {
 		return domainData
 	}
 
-	public async findAll(): Promise<ProductDomain[]> {
-		const { data, error } = await this._supabaseClient.from('Product').select('*')
+	public async findAll() {
+		const { data, error } = await this._supabaseClient
+			.from('Product')
+			.select('*, Inventory(stock), ProductAttributes(attribute_name, attribute_value)')
 
 		if (error) throw error
 
-		const domainModel = data.map((db) => this._productParser.toDomain(db))
+		const domainModel = data.map((db) => ({
+			id: this._productParser.toDomain(db).id,
+			name: this._productParser.toDomain(db).name,
+			price: this._productParser.toDomain(db).price,
+			description: this._productParser.toDomain(db).description,
+			createdAt: this._productParser.toDomain(db).createdAt,
+			updatedAt: this._productParser.toDomain(db).updatedAt,
+			category: this._productParser.toDomain(db).category,
+			stock: db.Inventory?.stock || 0,
+			attributes: db.ProductAttributes ?? [],
+		}))
 
 		return domainModel
 	}
