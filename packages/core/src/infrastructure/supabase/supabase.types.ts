@@ -84,7 +84,6 @@ export type Database = {
       }
       Inventory: {
         Row: {
-          attributes: Json
           created_at: string
           id: string
           product_id: string
@@ -92,7 +91,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          attributes: Json
           created_at: string
           id: string
           product_id: string
@@ -100,7 +98,6 @@ export type Database = {
           updated_at: string
         }
         Update: {
-          attributes?: Json
           created_at?: string
           id?: string
           product_id?: string
@@ -424,6 +421,7 @@ export type Database = {
       create_inventory_by_product: {
         Args: {
           product_table_data: Json
+          attributes_table_data: Json[]
           inventory_table_data: Json
         }
         Returns: undefined

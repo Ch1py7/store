@@ -1,4 +1,4 @@
-import { InvalidAttributesError } from './errors'
+import { InvalidAttributeError } from './errors'
 
 enum ProductsCategories {
 	Clothing = 1,
@@ -45,28 +45,24 @@ const attributesConfig: Record<string, string[]> = {
 	[ProductsCategories.ToysAndGames]: ['recommendedAge', 'reqBattery', 'numOfPlayers', 'gameType'],
 }
 
-export class Attributes {
-	public readonly value: Record<string, string>
+export class AttributeName {
+	public readonly value: string
 
-	constructor(value: Record<string, string>, category: number) {
+	constructor(value: string, category: number) {
 		this._validateAttributes(value, category)
 		this.value = value
 	}
 
-	private _validateAttributes(attributes: Record<string, string>, category: ProductsCategories) {
+	private _validateAttributes(name: string, category: ProductsCategories) {
 		if (!attributesConfig[category]) {
-			throw new InvalidAttributesError(`Invalid category: ${category}`)
+			throw new InvalidAttributeError(`Invalid category: ${category}`)
 		}
 
 		const allowedAttributes = [...attributesConfig.general, ...attributesConfig[category]]
-		const allowedAttributesSet = new Set(allowedAttributes) // Usar Set para mejor rendimiento
 
-		for (const key of Object.keys(attributes)) {
-			if (!allowedAttributesSet.has(key)) {
-				throw new InvalidAttributesError(
-					`Invalid attribute '${key}' for category '${ProductsCategories[category]}'. Allowed attributes: ${allowedAttributes.join(', ')}`
-				)
-			}
-		}
+		if (!allowedAttributes.includes(name))
+			throw new InvalidAttributeError(
+				`Invalid attribute '${name}' for category '${ProductsCategories[category]}'.}`
+			)
 	}
 }
