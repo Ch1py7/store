@@ -11,7 +11,7 @@ enum ProductsCategories {
 
 const attributesConfig: Record<string, string[]> = {
 	general: ['material', 'dimensions', 'weight', 'brand', 'capacity', 'features'],
-	[ProductsCategories.Clothing]: ['size', 'color', 'gender', 'season', 'style', 'type'],
+	[ProductsCategories.Clothing]: ['size', 'color', 'gender', 'season', 'style', 'type', 'colorMap'],
 	[ProductsCategories.Technology]: [
 		'model',
 		'processor',
