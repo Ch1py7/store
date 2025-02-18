@@ -19,15 +19,15 @@ export class ProductInventoryRepository {
 	}
 
 	async save(product: Product, attributes: Attribute[], inventory: Inventory) {
-		const inventoryData = this._inventoryParser.toDbModel(inventory)
 		const productData = this._productParser.toDbModel(product)
 		const attributeData = attributes.map((atr) => this._attributeParser.toDbModel(atr))
+		const inventoryData = this._inventoryParser.toDbModel(inventory)
 
 
 		const { error } = await this._supabaseClient.rpc('create_inventory_by_product', {
-			inventory_table_data: inventoryData,
-			attributes_table_data: attributeData,
 			product_table_data: productData,
+			attributes_table_data: attributeData,
+			inventory_table_data: inventoryData,
 		})
 
 		if (error) throw error
