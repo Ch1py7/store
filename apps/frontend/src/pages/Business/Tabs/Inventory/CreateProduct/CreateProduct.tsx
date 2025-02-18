@@ -2,9 +2,9 @@ import { toasty } from '@/shared/lib/notifications/toast'
 import { ProductsService } from '@/shared/service/requests/products'
 import { postRequest } from '@/shared/service/requests/requests'
 import { Modal } from '@/shared/ui/Modal'
-import { ProductsCategories } from '@/shared/utils'
+import { attributesParser, ProductsCategories } from '@/shared/utils'
 import { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { NewClothing } from './NewClothing'
 
@@ -18,29 +18,17 @@ interface CreateProductProps {
 type Category = {
 	label: string
 	value: number
+	type: string
 }
 
 const ProductCategory: Category[] = [
-	{ label: 'Clothing', value: ProductsCategories.Clothing },
-	// { label: 'Technology', value: ProductsCategories.Technology },
-	// { label: 'Reading', value: ProductsCategories.Reading },
-	// { label: 'Home & Kitchen', value: ProductsCategories.HomeAndKitchen },
-	// { label: 'Health & Beauty', value: ProductsCategories.HealthAndBeauty },
-	// { label: 'Toys & Games', value: ProductsCategories.ToysAndGames },
+	{ label: 'Clothing', value: ProductsCategories.Clothing, type: 'CLOTHING' },
+	// { label: 'Technology', value: ProductsCategories.Technology, type: 'TECH' },
+	// { label: 'Reading', value: ProductsCategories.Reading, type: 'READ' },
+	// { label: 'Home & Kitchen', value: ProductsCategories.HomeAndKitchen, type: 'H&C' },
+	// { label: 'Health & Beauty', value: ProductsCategories.HealthAndBeauty, type: 'H&B' },
+	// { label: 'Toys & Games', value: ProductsCategories.ToysAndGames, type: 'T&G' },
 ]
-
-type Inputs = {
-	pages?: number
-	category?: number
-	// clothing
-	name: string
-	description: string
-	percentageDiscount: number
-	price: number
-	size: number[]
-	stock: number
-	sizeToShow: number
-}
 
 export const CreateProduct: React.FC<CreateProductProps> = ({
 	setShowCreateProduct,
@@ -54,22 +42,14 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 		formState: { errors },
 		clearErrors,
 		watch,
-		setError,
-		setValue,
 		reset,
-		getValues,
-	} = useForm<Inputs>()
+	} = useForm<GeneralInputs>()
 
-	const [sizes, setSizes] = useState<number[]>([])
 	const selectedCategory = watch('category')
 
-	const onSubmit: SubmitHandler<Inputs> = async (inputsData) => {
+	const onSubmit: SubmitHandler<GeneralInputs> = async (inputsData) => {
 		try {
-			if (!sizes || sizes.length === 0) {
-				setError('size', { type: 'required', message: 'A size is required' })
-				return
-			}
-			const dataToSend = { ...inputsData, size: sizes }
+			const dataToSend = { ...inputsData, attributes: attributesParser(inputsData.attributes)}
 			const { data, status } = await postRequest<{ message: string }>(
 				ProductsService.create,
 				dataToSend
@@ -131,18 +111,94 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 						</label>
 						{errors.category && <p className='text-red-500 text-sm'>{errors.category.message}</p>}
 					</div>
+					{selectedCategory !== 0 && (
+						<>
+							<div>
+								<label className='block text-sm font-medium text-gray-700 mb-1'>
+									Product Name
+									<input
+										placeholder='Super Product'
+										type='text'
+										{...register('name', {
+											maxLength: {
+												value: 100,
+												message: 'Name must not exceed 100 characters',
+											},
+											minLength: {
+												value: 2,
+												message: 'Name must be greather than 1 character',
+											},
+											required: {
+												value: true,
+												message: 'Name is required',
+											},
+										})}
+										className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+									/>
+								</label>
+								{errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
+							</div>
+							<div className='mt-2 grid grid-cols-2 gap-2'>
+								<div>
+									<label className='block text-sm font-medium text-gray-700 mb-1'>
+										Price
+										<input
+											type='text'
+											{...register('price', {
+												required: 'Price is required',
+												value: 0,
+												valueAsNumber: true,
+												max: {
+													value: 1000000,
+													message: 'Price must not exceed 7 digits',
+												},
+												min: {
+													value: 1,
+													message: 'Price must be greater than 0',
+												},
+											})}
+											onInput={(e) => {
+												e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
+											}}
+											className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.price ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+										/>
+									</label>
+									{errors.price && <p className='text-red-500 text-sm'>{errors.price.message}</p>}
+								</div>
+								<div>
+									<label className='block text-sm font-medium text-gray-700 mb-1'>
+										Stock
+										<input
+											type='text'
+											{...register('stock', {
+												required: 'Stock is required',
+												value: 0,
+												valueAsNumber: true,
+												max: {
+													value: 1000000,
+													message: 'Price must not exceed 7 digits',
+												},
+												min: {
+													value: 1,
+													message: 'Stock must be greater than 0',
+												},
+											})}
+											onInput={(e) => {
+												e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
+											}}
+											className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.stock ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+										/>
+									</label>
+									{errors.stock && <p className='text-red-500 text-sm'>{errors.stock.message}</p>}
+								</div>
+							</div>
+						</>
+					)}
 					{selectedCategory === ProductsCategories.Clothing && (
-						<NewClothing
-							errors={errors}
-							register={register}
-							setSizes={setSizes}
-							sizes={sizes}
-							clearErrors={clearErrors}
-							setValue={setValue}
-						/>
+						<NewClothing errors={errors} register={register} />
 					)}
 
-					{selectedCategory === 3 && (
+					{/* {selectedCategory === 3 && (
 						<div>
 							<label className='block text-sm font-medium text-gray-700 mb-1'>
 								Number of Pages
@@ -156,6 +212,28 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 								/>
 							</label>
 							{errors.pages && <p className='text-red-500 text-sm'>{errors.pages.message}</p>}
+						</div>
+					)} */}
+					{selectedCategory !== 0 && (
+						<div>
+							<label className='block text-sm font-medium text-gray-700 mb-1'>
+								Description
+								<textarea
+									{...register('description', {
+										required: 'Description is required',
+										maxLength: {
+											value: 200,
+											message: 'Description must be a maximum of 200 characters',
+										},
+									})}
+									placeholder='You will never feel cold again.'
+									className={`mt-1 block w-full min-h-32 px-3 py-2 shadow-sm border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+									style={{ resize: 'none' }}
+								/>
+							</label>
+							{errors.description && (
+								<p className='text-red-500 text-sm'>{errors.description.message}</p>
+							)}
 						</div>
 					)}
 

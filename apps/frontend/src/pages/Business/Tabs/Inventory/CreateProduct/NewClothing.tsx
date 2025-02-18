@@ -1,28 +1,9 @@
 import { ClothingSizes } from '@/shared/utils'
-import type {
-	FieldErrors,
-	UseFormClearErrors,
-	UseFormRegister,
-	UseFormSetValue,
-} from 'react-hook-form'
-
-type Inputs = {
-	name: string
-	description: string
-	percentageDiscount: number
-	price: number
-	size: number[]
-	stock: number
-	sizeToShow: number
-}
+import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 
 interface NewClothingProps {
-	register: UseFormRegister<Inputs>
-	errors: FieldErrors<Inputs>
-	sizes: number[]
-	setSizes: React.Dispatch<React.SetStateAction<number[]>>
-	clearErrors: UseFormClearErrors<Inputs>
-	setValue: UseFormSetValue<Inputs>
+	register: UseFormRegister<GeneralInputs<'CLOTHING'>>
+	errors: FieldErrors<GeneralInputs<'CLOTHING'>>
 }
 
 const sizeOptions = [
@@ -35,218 +16,123 @@ const sizeOptions = [
 	{ label: '3XL', value: ClothingSizes.XXXL },
 ]
 
-export const NewClothing: React.FC<NewClothingProps> = ({
-	register,
-	errors,
-	sizes,
-	setSizes,
-	clearErrors,
-	setValue,
-}): React.ReactNode => {
-	const handleSize = (value: number) => {
-		clearErrors('size')
-		if (!sizes.includes(value)) {
-			setSizes((prevSizes) => {
-				const newSizes = [...prevSizes, value]
-				setValue('size', newSizes)
-				return newSizes
-			})
-		} else {
-			setSizes((prevSizes) => {
-				const newSizes = prevSizes.filter((size) => size !== value)
-				setValue('size', newSizes)
-				return newSizes
-			})
-		}
-	}
+export const NewClothing: React.FC<NewClothingProps> = ({ register, errors }): React.ReactNode => {
+	const clothingErrors = errors.attributes as FieldErrors<ClothingInputs> | undefined
+
 	return (
 		<div className='space-y-4'>
-			<div>
-				<label className='block text-sm font-medium text-gray-700 mb-1'>
-					Product Name
-					<input
-						type='text'
-						{...register('name', {
-							maxLength: {
-								value: 100,
-								message: 'Name must not exceed 100 characters',
-							},
-							minLength: {
-								value: 1,
-								message: 'Name must be greather than 1 character',
-							},
-							required: {
-								value: true,
-								message: 'Name is required',
-							},
-						})}
-						className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-					/>
-				</label>
-				{errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
-			</div>
 			<div className='grid grid-cols-4 gap-4'>
 				<div>
 					<label className='block text-sm font-medium text-gray-700 mb-1'>
-						Price
-						<input
-							type='text'
-							{...register('price', {
-								required: 'Price is required',
-								value: 0,
-								valueAsNumber: true,
-								max: {
-									value: 1000000,
-									message: 'Price must not exceed 7 digits',
-								},
-								min: {
-									value: 1,
-									message: 'Price must be greater than 0',
-								},
-							})}
-							onInput={(e) => {
-								e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
-							}}
-							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.price ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-						/>
-					</label>
-					{errors.price && <p className='text-red-500 text-sm'>{errors.price.message}</p>}
-				</div>
-				<div>
-					<label className='block text-sm font-medium text-gray-700 mb-1'>
-						Stock
-						<input
-							type='text'
-							{...register('stock', {
-								required: 'Stock is required',
-								value: 0,
-								valueAsNumber: true,
-								max: {
-									value: 1000000,
-									message: 'Price must not exceed 7 digits',
-								},
-								min: {
-									value: 1,
-									message: 'Stock must be greater than 0',
-								},
-							})}
-							onInput={(e) => {
-								e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
-							}}
-							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.stock ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-						/>
-					</label>
-					{errors.stock && <p className='text-red-500 text-sm'>{errors.stock.message}</p>}
-				</div>
-				<div>
-					<label className='block text-sm font-medium text-gray-700 mb-1'>
-						Discount %
-						<input
-							{...register('percentageDiscount', {
-								required: 'Discount is required',
-								value: 0,
-								valueAsNumber: true,
-								min: {
-									value: 0,
-									message: 'Percentage must be 0 or greater',
-								},
-								max: {
-									value: 100,
-									message: 'Discount must not exceed 100%',
-								},
-							})}
-							onInput={(e) => {
-								e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
-							}}
-							onChange={(e) => {
-								if (Number.parseInt(e.target.value, 10) > 100) {
-									e.target.value = '100'
-								}
-							}}
-							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.percentageDiscount ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-						/>
-					</label>
-					{errors.percentageDiscount && (
-						<p className='text-red-500 text-sm'>{errors.percentageDiscount.message}</p>
-					)}
-				</div>
-				<div>
-					<label className='block text-sm font-medium text-gray-700 mb-1'>
-						Sizes
+						Size
 						<select
-							onChange={(e) => {
-								handleSize(Number(e.target.value))
-							}}
-							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.size ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-						>
-							<option value=''>Select sizes</option>
-							{sizeOptions.map((size) => {
-								if (sizes.find((s) => s === size.value)) return
-								return (
-									<option key={size.value} value={size.value}>
-										{size.label}
-									</option>
-								)
+							{...register('attributes.size', {
+								valueAsNumber: true,
+								required: {
+									value: true,
+									message: 'A size is required',
+								},
 							})}
-						</select>
-					</label>
-					<div className='mt-2 grid grid-cols-3 gap-2'>
-						{sizes.map((size) => {
-							const sizeLabel = sizeOptions.find((s) => s.value === size)?.label
-							return (
-								<button
-									key={size}
-									type='button'
-									onClick={() => handleSize(size)}
-									className='bg-gray-200 rounded-lg hover:bg-red-400 transition-colors duration-300 ease-in-out '
-									title='remove'
-								>
-									{sizeLabel}
-								</button>
-							)
-						})}
-					</div>
-					{errors.size && <p className='text-red-500 text-sm'>{errors.size.message}</p>}
-				</div>
-				<div>
-					<label className='block text-sm font-medium text-gray-700 mb-1'>
-						Size to show
-						<select
-							{...register('sizeToShow', { valueAsNumber: true })}
-							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.size ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.size ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 						>
-							<option value=''>Select a size</option>
-							{sizes.map((size) => (
-								<option key={size} value={sizeOptions.find((s) => s.value === size)?.value}>
-									{sizeOptions.find((s) => s.value === size)?.label}
+							<option value=''>Select size</option>
+							{sizeOptions.map((size) => (
+								<option key={size.value} value={size.value}>
+									{size.label}
 								</option>
 							))}
 						</select>
 					</label>
-					{errors.size && <p className='text-red-500 text-sm'>{errors.size.message}</p>}
+					{clothingErrors?.size && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.size.message}</p>
+					)}
 				</div>
-			</div>
-			<div>
-				<label className='block text-sm font-medium text-gray-700 mb-1'>
-					Description
-					<textarea
-						{...register('description', {
-							required: 'Description is required',
-							maxLength: {
-								value: 200,
-								message: 'Description must be a maximum of 200 characters',
-							},
-							minLength: {
-								value: 10,
-								message: 'Description must be 10 characters or greater',
+				<div>
+					<label className='block text-sm font-medium text-gray-700 mb-1'>
+						Gender
+						<input
+							placeholder='Unisex'
+							{...register('attributes.gender')}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.gender ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+						/>
+					</label>
+					{clothingErrors?.gender && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.gender.message}</p>
+					)}
+				</div>
+				<div>
+					<label className='block text-sm font-medium text-gray-700 mb-1'>
+						Color
+						<input
+							placeholder='Red'
+							{...register('attributes.color', {
+								required: {
+									value: true,
+									message: 'A color is required',
+								},
+							})}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.color ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+						/>
+					</label>
+					{clothingErrors?.color && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.color.message}</p>
+					)}
+				</div>
+				<div>
+					<p className='block text-sm font-medium text-gray-700 mb-1'>Color Map</p>
+					<input
+						{...register('attributes.colorMap', {
+							required: {
+								value: true,
+								message: 'Select a color to show',
 							},
 						})}
-						placeholder='10 characters minimum'
-						className={`mt-1 block w-full min-h-32 px-3 py-2 shadow-sm border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-						style={{ resize: 'none' }}
+						type='color'
+						className={`block mt-1 shadow-sm border h-[2.4rem] w-[4.8rem] px-[4px] py-[1px] ${clothingErrors?.colorMap ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 					/>
-				</label>
-				{errors.description && <p className='text-red-500 text-sm'>{errors.description.message}</p>}
+					{clothingErrors?.colorMap && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.colorMap.message}</p>
+					)}
+				</div>
+				<div>
+					<label className='block text-sm font-medium text-gray-700 mb-1'>
+						Season
+						<input
+							placeholder='Winter'
+							{...register('attributes.season')}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.season ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+						/>
+					</label>
+					{clothingErrors?.season && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.season.message}</p>
+					)}
+				</div>
+				<div>
+					<label className='block text-sm font-medium text-gray-700 mb-1'>
+						Style
+						<input
+							placeholder='Casual'
+							{...register('attributes.style')}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.style ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+						/>
+					</label>
+					{clothingErrors?.style && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.style.message}</p>
+					)}
+				</div>
+				<div>
+					<label className='block text-sm font-medium text-gray-700 mb-1'>
+						Material
+						<input
+							placeholder='65% Polyester, 35% Cotton'
+							{...register('attributes.material')}
+							className={`mt-1 block w-full px-3 py-2 shadow-sm border ${clothingErrors?.material ? 'border-red-500' : 'border-gray-300'} rounded-md`}
+						/>
+					</label>
+					{clothingErrors?.material && (
+						<p className='text-red-500 text-sm'>{clothingErrors?.material.message}</p>
+					)}
+				</div>
 			</div>
 		</div>
 	)
