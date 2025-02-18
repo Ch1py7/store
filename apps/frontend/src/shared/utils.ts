@@ -46,3 +46,12 @@ export const getSize: Record<string, string> = {
 	[ClothingSizes.XXL]: 'XXL',
 	[ClothingSizes.XXXL]: 'XXXL',
 }
+
+export const getCategory: Record<string, string> = {
+	[ProductsCategories.Clothing]: 'Clothing',
+	[ProductsCategories.Technology]: 'Technology',
+	[ProductsCategories.Reading]: 'Reading',
+	[ProductsCategories.HomeAndKitchen]: 'Home and Kitchen',
+	[ProductsCategories.HealthAndBeauty]: 'Health and Beauty',
+	[ProductsCategories.ToysAndGames]: 'Toys and Games',
+}
