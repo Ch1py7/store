@@ -5,6 +5,13 @@ export const getTotalCart = (cart: Product[]) => {
 	return total
 }
 
+export const attributesParser = (attributes: {}) => {
+	return Object.entries(attributes).map(([name, value]) => ({
+		name,
+		value,
+	}))
+}
+
 export enum Roles {
 	admin = 1,
 	user = 2,
@@ -12,32 +19,30 @@ export enum Roles {
 }
 
 export enum ProductsCategories {
-	'Clothing' = 1,
-	'Technology' = 2,
-	'Reading' = 3,
-	'HomeAndKitchen' = 4,
-	'HealthAndBeauty' = 5,
-	'ToysAndGames' = 6,
+	Clothing = 1,
+	Technology = 2,
+	Reading = 3,
+	HomeAndKitchen = 4,
+	HealthAndBeauty = 5,
+	ToysAndGames = 6,
 }
 
 export enum ClothingSizes {
-	'XS' = 1,
-	'S' = 2,
-	'M' = 3,
-	'L' = 4,
-	'XL' = 5,
-	'XXL' = 6,
-	'XXXL' = 7,
+	XS = 1,
+	S = 2,
+	M = 3,
+	L = 4,
+	XL = 5,
+	XXL = 6,
+	XXXL = 7,
 }
 
-export const getSize = (value: number) => {
-	switch (value) {
-		case(ClothingSizes.XS): return 'XS'
-		case(ClothingSizes.S): return 'S'
-		case(ClothingSizes.M): return 'M'
-		case(ClothingSizes.L): return 'L'
-		case(ClothingSizes.XL): return 'XL'
-		case(ClothingSizes.XXL): return 'XXL'
-		case(ClothingSizes.XXXL): return 'XXXL'
-	}
+export const getSize: Record<string, string> = {
+	[ClothingSizes.XS]: 'XS',
+	[ClothingSizes.S]: 'S',
+	[ClothingSizes.M]: 'M',
+	[ClothingSizes.L]: 'L',
+	[ClothingSizes.XL]: 'XL',
+	[ClothingSizes.XXL]: 'XXL',
+	[ClothingSizes.XXXL]: 'XXXL',
 }
