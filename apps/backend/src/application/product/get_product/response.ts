@@ -1,5 +1,3 @@
-import type { Product } from '@store/core'
-
 export class GetProductResponse {
 	public name: string
 	public description: string
@@ -10,4 +8,19 @@ export class GetProductResponse {
 		this.description = description
 		this.price = price
 	}
+}
+
+interface Product {
+	id: string
+	name: string
+	description: string
+	updatedAt: number
+	createdAt: number
+	price: number
+	category: number
+	stock: number
+	attributes: {
+		attribute_name: string
+		attribute_value: string
+	}[]
 }

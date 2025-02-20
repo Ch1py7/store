@@ -9,8 +9,24 @@ export class GetProduct {
 	}
 
 	public async execute({ id }: GetProductCommand) {
-		const user = await this._productRepository.findById(id)
+		const { productDomain, attributesDomain, inventoryDomain } =
+			await this._productRepository.findById(id)
 
-		return new GetProductResponse(user)
+		const attributes = attributesDomain.map((atr) => ({
+			attribute_name: atr.attributeName,
+			attribute_value: atr.attributeValue,
+		}))
+
+		return new GetProductResponse({
+			id,
+			name: productDomain.name,
+			description: productDomain.description,
+			category: productDomain.category,
+			price: productDomain.price,
+			stock: inventoryDomain.stock,
+			attributes,
+			createdAt: productDomain.createdAt,
+			updatedAt: productDomain.updatedAt,
+		})
 	}
 }

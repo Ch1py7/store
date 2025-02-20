@@ -23,7 +23,6 @@ export class ProductInventoryRepository {
 		const attributeData = attributes.map((atr) => this._attributeParser.toDbModel(atr))
 		const inventoryData = this._inventoryParser.toDbModel(inventory)
 
-
 		const { error } = await this._supabaseClient.rpc('create_inventory_by_product', {
 			product_table_data: productData,
 			attributes_table_data: attributeData,

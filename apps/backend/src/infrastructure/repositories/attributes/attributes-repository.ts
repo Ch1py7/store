@@ -29,4 +29,14 @@ export class AttributeRepository implements IAttributeRepository {
 
 		if (error) throw error
 	}
+
+	public async updateByBatch(attributes: AttributeDomain[]) {
+		const attributesDbModel = attributes.map((domain) => this._attributeParser.toDbModel(domain))
+
+		const { error } = await this._supabaseClient
+			.from('ProductAttributes')
+			.upsert(attributesDbModel)
+
+		if (error) throw error
+	}
 }

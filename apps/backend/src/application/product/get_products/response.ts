@@ -38,5 +38,4 @@ interface Products {
 	category: number
 	stock: number
 	attributes: { attribute_name: string; attribute_value: string }[]
-}
-;[]
+}[]

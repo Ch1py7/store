@@ -8,6 +8,7 @@ import type { GetOrdersByUserId } from '@/application/order/get_orders_by_userid
 import type { CreateProduct } from '@/application/product/create'
 import type { GetProduct } from '@/application/product/get_product'
 import type { GetProducts } from '@/application/product/get_products'
+import type { UpdateProduct } from '@/application/product/update'
 import type { DeleteUser } from '@/application/user/delete'
 import type { GetUser } from '@/application/user/get_user'
 import type { GetUsers } from '@/application/user/get_users'
@@ -41,6 +42,7 @@ declare global {
 
 		// product use cases
 		createProduct: CreateProduct
+		updateProduct: UpdateProduct
 		getProduct: GetProduct
 		getProducts: GetProducts
 

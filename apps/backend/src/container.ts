@@ -11,6 +11,7 @@ import { GetOrdersByUserId } from './application/order/get_orders_by_userid'
 import { CreateProduct } from './application/product/create'
 import { GetProduct } from './application/product/get_product'
 import { GetProducts } from './application/product/get_products'
+import { UpdateProduct } from './application/product/update'
 import { DeleteUser } from './application/user/delete'
 import { GetUser } from './application/user/get_user'
 import { GetUsers } from './application/user/get_users'
@@ -45,6 +46,7 @@ container.register({
 
 	// product use cases
 	createProduct: asClass(CreateProduct),
+	updateProduct: asClass(UpdateProduct),
 	getProduct: asClass(GetProduct),
 	getProducts: asClass(GetProducts),
 
