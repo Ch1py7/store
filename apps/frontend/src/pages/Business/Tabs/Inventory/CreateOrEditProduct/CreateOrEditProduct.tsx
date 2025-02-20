@@ -1,6 +1,6 @@
 import { toasty } from '@/shared/lib/notifications/toast'
 import { ProductsService } from '@/shared/service/requests/products'
-import { postRequest } from '@/shared/service/requests/requests'
+import { patchRequest, postRequest } from '@/shared/service/requests/requests'
 import { Modal } from '@/shared/ui/Modal'
 import { attributesParser, ProductsCategories } from '@/shared/utils'
 import { AxiosError } from 'axios'
@@ -8,11 +8,27 @@ import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { NewClothing } from './NewClothing'
 
+interface Product {
+	id: string
+	name: string
+	description: string
+	updatedAt: number
+	createdAt: number
+	price: number
+	category: number
+	stock: number
+	attributes: {
+		attribute_name: string
+		attribute_value: string
+	}[]
+}
+
 interface CreateProductProps {
 	showCreateProduct: boolean
 	setShowCreateProduct: React.Dispatch<React.SetStateAction<boolean>>
-	productToEdit: boolean | null
-	setProductToEdit: React.Dispatch<React.SetStateAction<boolean | null>>
+	productToEdit: Product | null
+	setProductToEdit: React.Dispatch<React.SetStateAction<Product | null>>
+	getProducts: () => Promise<void>
 }
 
 type Category = {
@@ -30,33 +46,43 @@ const ProductCategory: Category[] = [
 	// { label: 'Toys & Games', value: ProductsCategories.ToysAndGames, type: 'T&G' },
 ]
 
-export const CreateProduct: React.FC<CreateProductProps> = ({
+export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 	setShowCreateProduct,
 	showCreateProduct,
 	productToEdit,
 	setProductToEdit,
+	getProducts,
 }): React.ReactNode => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		clearErrors,
+		setValue,
 		watch,
 		reset,
 	} = useForm<GeneralInputs>()
 
 	const selectedCategory = watch('category')
 
+	const handleShowModal = () => {
+		setShowCreateProduct(false)
+		setProductToEdit(null)
+	}
+
 	const onSubmit: SubmitHandler<GeneralInputs> = async (inputsData) => {
 		try {
-			const dataToSend = { ...inputsData, attributes: attributesParser(inputsData.attributes)}
-			const { data, status } = await postRequest<{ message: string }>(
-				ProductsService.create,
-				dataToSend
-			)
+			const dataToSend = { ...inputsData, attributes: attributesParser(inputsData.attributes) }
+			const { response, status } = productToEdit
+				? await patchRequest<{ message: string }>(
+						ProductsService.update(productToEdit.id),
+						dataToSend
+					)
+				: await postRequest<{ message: string }>(ProductsService.create, dataToSend)
 			if (status === 200) {
-				toasty.success(data.message)
-				setShowCreateProduct(false)
+				toasty.success(response.message)
+				handleShowModal()
+				getProducts()
 			}
 		} catch (er) {
 			if (er instanceof AxiosError && er.response?.data?.error) {
@@ -68,6 +94,20 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 	}
 
 	useEffect(() => {
+		if (productToEdit) {
+			setValue('name', productToEdit.name)
+			setValue('description', productToEdit.description)
+			setValue('price', productToEdit.price)
+			setValue('category', productToEdit.category)
+			setValue('stock', productToEdit.stock)
+			productToEdit.attributes.forEach((attribute) => {
+				// @ts-ignore
+				setValue(`attributes.${attribute.attribute_name}`, attribute.attribute_value)
+			})
+		}
+	}, [productToEdit, setValue])
+
+	useEffect(() => {
 		if (!showCreateProduct) {
 			clearErrors()
 			reset({ category: 0 })
@@ -76,8 +116,8 @@ export const CreateProduct: React.FC<CreateProductProps> = ({
 
 	return (
 		<Modal
-			showModal={showCreateProduct}
-			setShowModal={setShowCreateProduct}
+			showModal={showCreateProduct || Boolean(productToEdit)}
+			setShowModal={() => handleShowModal()}
 			title={productToEdit ? 'Edit Product' : 'Add New Product'}
 			size='medium'
 		>
