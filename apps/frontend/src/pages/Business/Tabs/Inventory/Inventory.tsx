@@ -80,20 +80,12 @@ export const Inventory: React.FC = (): React.ReactNode => {
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			setDebouncedQuery(query)
-		}, 500) // Espera 500ms antes de actualizar
+		}, 500)
 
 		return () => {
 			clearTimeout(handler)
 		}
 	}, [query])
-
-	// useEffect(() => {
-	// 	if (debouncedQuery) {
-	// 		axios.get(`/api/search?query=${debouncedQuery}`).then((response) => {
-	// 			console.log(response.data)
-	// 		})
-	// 	}
-	// }, [debouncedQuery])
 	return (
 		<>
 			<CreateOrEditProduct

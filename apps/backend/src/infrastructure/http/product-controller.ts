@@ -113,7 +113,7 @@ router.delete(
 
 router.get('/products/:id?', async (req: express.Request, res: express.Response) => {
 	const { id } = req.params
-	const search = req.query.search as string | undefined // Extraer `search` desde query params
+	const search = req.query.search as string | undefined
 
 	try {
 		if (id && search) {

@@ -59,11 +59,6 @@ export const useCartStore = create<CartState>((set, get) => ({
 		}
 	},
 
-	// clearCart: async () => {
-	// 	set({ cart: [], total: 0, productsQuantity: 0 })
-	// 	await get().getCart()
-	// },
-
 	addProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => {
 		const cart = get().cart
 		if (!cart) return
@@ -149,7 +144,6 @@ interface CartState {
 	handleCheckout: (id: string) => void
 	getCart: () => Promise<void>
 	updateCart: () => Promise<void>
-	// clearCart: () => void
 	addProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	restProduct: (product: Omit<Product, 'quantity' | 'toCheckout'>) => void
 	removeProduct: (id: string) => void

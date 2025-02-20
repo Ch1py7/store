@@ -85,7 +85,14 @@ export class ProductRepository {
 			.eq('is_deleted', false)
 
 		if (search) {
-			query = query.or(`name.ilike.${search},description.ilike.${search}`)
+			const parsedSearch = Number.parseInt(search)
+			if (!Number.isNaN(parsedSearch)) {
+				query = query.or(
+					`name.ilike.${search},description.ilike.${search},category.eq.${parsedSearch}`
+				)
+			} else {
+				query = query.or(`name.ilike.${search},description.ilike.${search}`)
+			}
 		}
 
 		const { data, error } = await query

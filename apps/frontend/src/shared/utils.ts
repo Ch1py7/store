@@ -13,6 +13,7 @@ export const attributesParser = (attributes: {}) => {
 }
 
 export const validateCategory = (value: string) => {
+	if (value === '') return ''
 	const keywordMapping: Record<string, number> = {
 		clothing: ProductsCategories.Clothing,
 		technology: ProductsCategories.Technology,
