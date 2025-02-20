@@ -1,7 +1,10 @@
+import { toasty } from '@/shared/lib/notifications/toast'
 import { ProductsService } from '@/shared/service/requests/products'
-import { getRequest } from '@/shared/service/requests/requests'
+import { deleteRequest, getRequest } from '@/shared/service/requests/requests'
+import { Modal } from '@/shared/ui/Modal'
 import { getCategory } from '@/shared/utils'
-import { Edit, Plus, Search, Trash2 } from 'lucide-react'
+import { AxiosError } from 'axios'
+import { AlertCircle, Edit, Plus, Search, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { CreateOrEditProduct } from './CreateOrEditProduct/CreateOrEditProduct'
 
@@ -37,6 +40,7 @@ const setStockStatus = (stock: number) => {
 
 export const Inventory: React.FC = (): React.ReactNode => {
 	const [productToEdit, setProductToEdit] = useState<Product | null>(null)
+	const [productToDelete, setProductToDelete] = useState<string>('')
 	const [showCreateProduct, setShowCreateProduct] = useState<boolean>(false)
 	const [products, setProducts] = useState<Product[] | null>(null)
 
@@ -44,6 +48,26 @@ export const Inventory: React.FC = (): React.ReactNode => {
 		const { response } = await getRequest<{ data: Product[] }>(ProductsService.get())
 		setProducts(response.data)
 	}, [])
+
+	const deleteProduct = useCallback(async () => {
+		try {
+			const { response, status } = await deleteRequest<{ message: string }>(
+				ProductsService.update('asd')
+			)
+
+			if (status === 200) {
+				toasty.success(response.message)
+				setProductToDelete(productToDelete)
+				getProducts()
+			}
+		} catch (er) {
+			if (er instanceof AxiosError && er.response?.data?.error) {
+				toasty.error(er.response.data.error)
+			} else {
+				toasty.error('An unexpected error occurred. Please try again later.')
+			}
+		}
+	}, [getProducts, productToDelete])
 
 	useEffect(() => {
 		getProducts()
@@ -57,6 +81,32 @@ export const Inventory: React.FC = (): React.ReactNode => {
 				setShowCreateProduct={setShowCreateProduct}
 				getProducts={getProducts}
 			/>
+			<Modal
+				showModal={Boolean(productToDelete)}
+				setShowModal={() => setProductToDelete('')}
+				title='Confirmation'
+			>
+				<div className='p-4 text-center'>
+					<AlertCircle className='w-16 h-16 mx-auto text-gray-500' />
+					<h3 className='mb-5 mt-3 text-lg font-normal text-black'>
+						Are you sure you want to delete this product?
+					</h3>
+					<button
+						type='button'
+						className='text-white bg-red-700 hover:bg-red-500 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center'
+						onClick={() => deleteProduct()}
+					>
+						Yes, I'm sure
+					</button>
+					<button
+						type='button'
+						className='py-2.5 px-5 ms-3 text-sm font-medium text-white bg-black rounded-lg border border-gray-200 hover:bg-gray-700'
+						onClick={() => setProductToDelete('')}
+					>
+						No, cancel
+					</button>
+				</div>
+			</Modal>
 			<div className='space-y-6'>
 				<div className='flex justify-between items-center'>
 					<h1 className='text-2xl font-bold'>Inventory Management</h1>
@@ -134,6 +184,7 @@ export const Inventory: React.FC = (): React.ReactNode => {
 												</button>
 												<button
 													type='button'
+													onClick={() => setProductToDelete(product.id)}
 													className='p-1 hover:bg-gray-100 rounded text-red-500'
 												>
 													<Trash2 className='h-4 w-4' />
