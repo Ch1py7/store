@@ -6,12 +6,14 @@ export class Attribute {
 	private _productId: ID
 	private _attributeName: AttributeName
 	private _attributeValue: string
+	private _category: number
 
 	constructor({ attributeName, attributeValue, id, productId, category }: AttributeEntity) {
 		this._id = new ID(id)
 		this._productId = new ID(productId)
 		this._attributeName = new AttributeName(attributeName, category)
 		this._attributeValue = attributeValue
+		this._category = category
 	}
 
 	get id() {
@@ -28,6 +30,16 @@ export class Attribute {
 
 	get attributeValue() {
 		return this._attributeValue
+	}
+
+	public updateName(value: string) {
+		this._attributeName = new AttributeName(value, this._category)
+		return this
+	}
+
+	public updateValue(value: string) {
+		this._attributeValue = value
+		return this
 	}
 }
 

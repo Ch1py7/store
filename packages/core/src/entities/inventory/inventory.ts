@@ -20,6 +20,11 @@ export class Inventory extends BaseEntity {
 		return this._stock.value
 	}
 
+	public updateStock(value: number) {
+		this.setUpdatedAt()
+		this._stock = new Stock(value)	
+	}
+
 	public increaseStock(quantity: number) {
 		this.setUpdatedAt()
 		this._stock = this._stock.increase(quantity)

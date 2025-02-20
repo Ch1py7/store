@@ -33,6 +33,28 @@ export class Product extends BaseEntity {
 	get category() {
 		return this._category.value
 	}
+
+	public updateName(value: string) {
+		this.setUpdatedAt()
+		this._name = new Name(value)
+		return this
+	}
+
+	public updateDescription(value: string) {
+		this.setUpdatedAt()
+		this._description = new Description(value)
+		return this
+	}
+
+	public updatePrice(value: number) {
+		this.setUpdatedAt()
+		this._price = new Price(value)
+		return this
+	}
+
+	private setUpdatedAt() {
+		this.updatedAt = Date.now()
+	}
 }
 
 export interface ProductEntity extends Base {
