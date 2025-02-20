@@ -2,7 +2,7 @@ import { X } from 'lucide-react'
 
 interface ModalProps {
 	showModal?: boolean
-	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+	setShowModal: React.MouseEventHandler<HTMLButtonElement>
 	size?: 'small' | 'medium' | 'large'
 	children: React.ReactNode
 	title?: string
@@ -37,7 +37,7 @@ export const Modal: React.FC<ModalProps> = ({
 							type='button'
 							className='end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center'
 							title='Close modal'
-							onClick={() => setShowModal((prev) => !prev)}
+							onClick={setShowModal}
 						>
 							<X className='text-gray-400' />
 						</button>
@@ -49,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
 						type='button'
 						className='absolute transform -translate-y-1/2 top-7 right-[14px] end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center'
 						title='Close modal'
-						onClick={() => setShowModal((prev) => !prev)}
+						onClick={setShowModal}
 					>
 						<X className='text-gray-400' />
 					</button>
