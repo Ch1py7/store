@@ -37,12 +37,12 @@ axiosInstance.interceptors.response.use(
 
 export const postRequest = async <T>(url: string, dataToSend: any) => {
 	try {
-		const { data, status } = (await axiosInstance.post(url, dataToSend)) as {
+		const response = (await axiosInstance.post(url, dataToSend)) as {
 			data: T
 			status: number
 		}
 
-		return { data, status }
+		return { response: response.data, status: response.status }
 	} catch (er) {
 		if (er instanceof AxiosError) {
 			throw er

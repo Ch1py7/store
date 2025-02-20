@@ -11,7 +11,7 @@ type User = {
 } | null
 
 interface Response {
-	data: { message: string }
+	response: { message: string }
 	status: number
 }
 
@@ -46,13 +46,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 		set({ loading: true })
 
 		try {
-			const { data, status } = await postRequest<{ message: string }>(AuthService.login, dataToSend)
+			const { response, status } = await postRequest<{ message: string }>(AuthService.login, dataToSend)
 			if (status === 200) {
 				get().checkAuth()
 			}
 			set({ loading: false })
 
-			return { data, status }
+			return { response, status }
 		} catch (er) {
 			set({ loading: false })
 			throw er
@@ -63,7 +63,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 		set({ loading: true })
 
 		try {
-			const { data, status } = await postRequest<{ message: string }>(
+			const { response, status } = await postRequest<{ message: string }>(
 				AuthService.register,
 				dataToSend
 			)
@@ -73,7 +73,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
 			set({ loading: false })
 
-			return { data, status }
+			return { response, status }
 		} catch (er) {
 			set({ loading: false })
 			throw er

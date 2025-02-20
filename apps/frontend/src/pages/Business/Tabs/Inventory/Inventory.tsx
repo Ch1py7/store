@@ -1,11 +1,11 @@
 import { ProductsService } from '@/shared/service/requests/products'
 import { getRequest } from '@/shared/service/requests/requests'
+import { getCategory } from '@/shared/utils'
 import { Edit, Plus, Search, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import { CreateProduct } from './CreateProduct/CreateProduct'
-import { getCategory } from '@/shared/utils'
+import { CreateOrEditProduct } from './CreateOrEditProduct/CreateOrEditProduct'
 
-interface Products {
+interface Product {
 	id: string
 	name: string
 	description: string
@@ -14,7 +14,10 @@ interface Products {
 	price: number
 	category: number
 	stock: number
-	attributes: { attribute_name: string; attribute_value: string }[]
+	attributes: {
+		attribute_name: string
+		attribute_value: string
+	}[]
 }
 
 const setStockStatus = (stock: number) => {
@@ -33,12 +36,12 @@ const setStockStatus = (stock: number) => {
 }
 
 export const Inventory: React.FC = (): React.ReactNode => {
-	const [productToEdit, setProductToEdit] = useState<boolean | null>(null)
+	const [productToEdit, setProductToEdit] = useState<Product | null>(null)
 	const [showCreateProduct, setShowCreateProduct] = useState<boolean>(false)
-	const [products, setProducts] = useState<Products[] | null>(null)
+	const [products, setProducts] = useState<Product[] | null>(null)
 
 	const getProducts = useCallback(async () => {
-		const { response } = await getRequest<{ data: Products[] }>(ProductsService.get())
+		const { response } = await getRequest<{ data: Product[] }>(ProductsService.get())
 		setProducts(response.data)
 	}, [])
 
@@ -47,11 +50,12 @@ export const Inventory: React.FC = (): React.ReactNode => {
 	}, [getProducts])
 	return (
 		<>
-			<CreateProduct
+			<CreateOrEditProduct
 				productToEdit={productToEdit}
 				setProductToEdit={setProductToEdit}
 				showCreateProduct={showCreateProduct}
 				setShowCreateProduct={setShowCreateProduct}
+				getProducts={getProducts}
 			/>
 			<div className='space-y-6'>
 				<div className='flex justify-between items-center'>
@@ -82,7 +86,9 @@ export const Inventory: React.FC = (): React.ReactNode => {
 								<tr className='border-b'>
 									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>ID</th>
 									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>Product</th>
-									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>Category</th>
+									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>
+										Category
+									</th>
 									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>Stock</th>
 									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>Price</th>
 									<th className='px-6 py-3 text-left text-sm font-medium text-gray-500'>Actions</th>
@@ -119,7 +125,11 @@ export const Inventory: React.FC = (): React.ReactNode => {
 										</td>
 										<td className='px-6 py-4'>
 											<div className='flex space-x-2'>
-												<button type='button' className='p-1 hover:bg-gray-100 rounded'>
+												<button
+													onClick={() => setProductToEdit(product)}
+													type='button'
+													className='p-1 hover:bg-gray-100 rounded'
+												>
 													<Edit className='h-4 w-4' />
 												</button>
 												<button
