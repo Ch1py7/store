@@ -165,6 +165,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          is_deleted: boolean
           name: string
           price: number
           updated_at: string
@@ -174,6 +175,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          is_deleted: boolean
           name: string
           price: number
           updated_at: string
@@ -183,6 +185,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          is_deleted?: boolean
           name?: string
           price?: number
           updated_at?: string
