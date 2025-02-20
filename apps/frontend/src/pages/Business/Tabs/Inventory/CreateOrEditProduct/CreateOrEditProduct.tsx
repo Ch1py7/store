@@ -129,6 +129,7 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 							<select
 								{...register('category', {
 									valueAsNumber: true,
+									disabled: Boolean(productToEdit),
 									required: 'Category is required',
 									min: {
 										value: 1,
