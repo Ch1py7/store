@@ -36,7 +36,11 @@ export const Navbar: React.FC = (): React.ReactNode => {
 
 	return (
 		<nav className='pb-12'>
-			<Modal showModal={showModal} setShowModal={setShowModal} title='Confirmation'>
+			<Modal
+				showModal={showModal}
+				setShowModal={() => setShowModal((prev) => !prev)}
+				title='Confirmation'
+			>
 				<div className='p-4 text-center'>
 					<AlertCircle className='w-16 h-16 mx-auto text-gray-500' />
 					<h3 className='mb-5 mt-3 text-lg font-normal text-black'>
