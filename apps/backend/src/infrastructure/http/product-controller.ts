@@ -1,5 +1,6 @@
 import { CreateCommand } from '@/application/product/create/command'
 import { DeleteCommand } from '@/application/product/delete/command'
+import { GetProductsCommand } from '@/application/product/get_products/command'
 import { UpdateCommand } from '@/application/product/update/command'
 import { container } from '@/container'
 import express, { type Router } from 'express'
@@ -112,8 +113,16 @@ router.delete(
 
 router.get('/products/:id?', async (req: express.Request, res: express.Response) => {
 	const { id } = req.params
+	const search = req.query.search as string | undefined // Extraer `search` desde query params
 
 	try {
+		if (id && search) {
+			res.status(400).json({
+				message: 'Invalid request: You cannot use both "id" and "search" at the same time.',
+			})
+			return
+		}
+
 		if (id) {
 			const getProduct = container.resolve('getProduct')
 			const product = await getProduct.execute({ id })
@@ -122,15 +131,17 @@ router.get('/products/:id?', async (req: express.Request, res: express.Response)
 				message: 'Product fetched successfully',
 				product,
 			})
-		} else {
-			const getProducts = container.resolve('getProducts')
-			const { products } = await getProducts.execute()
-
-			res.status(200).json({
-				message: 'Products fetched successfully',
-				data: products,
-			})
+			return
 		}
+
+		const command = new GetProductsCommand({ search })
+		const getProducts = container.resolve('getProducts')
+		const { products } = await getProducts.execute(command)
+
+		res.status(200).json({
+			message: 'Products fetched successfully',
+			data: products,
+		})
 	} catch (error) {
 		res.status(500).json({
 			message: 'An error occurred while fetching the products',

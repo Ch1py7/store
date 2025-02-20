@@ -78,11 +78,17 @@ export class ProductRepository {
 		return domainData
 	}
 
-	public async findAll() {
-		const { data, error } = await this._supabaseClient
+	public async findAll(search?: string) {
+		let query = this._supabaseClient
 			.from('Product')
 			.select('*, Inventory(stock), ProductAttributes(attribute_name, attribute_value)')
 			.eq('is_deleted', false)
+
+		if (search) {
+			query = query.or(`name.ilike.${search},description.ilike.${search}`)
+		}
+
+		const { data, error } = await query
 
 		if (error) throw error
 

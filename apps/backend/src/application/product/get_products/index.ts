@@ -1,3 +1,4 @@
+import type { GetProductsCommand } from './command'
 import { GetProductsResponse } from './response'
 
 export class GetProducts {
@@ -7,8 +8,8 @@ export class GetProducts {
 		this._productRepository = productRepository
 	}
 
-	public async execute() {
-		const user = await this._productRepository.findAll()
+	public async execute({ search }: GetProductsCommand) {
+		const user = await this._productRepository.findAll(search)
 
 		return new GetProductsResponse(user)
 	}
