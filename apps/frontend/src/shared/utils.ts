@@ -12,6 +12,23 @@ export const attributesParser = (attributes: {}) => {
 	}))
 }
 
+export const validateCategory = (value: string) => {
+	const keywordMapping: Record<string, number> = {
+		clothing: ProductsCategories.Clothing,
+		technology: ProductsCategories.Technology,
+		reading: ProductsCategories.Reading,
+		homeAndKitchen: ProductsCategories.HomeAndKitchen,
+		healthAndBeauty: ProductsCategories.HealthAndBeauty,
+		toysAndGames: ProductsCategories.ToysAndGames,
+	}
+
+	const category = Object.entries(keywordMapping).find(([keyword]) =>
+		keyword.includes(value.toLowerCase())
+	)?.[1].toString()
+
+	return category || value
+}
+
 export enum Roles {
 	admin = 1,
 	user = 2,
