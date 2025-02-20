@@ -38,6 +38,15 @@ export class ProductRepository {
 		if (error) throw error
 	}
 
+	public async delete(id: string) {
+		const { error } = await this._supabaseClient
+			.from('Product')
+			.update({ is_deleted: true })
+			.eq('id', id)
+
+		if (error) throw error
+	}
+
 	public async findById(id: string) {
 		const { data, error } = await this._supabaseClient
 			.from('Product')
@@ -73,6 +82,7 @@ export class ProductRepository {
 		const { data, error } = await this._supabaseClient
 			.from('Product')
 			.select('*, Inventory(stock), ProductAttributes(attribute_name, attribute_value)')
+			.eq('is_deleted', false)
 
 		if (error) throw error
 

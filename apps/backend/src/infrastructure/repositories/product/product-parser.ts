@@ -21,7 +21,8 @@ export class ProductParser {
 			created_at: new Date(domainModel.createdAt).toISOString(),
 			updated_at: new Date(domainModel.updatedAt).toISOString(),
 			price: domainModel.price,
-			category: domainModel.category
+			category: domainModel.category,
+			is_deleted: false,
 		}
 	}
 }

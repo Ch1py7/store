@@ -6,6 +6,7 @@ import type { GetOrder } from '@/application/order/get_order'
 import type { GetOrders } from '@/application/order/get_orders'
 import type { GetOrdersByUserId } from '@/application/order/get_orders_by_userid'
 import type { CreateProduct } from '@/application/product/create'
+import type { DeleteProduct } from '@/application/product/delete'
 import type { GetProduct } from '@/application/product/get_product'
 import type { GetProducts } from '@/application/product/get_products'
 import type { UpdateProduct } from '@/application/product/update'
@@ -43,6 +44,7 @@ declare global {
 		// product use cases
 		createProduct: CreateProduct
 		updateProduct: UpdateProduct
+		deleteProduct: DeleteProduct
 		getProduct: GetProduct
 		getProducts: GetProducts
 

@@ -9,6 +9,7 @@ import { GetOrder } from './application/order/get_order'
 import { GetOrders } from './application/order/get_orders'
 import { GetOrdersByUserId } from './application/order/get_orders_by_userid'
 import { CreateProduct } from './application/product/create'
+import { DeleteProduct } from './application/product/delete'
 import { GetProduct } from './application/product/get_product'
 import { GetProducts } from './application/product/get_products'
 import { UpdateProduct } from './application/product/update'
@@ -47,6 +48,7 @@ container.register({
 	// product use cases
 	createProduct: asClass(CreateProduct),
 	updateProduct: asClass(UpdateProduct),
+	deleteProduct: asClass(DeleteProduct),
 	getProduct: asClass(GetProduct),
 	getProducts: asClass(GetProducts),
 
