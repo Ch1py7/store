@@ -2,7 +2,7 @@ import { toasty } from '@/shared/lib/notifications/toast'
 import { ProductsService } from '@/shared/service/requests/products'
 import { deleteRequest, getRequest } from '@/shared/service/requests/requests'
 import { Modal } from '@/shared/ui/Modal'
-import { getCategory, validateCategory } from '@/shared/utils'
+import { getCategory } from '@/shared/utils'
 import { AxiosError } from 'axios'
 import { AlertCircle, Edit, Plus, Search, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -138,9 +138,7 @@ export const Inventory: React.FC = (): React.ReactNode => {
 						<input
 							type='text'
 							placeholder='Search products...'
-							onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setQuery(validateCategory(e.target.value))
-							}
+							onInput={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
 							className='pl-10 pr-4 py-2 border rounded-lg focus:ring-1 focus:ring-black'
 						/>
 						<Search className='absolute left-3 top-2.5 h-5 w-5 text-gray-400' />

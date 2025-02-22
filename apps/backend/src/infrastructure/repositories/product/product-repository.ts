@@ -79,21 +79,12 @@ export class ProductRepository {
 	}
 
 	public async findAll(search?: string) {
-		let query = this._supabaseClient
+		const query = this._supabaseClient
 			.from('Product')
 			.select('*, Inventory(stock), ProductAttributes(attribute_name, attribute_value)')
 			.eq('is_deleted', false)
 
-		if (search) {
-			const parsedSearch = Number.parseInt(search)
-			if (!Number.isNaN(parsedSearch)) {
-				query = query.or(
-					`name.ilike.${search},description.ilike.${search},category.eq.${parsedSearch}`
-				)
-			} else {
-				query = query.or(`name.ilike.${search},description.ilike.${search}`)
-			}
-		}
+		if (search) query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
 
 		const { data, error } = await query
 
