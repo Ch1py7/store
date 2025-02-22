@@ -1,4 +1,5 @@
 import { X } from 'lucide-react'
+import { useEffect } from 'react'
 
 interface ModalProps {
 	showModal?: boolean
@@ -23,6 +24,14 @@ export const Modal: React.FC<ModalProps> = ({
 }): React.ReactNode | null => {
 	document.body.style.overflowY = showModal ? 'hidden' : ''
 
+	useEffect(() => {
+		if (showModal) {
+			document.body.style.overflowY = 'hidden'
+		} else {
+			document.body.style.overflowY = ''
+		}
+	}, [showModal])
+
 	const modalSizeClass =
 		size in modalSizes ? modalSizes[size as keyof typeof modalSizes] : modalSizes.small
 
@@ -43,7 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
 						</button>
 					</div>
 				)}
-				<div className='p-4 md:p-5'>{children}</div>
+				<div className='p-4 md:p-5 max-h-[700px] overflow-y-scroll'>{children}</div>
 				{!title && (
 					<button
 						type='button'
