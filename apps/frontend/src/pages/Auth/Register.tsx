@@ -41,9 +41,9 @@ export const Register: React.FC = (): React.ReactNode => {
 				role: isBusinessRegister ? 1 : 2,
 				cart: includeCart ? cart : [],
 			}
-			const { data, status } = await userRegistration(dataToSend)
+			const { response, status } = await userRegistration(dataToSend)
 			if (status === 201) {
-				toasty.success(data.message)
+				toasty.success(response.message)
 				navigate('/account')
 			}
 		} catch (er) {

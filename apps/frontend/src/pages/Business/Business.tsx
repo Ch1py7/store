@@ -1,9 +1,9 @@
-import { Building2, Clock, Package, ShoppingBag, Users } from 'lucide-react'
+import { Clock, Package, ShoppingBag, Users } from 'lucide-react'
 import { useState } from 'react'
-import { Customers } from './Tabs/Customers'
 import { Inventory } from './Tabs/Inventory/Inventory'
 import { Orders } from './Tabs/Orders'
 import { Overview } from './Tabs/Overview'
+import { Settings } from './Tabs/Settings'
 
 export const Business: React.FC = (): React.ReactNode => {
 	const [activeTab, setActiveTab] = useState('overview')
@@ -44,20 +44,20 @@ export const Business: React.FC = (): React.ReactNode => {
 						</button>
 						<button
 							type='button'
-							onClick={() => setActiveTab('customers')}
+							onClick={() => setActiveTab('settings')}
 							className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg ${
-								activeTab === 'customers' ? 'bg-black text-white' : 'hover:bg-gray-100'
+								activeTab === 'settings' ? 'bg-black text-white' : 'hover:bg-gray-100'
 							}`}
 						>
 							<Users className='h-5 w-5' />
-							<span>Customers</span>
+							<span>Settings</span>
 						</button>
 					</div>
 				</div>
 				<div className='ml-64 p-8'>
 					{activeTab === 'overview' && <Overview />}
 					{activeTab === 'inventory' && <Inventory />}
-					{activeTab === 'customers' && <Customers />}
+					{activeTab === 'settings' && <Settings />}
 					{activeTab === 'orders' && <Orders />}
 				</div>
 			</div>
