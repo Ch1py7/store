@@ -31,7 +31,7 @@ const attributesConfig: Record<string, string[]> = {
 		'cellularTechnology',
 		'connectivityTechnology',
 	],
-	[ProductsCategories.Reading]: ['powerConsumption', 'intendedUse'],
+	[ProductsCategories.Reading]: ['publisher', 'language', 'cover', 'pages'],
 	[ProductsCategories.HomeAndKitchen]: [
 		'pages',
 		'author',
