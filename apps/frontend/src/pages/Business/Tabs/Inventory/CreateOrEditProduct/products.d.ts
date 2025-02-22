@@ -37,12 +37,22 @@ interface TechInputs extends CommonAttributes {
 	connectivityTechnology: string
 }
 
+interface BooksInputs extends CommonAttributes {
+	publisher: string
+	language: string
+	cover: string
+	pages: string
+}
+
 interface GeneralInputs<T extends AttributeKey = AttributeKey> {
 	attributes: T extends 'CLOTHING'
 		? Partial<ClothingInputs>
 		: T extends 'TECH'
 			? Partial<TechInputs>
-			: never
+			: T extends 'BOOKS'
+				? Partial<BooksInputs>
+				: never
+
 	name: string
 	description: string
 	price: number
@@ -50,6 +60,6 @@ interface GeneralInputs<T extends AttributeKey = AttributeKey> {
 	category: number
 }
 
-type AttributeKey = 'CLOTHING' | 'TECH'
+type AttributeKey = 'CLOTHING' | 'TECH' | 'BOOKS'
 
 type Attributes = ClothingInputs | TechInputs

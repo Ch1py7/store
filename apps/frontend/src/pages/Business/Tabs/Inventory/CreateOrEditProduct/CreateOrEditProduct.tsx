@@ -6,6 +6,7 @@ import { attributesParser, ProductsCategories } from '@/shared/utils'
 import { AxiosError } from 'axios'
 import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
+import { Books } from './Books'
 import { Clothing } from './Clothing'
 import { Technology } from './Technology'
 
@@ -35,13 +36,12 @@ interface CreateProductProps {
 type Category = {
 	label: string
 	value: number
-	type: string
 }
 
 const ProductCategory: Category[] = [
-	{ label: 'Clothing', value: ProductsCategories.Clothing, type: 'CLOTHING' },
-	{ label: 'Technology', value: ProductsCategories.Technology, type: 'TECH' },
-	// { label: 'Reading', value: ProductsCategories.Reading, type: 'READ' },
+	{ label: 'Clothing', value: ProductsCategories.Clothing },
+	{ label: 'Technology', value: ProductsCategories.Technology },
+	{ label: 'Reading', value: ProductsCategories.Reading },
 	// { label: 'Home & Kitchen', value: ProductsCategories.HomeAndKitchen, type: 'H&C' },
 	// { label: 'Health & Beauty', value: ProductsCategories.HealthAndBeauty, type: 'H&B' },
 	// { label: 'Toys & Games', value: ProductsCategories.ToysAndGames, type: 'T&G' },
@@ -243,23 +243,9 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 					{selectedCategory === ProductsCategories.Technology && (
 						<Technology errors={errors} register={register} />
 					)}
-
-					{/* {selectedCategory === 3 && (
-						<div>
-							<label className='block text-sm font-medium text-gray-700 mb-1'>
-								Number of Pages
-								<input
-									type='number'
-									{...register('pages', {
-										required: 'Number of pages is required',
-										min: { value: 1, message: 'Must be at least 1 page' },
-									})}
-									className={`mt-1 block w-full px-3 py-2 shadow-sm border ${errors.pages ? 'border-red-500' : 'border-gray-300'} rounded-md`}
-								/>
-							</label>
-							{errors.pages && <p className='text-red-500 text-sm'>{errors.pages.message}</p>}
-						</div>
-					)} */}
+					{selectedCategory === ProductsCategories.Reading && (
+						<Books errors={errors} register={register} />
+					)}
 					{selectedCategory !== 0 && (
 						<div>
 							<label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -272,7 +258,7 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 											message: 'Description must be a maximum of 200 characters',
 										},
 									})}
-									placeholder='You will never feel cold again.'
+									placeholder='Description'
 									className={`mt-1 block w-full min-h-32 px-3 py-2 shadow-sm border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md`}
 									style={{ resize: 'none' }}
 								/>
