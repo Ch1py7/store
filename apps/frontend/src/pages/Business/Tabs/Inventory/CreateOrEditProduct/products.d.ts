@@ -1,4 +1,13 @@
-interface ClothingInputs {
+interface CommonAttributes {
+	material: string
+	dimensions: string
+	weight: string
+	brand: string
+	capacity: string
+	features: string
+}
+
+interface ClothingInputs extends CommonAttributes {
 	size: string
 	color: string
 	colorMap: string
@@ -8,14 +17,24 @@ interface ClothingInputs {
 	material: string
 }
 
-interface TechInputs {
+interface TechInputs extends CommonAttributes {
 	model: string
 	processor: string
 	ram: string
 	storage: string
 	display: string
-	battery: string
+	batteryType: string
+	batteryPower: string
+	batteryLife: string
 	connectivity: string
+	modelName: string
+	modelYear: string
+	builtInMedia: string
+	manufacturer: string
+	serie: string
+	wirelessProvider: string
+	cellularTechnology: string
+	connectivityTechnology: string
 }
 
 interface GeneralInputs<T extends AttributeKey = AttributeKey> {
@@ -34,4 +53,3 @@ interface GeneralInputs<T extends AttributeKey = AttributeKey> {
 type AttributeKey = 'CLOTHING' | 'TECH'
 
 type Attributes = ClothingInputs | TechInputs
-

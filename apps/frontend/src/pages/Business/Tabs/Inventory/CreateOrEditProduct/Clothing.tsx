@@ -1,7 +1,7 @@
 import { ClothingSizes } from '@/shared/utils'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 
-interface NewClothingProps {
+interface ClothingProps {
 	register: UseFormRegister<GeneralInputs<'CLOTHING'>>
 	errors: FieldErrors<GeneralInputs<'CLOTHING'>>
 }
@@ -16,7 +16,7 @@ const sizeOptions = [
 	{ label: '3XL', value: ClothingSizes.XXXL },
 ]
 
-export const NewClothing: React.FC<NewClothingProps> = ({ register, errors }): React.ReactNode => {
+export const Clothing: React.FC<ClothingProps> = ({ register, errors }): React.ReactNode => {
 	const clothingErrors = errors.attributes as FieldErrors<ClothingInputs> | undefined
 
 	return (

@@ -6,7 +6,8 @@ import { attributesParser, ProductsCategories } from '@/shared/utils'
 import { AxiosError } from 'axios'
 import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { NewClothing } from './NewClothing'
+import { Clothing } from './Clothing'
+import { Technology } from './Technology'
 
 interface Product {
 	id: string
@@ -39,7 +40,7 @@ type Category = {
 
 const ProductCategory: Category[] = [
 	{ label: 'Clothing', value: ProductsCategories.Clothing, type: 'CLOTHING' },
-	// { label: 'Technology', value: ProductsCategories.Technology, type: 'TECH' },
+	{ label: 'Technology', value: ProductsCategories.Technology, type: 'TECH' },
 	// { label: 'Reading', value: ProductsCategories.Reading, type: 'READ' },
 	// { label: 'Home & Kitchen', value: ProductsCategories.HomeAndKitchen, type: 'H&C' },
 	// { label: 'Health & Beauty', value: ProductsCategories.HealthAndBeauty, type: 'H&B' },
@@ -68,6 +69,7 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 	const handleShowModal = () => {
 		setShowCreateProduct(false)
 		setProductToEdit(null)
+		reset({ category: 0 })
 	}
 
 	const onSubmit: SubmitHandler<GeneralInputs> = async (inputsData) => {
@@ -236,7 +238,10 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 						</>
 					)}
 					{selectedCategory === ProductsCategories.Clothing && (
-						<NewClothing errors={errors} register={register} />
+						<Clothing errors={errors} register={register} />
+					)}
+					{selectedCategory === ProductsCategories.Technology && (
+						<Technology errors={errors} register={register} />
 					)}
 
 					{/* {selectedCategory === 3 && (
@@ -281,10 +286,7 @@ export const CreateOrEditProduct: React.FC<CreateProductProps> = ({
 					<div className='flex justify-end space-x-3'>
 						<button
 							type='button'
-							onClick={() => {
-								setShowCreateProduct(false)
-								setProductToEdit(null)
-							}}
+							onClick={() => handleShowModal()}
 							className='px-4 py-2 border rounded-lg hover:bg-gray-50'
 						>
 							Cancel
