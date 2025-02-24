@@ -22,7 +22,7 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 	const [size, setSize] = useState<number>(0)
 
 	const handleAddProduct = (product: ProductCardProps) => {
-		addProduct({ id: product.id, name: product.name, price: product.price })
+		addProduct({ id: product.id, name: product.name, price: product.price, size })
 	}
 
 	useEffect(() => {
@@ -50,7 +50,9 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 							{size !== 0 && `(${getSize[size]})`}
 						</button>
 					</h3>
-					<p className='text-gray-600'>${product.price}</p>
+					<p className='text-gray-600'>
+						${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+					</p>
 				</div>
 			</div>
 			<button

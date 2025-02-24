@@ -1,8 +1,11 @@
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useCartStore, type Product } from '../context/useCartStore'
+import { getSize } from '../utils'
 
 export const Order: React.FC<Product> = (product): React.ReactNode => {
-	const { addProduct, restProduct, removeProduct, loading, total, handleCheckout } = useCartStore()
+	const { addProduct, restProduct, removeProduct, loading, total, handleCheckout, cart } =
+		useCartStore()
+
 	return (
 		<div className='flex flex-col xs:flex-row xs:items-center justify-between border-b pb-4'>
 			<div className='flex flex-col xxs:flex-row items-start space-x-4 my-4 xs:my-0'>
@@ -30,7 +33,9 @@ export const Order: React.FC<Product> = (product): React.ReactNode => {
 				</div>
 				<div className='flex-grow'>
 					<p className='font-medium'>{product.name}</p>
-					<p className='text-sm text-disabled'>{product.size ? `Size: ${product.size}` : ''}</p>
+					<p className='text-sm text-disabled'>
+						{product.size ? `Size: ${getSize[product.size]}` : ''}
+					</p>
 					<p className='text-sm font-medium xs:hidden'>${product.price.toFixed(2)} each</p>
 				</div>
 			</div>
@@ -58,9 +63,14 @@ export const Order: React.FC<Product> = (product): React.ReactNode => {
 				</div>
 				<div className='text-right'>
 					<p className='hidden xs:block text-sm font-medium mb-1'>
-						${product.price.toFixed(2)} each
+						${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })} each
 					</p>
-					<p className='invisible xs:visible font-medium'>${total}</p>
+					<p className='invisible xs:visible font-medium'>
+						$
+						{(product.price * product.quantity).toLocaleString('en-US', {
+							minimumFractionDigits: 2,
+						})}
+					</p>
 				</div>
 				<div className='flex justify-between items-center w-full'>
 					<p className='visible xs:invisible font-medium'>${total}</p>

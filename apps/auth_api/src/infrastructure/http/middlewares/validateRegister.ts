@@ -19,11 +19,6 @@ const RegisterRules: ValidationChain[] = [
     .isUUID()
 		.withMessage('Cart item ID must be a valid UUID')
 		.bail(),
-	body('cart.*.size')
-		.if(body('cart').isArray({ min: 1 }))
-		.isInt({ min: 1, max: 7})
-		.withMessage('Cart item size must be a number between 1 and 7')
-		.bail(),
 	body('cart.*.quantity')
 		.if(body('cart').isArray({ min: 1 }))
 		.isInt({ min: 1 })

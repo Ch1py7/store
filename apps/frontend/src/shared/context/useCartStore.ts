@@ -126,6 +126,7 @@ export interface Product {
 	id: string
 	name: string
 	price: number
+	size: number
 	quantity: number
 	toCheckout: boolean
 }

@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { Order } from '@/shared/ui/Order'
@@ -5,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 
 export const Cart: React.FC = (): React.ReactNode => {
 	const { cart, total } = useCartStore()
-	const noProductsToBuy = 'Select at least 1 product to checkout.'
+	const { user } = useAuthStore()
+	const noProductsToBuy = user ? 'Select at least 1 product to checkout.' : 'Please log in to your account before making a purchase'
 	const navigate = useNavigate()
 
 	return (

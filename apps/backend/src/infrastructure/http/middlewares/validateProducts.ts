@@ -10,11 +10,6 @@ const ProductsRules: ValidationChain[] = [
     .isUUID()
 		.withMessage('products item ID must be a valid UUID')
 		.bail(),
-	body('products.*.size')
-		.if(body('products').isArray({ min: 1 }))
-		.isInt({ min: 1, max: 7})
-		.withMessage('products item size must be a number between 1 and 7')
-		.bail(),
 	body('products.*.quantity')
 		.if(body('products').isArray({ min: 1 }))
 		.isInt({ min: 1 })

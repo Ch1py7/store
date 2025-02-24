@@ -182,7 +182,7 @@ export const Inventory: React.FC = (): React.ReactNode => {
 											<span
 												className={`px-2 py-1 ${setStockStatus(product.stock)} rounded-full text-sm table-cell min-w-10 text-center`}
 											>
-												{product.stock.toLocaleString('en-US')}
+												{product.stock.toLocaleString('en-US', { minimumFractionDigits: 2 })}
 											</span>
 										</td>
 										<td className='px-6 py-4 font-bold'>
