@@ -7,11 +7,12 @@ interface Products {
 	id: string
 	name: string
 	description: string
-	percentageDiscount: number
+	updatedAt: number
+	createdAt: number
 	price: number
-	size: number[]
-	sizeToShow: number
+	category: number
 	stock: number
+	attributes: { attribute_name: string; attribute_value: string }[]
 }
 
 export const ProductsCatalog: React.FC = (): React.ReactNode => {

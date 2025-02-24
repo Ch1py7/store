@@ -1,24 +1,37 @@
 import { useCartStore } from '@/shared/context/useCartStore'
 import { ProductImage } from '@/shared/ui/ProductImage'
 import { getSize } from '@/shared/utils'
+import { useEffect, useState } from 'react'
 
 interface ProductCardProps {
 	id: string
 	name: string
-	size: number[]
-	sizeToShow: number
+	description: string
+	updatedAt: number
+	createdAt: number
 	price: number
-	percentageDiscount: number
+	category: number
+	stock: number
+	attributes: { attribute_name: string; attribute_value: string }[]
 }
 
 export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNode => {
 	const loading = useCartStore((state) => state.loading)
 	const getProductQuantity = useCartStore((state) => state.getProductQuantity)
 	const addProduct = useCartStore((state) => state.addProduct)
+	const [size, setSize] = useState<number>(0)
 
 	const handleAddProduct = (product: ProductCardProps) => {
-		addProduct({ ...product, size: product.sizeToShow })
+		addProduct({ id: product.id, name: product.name, price: product.price })
 	}
+
+	useEffect(() => {
+		product.attributes.forEach((atr) => {
+			if (atr.attribute_name === 'size') {
+				setSize(Number(atr.attribute_value))
+			}
+		})
+	}, [product])
 
 	return (
 		<div className='relative flex flex-col items-center justify-between'>
@@ -34,7 +47,7 @@ export const ProductCard: React.FC<ProductCardProps> = (product): React.ReactNod
 					<h3 className='text-lg font-medium'>
 						{product.name}{' '}
 						<button type='button' className='text-disabled' title='click to see more sizes'>
-							({getSize[product.sizeToShow]})
+							{size !== 0 && `(${getSize[size]})`}
 						</button>
 					</h3>
 					<p className='text-gray-600'>${product.price}</p>

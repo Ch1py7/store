@@ -125,9 +125,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 export interface Product {
 	id: string
 	name: string
-	size: number
 	price: number
-	percentageDiscount: number
 	quantity: number
 	toCheckout: boolean
 }
