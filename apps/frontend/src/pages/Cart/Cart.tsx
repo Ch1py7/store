@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/shared/context/useAuthStore'
 import { useCartStore } from '@/shared/context/useCartStore'
+import { useOrderFlowStore } from '@/shared/context/useOrderFlow'
 import { toasty } from '@/shared/lib/notifications/toast'
 import { Order } from '@/shared/ui/Order'
 import { useNavigate } from 'react-router-dom'
@@ -7,8 +8,16 @@ import { useNavigate } from 'react-router-dom'
 export const Cart: React.FC = (): React.ReactNode => {
 	const { cart, total } = useCartStore()
 	const { user } = useAuthStore()
-	const noProductsToBuy = user ? 'Select at least 1 product to checkout.' : 'Please log in to your account before making a purchase'
+	const { setStep } = useOrderFlowStore()
+	const noProductsToBuy = user
+		? 'Select at least 1 product to checkout.'
+		: 'Please log in to your account before making a purchase'
 	const navigate = useNavigate()
+
+	const goCheckout = () => {
+		navigate('/checkout')
+		setStep('payment')
+	}
 
 	return (
 		<div className='bg-white shadow rounded-lg p-6 mb-6'>
@@ -25,7 +34,7 @@ export const Cart: React.FC = (): React.ReactNode => {
 						</div>
 						<button
 							type='button'
-							onClick={() => (total === 0 ? toasty.error(noProductsToBuy) : navigate('/checkout'))}
+							onClick={() => (total === 0 ? toasty.error(noProductsToBuy) : goCheckout())}
 							className={`mt-4 bg-black text-white px-4 py-2 rounded-md self-end ${total === 0 ? 'bg-disabled' : 'hover:bg-gray-800'} shadow-md`}
 						>
 							Proceed to checkout

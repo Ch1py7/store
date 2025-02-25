@@ -26,22 +26,6 @@ export const Input: React.FC<InputProps> = ({
 		const input = document.getElementById(id) as HTMLInputElement
 		if (input) input.disabled = Boolean(disabled)
 	}
-
-	useEffect(() => {
-		if (!inputRef) return
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === '/') {
-				event.preventDefault()
-				inputRef.current?.focus()
-			}
-		}
-
-		window.addEventListener('keydown', handleKeyDown)
-
-		return () => {
-			window.removeEventListener('keydown', handleKeyDown)
-		}
-	}, [inputRef])
 	return (
 		<div className='w-full flex justify-center relative'>
 			{name === 'search' && (

@@ -1,3 +1,5 @@
+// Product creation interfaces
+
 interface CommonAttributes {
 	material: string
 	dimensions: string
@@ -63,3 +65,21 @@ interface GeneralInputs<T extends AttributeKey = AttributeKey> {
 type AttributeKey = 'CLOTHING' | 'TECH' | 'BOOKS'
 
 type Attributes = ClothingInputs | TechInputs
+
+// Payment flow interfaces
+
+interface PaymentInputs {
+	cardNumber: string
+	expDate: string
+	cvv: string
+}
+
+interface ShippingInputs {
+	firstName: string
+	lastName: string
+	address: string
+	city: string
+	cp: string
+}
+
+type CheckoutInputs = PaymentInputs & ShippingInputs
